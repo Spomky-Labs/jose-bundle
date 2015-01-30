@@ -27,10 +27,14 @@ twig:
     debug:            true
     strict_variables: true
 
-#spomky_jose:
+spomky_jose:
+    server_name: "www.example.com" # This is the audience for received or issuer for issued jose
+#    jwa_manager:
+#    jwt_manager:
+#    jwk_manager:
 #    keys:
 #         
-#    prefered_serialization_mode: compact # Supported modes are 'normal', 'flattened' and 'compact'.
+#    serialization_mode: compact # Serialization mode for issued jose. Supported modes are 'flattened' and 'compact'.
 #    storage:
 #        enabled: false
 #        manager: spomky_jose.jwt_manager
@@ -49,41 +53,41 @@ twig:
 #            nbf: true # Not before
 #            iat: true
 #            lifetime: 5min #
-#    compression_method: DEF
-#    algorithms:
-#        - HS256
-#        - HS384
-#        - HS512
-#        - ES256
-#        - ES384
-#        - ES512
-#        - RS256
-#        - RS384
-#        - RS512
-#        - PS256
-#        - PS384
-#        - PS512
-#        - none
-#        - dir
-#        - RSA1_5
-#        - RSA-OAEP
-#        - RSA-OAEP-256
-#        - ECDH-ES
-#        - ECDH-ES+A128KW
-#        - ECDH-ES+A192KW
-#        - ECDH-ES+A256KW
-#        - A128KW
-#        - A192KW
-#        - A256KW
-#        - PBES2-HS256+A128KW
-#        - PBES2-HS384+A192KW
-#        - PBES2-HS512+A256KW
-#        - A128CBC-HS256
-#        - A192CBC-HS384
-#        - A256CBC-HS512
-#        - A128GCMKW # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
-#        - A192GCMKW # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
-#        - A256GCMKW # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
-#        - A128GCM   # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
-#        - A192GCM   # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
-#        - A256GCM   # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
+    compression_methods: [DEF,GZ,ZLIB]
+    algorithms:
+        - HS256
+        - HS384
+        - HS512
+        - ES256
+        - ES384
+        - ES512
+        - RS256
+        - RS384
+        - RS512
+        - PS256
+        - PS384
+        - PS512
+        - none
+        - dir
+        - RSA1_5
+        - RSA-OAEP
+        - RSA-OAEP-256
+        - ECDH-ES
+        - ECDH-ES+A128KW
+        - ECDH-ES+A192KW
+        - ECDH-ES+A256KW
+        - A128KW
+        - A192KW
+        - A256KW
+        - PBES2-HS256+A128KW
+        - PBES2-HS384+A192KW
+        - PBES2-HS512+A256KW
+        - A128CBC-HS256
+        - A192CBC-HS384
+        - A256CBC-HS512
+        - A128GCMKW
+        - A192GCMKW
+        - A256GCMKW
+        - A128GCM
+        - A192GCM
+        - A256GCM

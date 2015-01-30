@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "63e64f0921e06879e5204e5f6143aced",
+    "hash": "04fc14801da1d03b282e951713fd833e",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -412,163 +412,6 @@
             "time": "2014-09-09 13:34:57"
         },
         {
-            "name": "mdanter/ecc",
-            "version": "0.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mdanter/phpecc.git",
-                "reference": "ca9d127114e087bdeac24ada488631f18ae80d3f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mdanter/phpecc/zipball/ca9d127114e087bdeac24ada488631f18ae80d3f",
-                "reference": "ca9d127114e087bdeac24ada488631f18ae80d3f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.1",
-                "squizlabs/php_codesniffer": "~1.5"
-            },
-            "suggest": {
-                "ext-bcmath": "Required if GMP is not installed.",
-                "ext-gmp": "Improves drastically ECDSA library performance"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Mdanter\\Ecc\\Tests\\": "tests/unit",
-                    "Mdanter\\Ecc\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matyas Danter",
-                    "homepage": "http://matejdanter.com/",
-                    "role": "Author"
-                },
-                {
-                    "name": "Thibaud Fabre",
-                    "email": "thibaud@aztech.io",
-                    "homepage": "http://aztech.io",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Drak",
-                    "email": "drak@zikula.org",
-                    "homepage": "http://zikula.org",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "PHP Elliptic Curve Cryptography library",
-            "homepage": "https://github.com/mdanter/phpecc",
-            "time": "2014-07-07 12:44:15"
-        },
-        {
-            "name": "phpseclib/phpseclib",
-            "version": "0.3.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "c6e88ca6e81bc5a2d7161658e16a95b7ef8d6ad1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c6e88ca6e81bc5a2d7161658e16a95b7ef8d6ad1",
-                "reference": "c6e88ca6e81bc5a2d7161658e16a95b7ef8d6ad1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.0.0"
-            },
-            "require-dev": {
-                "phing/phing": "2.7.*",
-                "phpunit/phpunit": "4.0.*",
-                "sami/sami": "1.*",
-                "squizlabs/php_codesniffer": "1.*"
-            },
-            "suggest": {
-                "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
-                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a wide variety of cryptographic operations.",
-                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 4.3.3."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Crypt": "phpseclib/",
-                    "File": "phpseclib/",
-                    "Math": "phpseclib/",
-                    "Net": "phpseclib/",
-                    "System": "phpseclib/"
-                },
-                "files": [
-                    "phpseclib/Crypt/Random.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "phpseclib/"
-            ],
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jim Wigginton",
-                    "email": "terrafrost@php.net",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Patrick Monnerat",
-                    "email": "pm@datasphere.ch",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Andreas Fischer",
-                    "email": "bantu@phpbb.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Hans-Jürgen Petrich",
-                    "email": "petrich@tronic-media.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
-            "homepage": "http://phpseclib.sourceforge.net",
-            "keywords": [
-                "BigInteger",
-                "aes",
-                "asn.1",
-                "asn1",
-                "blowfish",
-                "crypto",
-                "cryptography",
-                "encryption",
-                "rsa",
-                "security",
-                "sftp",
-                "signature",
-                "signing",
-                "ssh",
-                "twofish",
-                "x.509",
-                "x509"
-            ],
-            "time": "2014-11-10 03:08:59"
-        },
-        {
             "name": "psr/log",
             "version": "1.0.0",
             "source": {
@@ -605,6 +448,63 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "spomky-labs/aes-key-wrap",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/aes-key-wrap.git",
+                "reference": "e998ee229ac7febc1ea2a33f65d1efa68e5630b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/aes-key-wrap/zipball/e998ee229ac7febc1ea2a33f65d1efa68e5630b6",
+                "reference": "e998ee229ac7febc1ea2a33f65d1efa68e5630b6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mcrypt": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AESKW\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky-Labs/aes-key-wrap/contributors"
+                }
+            ],
+            "description": "AES Kew Wrap for PHP.",
+            "homepage": "https://github.com/Spomky-Labs/aes-key-wrap",
+            "keywords": [
+                "A128KW",
+                "A192KW",
+                "A256KW",
+                "RFC3394",
+                "RFC5649",
+                "aes",
+                "key",
+                "padding",
+                "wrap"
+            ],
+            "time": "2015-01-20 07:24:42"
         },
         {
             "name": "spomky-labs/base64url",
@@ -659,31 +559,36 @@
         },
         {
             "name": "spomky-labs/jose",
-            "version": "dev-master",
+            "version": "v0.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Spomky-Labs/JOSE.git",
-                "reference": "cbc66d48cf3b21379071d6e3236f8059ced37923"
+                "url": "https://github.com/Spomky-Labs/jose.git",
+                "reference": "55f5c17d6904f77074bc2899ce617750f9521342"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Spomky-Labs/JOSE/zipball/cbc66d48cf3b21379071d6e3236f8059ced37923",
-                "reference": "cbc66d48cf3b21379071d6e3236f8059ced37923",
+                "url": "https://api.github.com/repos/Spomky-Labs/jose/zipball/55f5c17d6904f77074bc2899ce617750f9521342",
+                "reference": "55f5c17d6904f77074bc2899ce617750f9521342",
                 "shasum": ""
             },
             "require": {
                 "lib-openssl": "*",
-                "mdanter/ecc": "*@dev",
                 "php": ">=5.3",
-                "phpseclib/phpseclib": ">=0.3.5"
+                "spomky-labs/aes-key-wrap": "~1.0",
+                "spomky-labs/jose-interface": "~0.0.0",
+                "spomky-labs/pbkdf2": "~0.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*",
-                "satooshi/php-coveralls": "0.*"
+                "mdanter/ecc": "~0.2",
+                "phpseclib/phpseclib": ">=0.3.5",
+                "phpunit/phpunit": "4.*"
             },
             "suggest": {
                 "ext-bcmath": "Required if GMP is not installed",
-                "ext-gmp": "Required if BCMath is not installed (this extension is highly recommended!)"
+                "ext-crypto": "Required to use AES GCM algorithms",
+                "ext-gmp": "Required if BCMath is not installed (this extension is highly recommended!)",
+                "mdanter/ecc": "Required to use Elliptic Curves based algorithms",
+                "phpseclib/phpseclib": "Required to use RSA based algorithms"
             },
             "type": "library",
             "extra": {
@@ -693,8 +598,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "SpomkyLabs\\JOSE\\": "lib/",
-                    "SpomkyLabs\\JOSE\\Tests\\": "tests/"
+                    "SpomkyLabs\\Jose\\": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -704,11 +608,11 @@
             "authors": [
                 {
                     "name": "Florent Morselli",
-                    "homepage": "https://github.com/Spomky-Labs/JOSE/contributors"
+                    "homepage": "https://github.com/Spomky-Labs/jose/contributors"
                 }
             ],
             "description": "JSON Object Signing and Encryption library for PHP.",
-            "homepage": "https://github.com/Spomky-Labs/JOSE",
+            "homepage": "https://github.com/Spomky-Labs/Jose",
             "keywords": [
                 "JOSE",
                 "JWE",
@@ -718,20 +622,20 @@
                 "jwa",
                 "jwt"
             ],
-            "time": "2014-10-09 16:39:19"
+            "time": "2015-01-30 10:45:22"
         },
         {
             "name": "spomky-labs/jose-interface",
-            "version": "dev-master",
+            "version": "v0.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Spomky-Labs/jose-interface.git",
-                "reference": "84a7286e0b94ee8bcd120eb28621684c32471250"
+                "reference": "6dbc6667e148423b52a34a0ba9c5bf6d95b520ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Spomky-Labs/jose-interface/zipball/84a7286e0b94ee8bcd120eb28621684c32471250",
-                "reference": "84a7286e0b94ee8bcd120eb28621684c32471250",
+                "url": "https://api.github.com/repos/Spomky-Labs/jose-interface/zipball/6dbc6667e148423b52a34a0ba9c5bf6d95b520ec",
+                "reference": "6dbc6667e148423b52a34a0ba9c5bf6d95b520ec",
                 "shasum": ""
             },
             "require": {
@@ -775,7 +679,57 @@
                 "jwa",
                 "jwt"
             ],
-            "time": "2015-01-18 20:43:32"
+            "time": "2015-01-30 10:41:37"
+        },
+        {
+            "name": "spomky-labs/pbkdf2",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/pbkdf2.git",
+                "reference": "d672d1a4d585b41d3b7895fb6a333d03c83762ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/pbkdf2/zipball/d672d1a4d585b41d3b7895fb6a333d03c83762ba",
+                "reference": "d672d1a4d585b41d3b7895fb6a333d03c83762ba",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PBKDF2\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky-Labs/pbkdf2/contributors"
+                }
+            ],
+            "description": "Password Based Key Derivation Function 2",
+            "homepage": "https://github.com/Spomky-Labs/pbkdf2",
+            "keywords": [
+                "RFC2898",
+                "RFC6070",
+                "pbkdf2"
+            ],
+            "time": "2015-01-04 13:56:30"
         },
         {
             "name": "symfony/symfony",
@@ -895,16 +849,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.17.0",
+            "version": "v1.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "2493970fa4d587eca73f77e6d8bd48a8bdd4c608"
+                "reference": "4cf7464348e7f9893a93f7096a90b73722be99cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/2493970fa4d587eca73f77e6d8bd48a8bdd4c608",
-                "reference": "2493970fa4d587eca73f77e6d8bd48a8bdd4c608",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/4cf7464348e7f9893a93f7096a90b73722be99cf",
+                "reference": "4cf7464348e7f9893a93f7096a90b73722be99cf",
                 "shasum": ""
             },
             "require": {
@@ -913,7 +867,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17-dev"
+                    "dev-master": "1.18-dev"
                 }
             },
             "autoload": {
@@ -948,7 +902,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-01-14 10:15:49"
+            "time": "2015-01-25 17:32:08"
         }
     ],
     "packages-dev": [
@@ -1832,6 +1786,163 @@
             "time": "2014-01-12 16:20:24"
         },
         {
+            "name": "mdanter/ecc",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mdanter/phpecc.git",
+                "reference": "ca9d127114e087bdeac24ada488631f18ae80d3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mdanter/phpecc/zipball/ca9d127114e087bdeac24ada488631f18ae80d3f",
+                "reference": "ca9d127114e087bdeac24ada488631f18ae80d3f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.1",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "suggest": {
+                "ext-bcmath": "Required if GMP is not installed.",
+                "ext-gmp": "Improves drastically ECDSA library performance"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mdanter\\Ecc\\Tests\\": "tests/unit",
+                    "Mdanter\\Ecc\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matyas Danter",
+                    "homepage": "http://matejdanter.com/",
+                    "role": "Author"
+                },
+                {
+                    "name": "Thibaud Fabre",
+                    "email": "thibaud@aztech.io",
+                    "homepage": "http://aztech.io",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Drak",
+                    "email": "drak@zikula.org",
+                    "homepage": "http://zikula.org",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "PHP Elliptic Curve Cryptography library",
+            "homepage": "https://github.com/mdanter/phpecc",
+            "time": "2014-07-07 12:44:15"
+        },
+        {
+            "name": "phpseclib/phpseclib",
+            "version": "0.3.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpseclib/phpseclib.git",
+                "reference": "c6e88ca6e81bc5a2d7161658e16a95b7ef8d6ad1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c6e88ca6e81bc5a2d7161658e16a95b7ef8d6ad1",
+                "reference": "c6e88ca6e81bc5a2d7161658e16a95b7ef8d6ad1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "require-dev": {
+                "phing/phing": "2.7.*",
+                "phpunit/phpunit": "4.0.*",
+                "sami/sami": "1.*",
+                "squizlabs/php_codesniffer": "1.*"
+            },
+            "suggest": {
+                "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
+                "ext-mcrypt": "Install the Mcrypt extension in order to speed up a wide variety of cryptographic operations.",
+                "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 4.3.3."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Crypt": "phpseclib/",
+                    "File": "phpseclib/",
+                    "Math": "phpseclib/",
+                    "Net": "phpseclib/",
+                    "System": "phpseclib/"
+                },
+                "files": [
+                    "phpseclib/Crypt/Random.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "phpseclib/"
+            ],
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jim Wigginton",
+                    "email": "terrafrost@php.net",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Patrick Monnerat",
+                    "email": "pm@datasphere.ch",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Andreas Fischer",
+                    "email": "bantu@phpbb.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Hans-Jürgen Petrich",
+                    "email": "petrich@tronic-media.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
+            "homepage": "http://phpseclib.sourceforge.net",
+            "keywords": [
+                "BigInteger",
+                "aes",
+                "asn.1",
+                "asn1",
+                "blowfish",
+                "crypto",
+                "cryptography",
+                "encryption",
+                "rsa",
+                "security",
+                "sftp",
+                "signature",
+                "signing",
+                "ssh",
+                "twofish",
+                "x.509",
+                "x509"
+            ],
+            "time": "2014-11-10 03:08:59"
+        },
+        {
             "name": "sensio/framework-extra-bundle",
             "version": "v3.0.4",
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
@@ -1952,8 +2063,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "spomky-labs/jose-interface": 20,
-        "spomky-labs/jose": 20,
         "behat/symfony2-extension": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
         "vipsoft/doctrine-data-fixtures-extension": 20

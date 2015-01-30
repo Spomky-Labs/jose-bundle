@@ -2,11 +2,11 @@
 
 namespace SpomkyLabs\JoseBundle;
 
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use SpomkyLabs\JoseBundle\DependencyInjection\Security\Factory\OAuth2Factory;
 use SpomkyLabs\JoseBundle\DependencyInjection\SpomkyLabsJoseBundleExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\AlgorithmCompilerPass;
+use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\CompressionCompilerPass;
 
 class SpomkyLabsJoseBundle extends Bundle
 {
@@ -19,11 +19,7 @@ class SpomkyLabsJoseBundle extends Bundle
     {
         parent::build($container);
 
-        if (version_compare(Kernel::VERSION, '2.1', '>=')) {
-            $extension = $container->getExtension('security');
-            $extension->addSecurityListenerFactory(new OAuth2Factory());
-        } else {
-            throw \Exception("Unsupported Symfony Version");
-        }
+        $container->addCompilerPass(new AlgorithmCompilerPass());
+        $container->addCompilerPass(new CompressionCompilerPass());
     }
 }

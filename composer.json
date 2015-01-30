@@ -13,8 +13,7 @@
     "require": {
         "php": ">=5.4",
         "symfony/framework-bundle": "~2.3",
-        "spomky-labs/jose-interface": "dev-master",
-        "spomky-labs/jose": "@dev"
+        "spomky-labs/jose": "~0.0.0"
     },
     "require-dev": {
         "sensio/framework-extra-bundle": "~3.0",
@@ -26,7 +25,9 @@
         "behat/mink-browserkit-driver":  "*",
         "doctrine/doctrine-fixtures-bundle": "*@dev",
         "vipsoft/doctrine-data-fixtures-extension": "3.*@dev",
-        "doctrine/orm": ">=2.2,<2.5-dev"
+        "doctrine/orm": ">=2.2,<2.5-dev",
+        "phpseclib/phpseclib": ">=0.3.5",
+        "mdanter/ecc": "~0.2"
     },
     "suggest": {
     },

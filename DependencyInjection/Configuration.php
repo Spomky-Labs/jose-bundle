@@ -25,10 +25,25 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($this->alias);
 
+        $supportedSerializationModes = array('compact', 'flattened');
+
         $rootNode
             ->children()
-                ->scalarNode('issuer')->isRequired()->cannotBeEmpty()->end()
-                ->scalarNode('prefered_serialization_mode')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('server_name')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('serialization_mode')
+                    ->validate()
+                        ->ifNotInArray($supportedSerializationModes)
+                        ->thenInvalid('The serialization mode "%s" is not supported. Please choose one of '.json_encode($supportedSerializationModes))
+                    ->end()
+                    ->cannotBeEmpty()
+                    ->defaultValue('compact')
+                ->end()
+                ->scalarNode('jwa_manager')->defaultValue('spomky_jose.jwa_manager.default')->cannotBeEmpty()->end()
+                ->scalarNode('jwt_manager')->defaultValue('spomky_jose.jwt_manager.default')->cannotBeEmpty()->end()
+                ->scalarNode('jwk_manager')->defaultValue('spomky_jose.jwk_manager.default')->cannotBeEmpty()->end()
+                ->scalarNode('compression_manager')->defaultValue('spomky_jose.compression_manager.default')->cannotBeEmpty()->end()
+                ->arrayNode('algorithms')->prototype('scalar')->end()->treatNullLike(array())->end()
+                ->arrayNode('compression_methods')->prototype('scalar')->end()->treatNullLike(array())->end()
             ->end();
 
         return $treeBuilder;

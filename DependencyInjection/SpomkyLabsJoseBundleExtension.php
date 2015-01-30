@@ -28,15 +28,18 @@ class SpomkyLabsJoseBundleExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        foreach (array('services', 'controllers', 'signature_algorithms') as $basename) {
+        foreach (array('services', 'chain', 'controllers', 'signature_algorithms', 'encryption_algorithms', 'compression_methods') as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
 
-        $container->setParameter($this->getAlias().'.issuer', $config['issuer']);
-        $container->setParameter($this->getAlias().'.prefered_serialization_mode', $config['prefered_serialization_mode']);
+        $container->setParameter($this->getAlias().'.algorithms', $config['algorithms']);
+        $container->setParameter($this->getAlias().'.compression_methods', $config['compression_methods']);
+        $container->setParameter($this->getAlias().'.server_name', $config['server_name']);
+        $container->setParameter($this->getAlias().'.serialization_mode', $config['serialization_mode']);
         $container->setAlias($this->getAlias().'.jwa_manager', $config['jwa_manager']);
         $container->setAlias($this->getAlias().'.jwt_manager', $config['jwt_manager']);
         $container->setAlias($this->getAlias().'.jwk_manager', $config['jwk_manager']);
+        $container->setAlias($this->getAlias().'.compression_manager', $config['compression_manager']);
     }
 
     /**

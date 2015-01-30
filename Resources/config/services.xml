@@ -6,6 +6,9 @@
 
     <parameters>
         <parameter key="spomky_jose.jose.class">SpomkyLabs\JoseBundle\Service\Jose</parameter>
+        <parameter key="spomky_jose.signer.class">SpomkyLabs\JoseBundle\Service\Signer</parameter>
+        <parameter key="spomky_jose.loader.class">SpomkyLabs\JoseBundle\Service\Loader</parameter>
+        <parameter key="spomky_jose.encrypter.class">SpomkyLabs\JoseBundle\Service\Encrypter</parameter>
         <parameter key="spomky_jose.jwa_manager.class">SpomkyLabs\JoseBundle\Service\JWAManager</parameter>
         <parameter key="spomky_jose.jwk_manager.class">SpomkyLabs\JoseBundle\Service\JWKManager</parameter>
         <parameter key="spomky_jose.jwt_manager.class">SpomkyLabs\JoseBundle\Service\JWTManager</parameter>
@@ -15,6 +18,22 @@
     <services>
         <service id="spomky_jose.jose" class="%spomky_jose.jose.class%">
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        </service>
+        <service id="spomky_jose.signer.default" class="%spomky_jose.signer.class%">
+        </service>
+        <service id="spomky_jose.loader.default" class="%spomky_jose.loader.class%">
+        </service>
+        <service id="spomky_jose.encrypter.default" class="%spomky_jose.encrypter.class%">
+        </service>
+        <service id="spomky_jose.jwa_manager.default" class="%spomky_jose.jwa_manager.class%">
+            <argument type="service" id="spomky_jose.chain.algorithm" />
+        </service>
+        <service id="spomky_jose.jwk_manager.default" class="%spomky_jose.jwk_manager.class%">
+        </service>
+        <service id="spomky_jose.jwt_manager.default" class="%spomky_jose.jwt_manager.class%">
+        </service>
+        <service id="spomky_jose.compression_manager.default" class="%spomky_jose.compression_manager.class%">
+            <argument type="service" id="spomky_jose.chain.compression" />
         </service>
     </services>
 </container>
