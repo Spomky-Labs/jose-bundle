@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="spomky_jose.jose.class">SpomkyLabs\JoseBundle\Service\Jose</parameter>
+        <parameter key="spomky_jose.jwa_manager.class">SpomkyLabs\JoseBundle\Service\JWAManager</parameter>
+        <parameter key="spomky_jose.jwk_manager.class">SpomkyLabs\JoseBundle\Service\JWKManager</parameter>
+        <parameter key="spomky_jose.jwt_manager.class">SpomkyLabs\JoseBundle\Service\JWTManager</parameter>
+        <parameter key="spomky_jose.compression_manager.class">SpomkyLabs\JoseBundle\Service\CompressionManager</parameter>
+    </parameters>
+
+    <services>
+        <service id="spomky_jose.jose" class="%spomky_jose.jose.class%">
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        </service>
+    </services>
+</container>

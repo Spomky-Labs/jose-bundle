@@ -1,0 +1,3 @@
+api:
+    resource: "@TestJoseBundle/Controller"
+    type:     annotation

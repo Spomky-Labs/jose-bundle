@@ -1,0 +1,48 @@
+{
+    "name": "spomky-labs/jose-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony2 Jose Bundle",
+    "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jose", "Jot", "Bundle", "Symfony2"],
+    "homepage": "https://github.com/Spomky-Labs/JoseBundle",
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "Florent Morselli"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "symfony/framework-bundle": "~2.3",
+        "spomky-labs/jose-interface": "dev-master",
+        "spomky-labs/jose": "@dev"
+    },
+    "require-dev": {
+        "sensio/framework-extra-bundle": "~3.0",
+        "symfony/symfony": "~2.3",
+        "behat/behat": "3.*",
+        "behat/symfony2-extension": "2.0.x-dev",
+        "behat/mink": "*",
+        "behat/mink-extension": "*",
+        "behat/mink-browserkit-driver":  "*",
+        "doctrine/doctrine-fixtures-bundle": "*@dev",
+        "vipsoft/doctrine-data-fixtures-extension": "3.*@dev",
+        "doctrine/orm": ">=2.2,<2.5-dev"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": {
+            "SpomkyLabs\\JoseBundle\\": ""
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SpomkyLabs\\TestJoseBundle\\": "Tests/TestJoseBundle"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.0.x-dev"
+        }
+    }
+}

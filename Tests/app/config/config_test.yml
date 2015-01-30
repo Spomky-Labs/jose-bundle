@@ -1,0 +1,89 @@
+#imports:
+#    - { resource: security.yml }
+
+framework:
+    test: ~
+    secret: test
+    translator: ~
+    default_locale:  "en"
+    form: ~
+    csrf_protection: ~
+    validation:
+        enable_annotations: true
+    session:
+        storage_id: session.storage.mock_file
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    templating:
+        engines: ['twig']
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            true
+    strict_variables: true
+
+#spomky_jose:
+#    keys:
+#         
+#    prefered_serialization_mode: compact # Supported modes are 'normal', 'flattened' and 'compact'.
+#    storage:
+#        enabled: false
+#        manager: spomky_jose.jwt_manager
+#    jot:
+#        headers:
+#            jku: false # If true, will include the url to the public key in the header of each token
+#            jwk: false # If true, will include the public key in the header of each token
+#            kid: false # Only if storage is enabled
+#            x5u: false # Only if storage the key is a RSA key
+#            x5c: false # Only if storage the key is a RSA key
+#            x5t: false # Only if storage the key is a RSA key
+#            x5t#256: false # Only if storage the key is a RSA key
+#            crit: false # Supported values are false or a non-empty array of headers.
+#        claims:
+#            iss: www.example.com # This claim is mandatory and must not be empty
+#            nbf: true # Not before
+#            iat: true
+#            lifetime: 5min #
+#    compression_method: DEF
+#    algorithms:
+#        - HS256
+#        - HS384
+#        - HS512
+#        - ES256
+#        - ES384
+#        - ES512
+#        - RS256
+#        - RS384
+#        - RS512
+#        - PS256
+#        - PS384
+#        - PS512
+#        - none
+#        - dir
+#        - RSA1_5
+#        - RSA-OAEP
+#        - RSA-OAEP-256
+#        - ECDH-ES
+#        - ECDH-ES+A128KW
+#        - ECDH-ES+A192KW
+#        - ECDH-ES+A256KW
+#        - A128KW
+#        - A192KW
+#        - A256KW
+#        - PBES2-HS256+A128KW
+#        - PBES2-HS384+A192KW
+#        - PBES2-HS512+A256KW
+#        - A128CBC-HS256
+#        - A192CBC-HS384
+#        - A256CBC-HS512
+#        - A128GCMKW # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
+#        - A192GCMKW # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
+#        - A256GCMKW # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
+#        - A128GCM   # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
+#        - A192GCM   # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
+#        - A256GCM   # Not yet supported by the library 'spomkylabs/jose'. Will throw an excetpion if enabled
