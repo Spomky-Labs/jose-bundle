@@ -29,6 +29,9 @@ twig:
 
 spomky_jose:
     server_name: "www.example.com" # This is the audience for received or issuer for issued jose
+    jwt_class: SpomkyLabs\TestJoseBundle\Entity\JWT
+    jws_class: SpomkyLabs\TestJoseBundle\Entity\JWS
+    jwe_class: SpomkyLabs\TestJoseBundle\Entity\JWE
 #    jwa_manager:
 #    jwt_manager:
 #    jwk_manager:

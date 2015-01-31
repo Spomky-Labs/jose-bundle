@@ -4,9 +4,6 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="SpomkyLabs\JoseBundle\Entity\JWT">
-        <field name="protected_headers" column="protected_headers" type="array" nullable="true" />
-        <field name="unprotected_headers" column="unprotected_headers" type="array" nullable="true" />
-        <field name="payload" column="payload" type="string" nullable="false" />
+    <mapped-superclass name="SpomkyLabs\JoseBundle\Entity\JWE">
     </mapped-superclass>
 </doctrine-mapping>

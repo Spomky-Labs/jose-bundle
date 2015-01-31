@@ -12,13 +12,13 @@
 
     <services>
         <service id="spomky_jose.compression.deflate" class="%spomky_jose.compression.deflate.class%">
-            <tag name="jose_compression" />
+            <tag name="jose_compression" alias="DEF" />
         </service>
         <service id="spomky_jose.compression.gzip" class="%spomky_jose.compression.gzip.class%">
-            <tag name="jose_compression" />
+            <tag name="jose_compression" alias="GZ" />
         </service>
         <service id="spomky_jose.compression.zlib" class="%spomky_jose.compression.zlib.class%">
-            <tag name="jose_compression" />
+            <tag name="jose_compression" alias="ZLIB" />
         </service>
     </services>
 </container>

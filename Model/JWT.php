@@ -2,9 +2,8 @@
 
 namespace SpomkyLabs\JoseBundle\Model;
 
+use SpomkyLabs\Jose\JWT as Base;
+
 class JWT extends Base
 {
-    protected $protected_headers;
-    protected $unprotected_headers;
-    protected $payload;
 }

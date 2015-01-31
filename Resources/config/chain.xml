@@ -11,10 +11,8 @@
 
     <services>
         <service id="spomky_jose.chain.algorithm" class="%spomky_jose.chain.algorithm.class%">
-            <argument>%spomky_jose.algorithms%</argument>
         </service>
         <service id="spomky_jose.chain.compression" class="%spomky_jose.chain.compression.class%">
-            <argument>%spomky_jose.compression_methods%</argument>
         </service>
     </services>
 </container>

@@ -32,6 +32,9 @@ class SpomkyLabsJoseBundleExtension extends Extension
             $loader->load(sprintf('%s.xml', $basename));
         }
 
+        $container->setParameter($this->getAlias().'.jwt_class', $config['jwt_class']);
+        $container->setParameter($this->getAlias().'.jws_class', $config['jws_class']);
+        $container->setParameter($this->getAlias().'.jwe_class', $config['jwe_class']);
         $container->setParameter($this->getAlias().'.algorithms', $config['algorithms']);
         $container->setParameter($this->getAlias().'.compression_methods', $config['compression_methods']);
         $container->setParameter($this->getAlias().'.server_name', $config['server_name']);

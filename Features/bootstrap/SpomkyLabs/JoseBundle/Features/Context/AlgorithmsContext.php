@@ -12,10 +12,8 @@ trait AlgorithmsContext
      */
     public function iListAlgorithms()
     {
-        $result = $this->getContainer()->get("spomky_jose.jwa_manager")->listAlgorithms();
-        //var_dump($result);
-        $result = $this->getContainer()->get("spomky_jose.compression_manager")->listCompressionAlgorithm();
-        //var_dump($result);
+        $this->getContainer()->get("spomky_jose.jwa_manager")->listAlgorithms();
+        $this->getContainer()->get("spomky_jose.compression_manager")->listCompressionAlgorithm();
     }
 
     /**
@@ -23,6 +21,5 @@ trait AlgorithmsContext
      */
     public function iShouldGetAListOfAlgorithms()
     {
-        //throw new PendingException();
     }
 }
