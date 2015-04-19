@@ -11,6 +11,7 @@
 
     <services>
         <service id="spomky_jose.chain.algorithm" class="%spomky_jose.chain.algorithm.class%">
+            <argument type="service" id="logger" on-invalid="ignore" />
         </service>
         <service id="spomky_jose.chain.compression" class="%spomky_jose.chain.compression.class%">
         </service>

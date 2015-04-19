@@ -12,7 +12,7 @@ class SpomkyLabsJoseBundleExtension extends Extension
 {
     private $alias;
 
-     /**
+    /**
      * @param string $alias
      */
     public function __construct($alias)
@@ -35,6 +35,8 @@ class SpomkyLabsJoseBundleExtension extends Extension
         $container->setParameter($this->getAlias().'.jwt_class', $config['jwt_class']);
         $container->setParameter($this->getAlias().'.jws_class', $config['jws_class']);
         $container->setParameter($this->getAlias().'.jwe_class', $config['jwe_class']);
+        $container->setParameter($this->getAlias().'.jwk_class', $config['jwk_class']);
+        $container->setParameter($this->getAlias().'.jwkset_class', $config['jwkset_class']);
         $container->setParameter($this->getAlias().'.algorithms', $config['algorithms']);
         $container->setParameter($this->getAlias().'.compression_methods', $config['compression_methods']);
         $container->setParameter($this->getAlias().'.server_name', $config['server_name']);
@@ -42,6 +44,7 @@ class SpomkyLabsJoseBundleExtension extends Extension
         $container->setAlias($this->getAlias().'.jwa_manager', $config['jwa_manager']);
         $container->setAlias($this->getAlias().'.jwt_manager', $config['jwt_manager']);
         $container->setAlias($this->getAlias().'.jwk_manager', $config['jwk_manager']);
+        $container->setAlias($this->getAlias().'.jwkset_manager', $config['jwkset_manager']);
         $container->setAlias($this->getAlias().'.compression_manager', $config['compression_manager']);
     }
 

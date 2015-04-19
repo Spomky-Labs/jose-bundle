@@ -22,6 +22,13 @@ framework:
     fragments:       ~
     http_method_override: true
 
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+
 # Twig Configuration
 twig:
     debug:            true
@@ -32,11 +39,13 @@ spomky_jose:
     jwt_class: SpomkyLabs\TestJoseBundle\Entity\JWT
     jws_class: SpomkyLabs\TestJoseBundle\Entity\JWS
     jwe_class: SpomkyLabs\TestJoseBundle\Entity\JWE
+    jwk_class: SpomkyLabs\TestJoseBundle\Entity\JWK
+    jwkset_class: SpomkyLabs\TestJoseBundle\Entity\JWKSet
 #    jwa_manager:
 #    jwt_manager:
 #    jwk_manager:
 #    keys:
-#         
+#
 #    serialization_mode: compact # Serialization mode for issued jose. Supported modes are 'flattened' and 'compact'.
 #    storage:
 #        enabled: false

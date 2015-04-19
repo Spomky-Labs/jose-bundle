@@ -11,6 +11,7 @@ class CompressionChain
     public function addCompressionMethod(CompressionInterface $compression_method)
     {
         $this->compression_methods[$compression_method->getMethodName()] = $compression_method;
+
         return $this;
     }
 

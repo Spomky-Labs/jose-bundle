@@ -26,7 +26,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
                 }
                 if (in_array($attributes["alias"], $algorithms_enabled)) {
                     $loaded[] = $attributes["alias"];
-                    $definition->addMethodCall('addAlgorithm', array(new Reference($id)));
+                    $definition->addMethodCall('addAlgorithm', array($attributes["alias"], new Reference($id)));
                 }
             }
         }

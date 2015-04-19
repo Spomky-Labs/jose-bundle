@@ -10,8 +10,9 @@
         <parameter key="spomky_jose.loader.class">SpomkyLabs\JoseBundle\Service\Loader</parameter>
         <parameter key="spomky_jose.encrypter.class">SpomkyLabs\JoseBundle\Service\Encrypter</parameter>
         <parameter key="spomky_jose.jwa_manager.class">SpomkyLabs\JoseBundle\Service\JWAManager</parameter>
-        <parameter key="spomky_jose.jwk_manager.class">SpomkyLabs\JoseBundle\Service\JWKManager</parameter>
         <parameter key="spomky_jose.jwt_manager.class">SpomkyLabs\JoseBundle\Service\JWTManager</parameter>
+        <parameter key="spomky_jose.jwk_manager.class">SpomkyLabs\JoseBundle\Service\JWKManager</parameter>
+        <parameter key="spomky_jose.jwkset_manager.class">SpomkyLabs\JoseBundle\Service\JWKSetManager</parameter>
         <parameter key="spomky_jose.compression_manager.class">SpomkyLabs\JoseBundle\Service\CompressionManager</parameter>
     </parameters>
 
@@ -29,6 +30,8 @@
             <argument type="service" id="spomky_jose.chain.algorithm" />
         </service>
         <service id="spomky_jose.jwk_manager.default" class="%spomky_jose.jwk_manager.class%">
+        </service>
+        <service id="spomky_jose.jwkset_manager.default" class="%spomky_jose.jwkset_manager.class%">
         </service>
         <service id="spomky_jose.jwt_manager.default" class="%spomky_jose.jwt_manager.class%">
             <argument>%spomky_jose.jwt_class%</argument>

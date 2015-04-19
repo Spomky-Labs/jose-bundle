@@ -16,6 +16,7 @@
         "spomky-labs/jose": "~0.0.0"
     },
     "require-dev": {
+        "symfony/monolog-bundle": "~2.4",
         "sensio/framework-extra-bundle": "~3.0",
         "symfony/symfony": "~2.3",
         "behat/behat": "3.*",
@@ -27,7 +28,10 @@
         "vipsoft/doctrine-data-fixtures-extension": "3.*@dev",
         "doctrine/orm": ">=2.2,<2.5-dev",
         "phpseclib/phpseclib": ">=0.3.5",
-        "mdanter/ecc": "~0.2"
+        "mdanter/ecc": "~0.2",
+        "lib-openssl": "*",
+        "spomky-labs/pbkdf2": "~1.0",
+        "spomky-labs/aes-key-wrap": "~2.0"
     },
     "suggest": {
     },
