@@ -8,6 +8,12 @@ namespace SpomkyLabs\JoseBundle\Features\Context;
 trait AlgorithmsContext
 {
     /**
+     * Returns HttpKernel service container.
+     *
+     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    abstract protected function getContainer();
+    /**
      * @When I list algorithms
      */
     public function iListAlgorithms()
