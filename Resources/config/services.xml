@@ -9,10 +9,10 @@
         <parameter key="spomky_jose.signer.class">SpomkyLabs\JoseBundle\Service\Signer</parameter>
         <parameter key="spomky_jose.loader.class">SpomkyLabs\JoseBundle\Service\Loader</parameter>
         <parameter key="spomky_jose.encrypter.class">SpomkyLabs\JoseBundle\Service\Encrypter</parameter>
+        <parameter key="spomky_jose.jwt_manager.class">SpomkyLabs\JoseBundle\Model\JWTManager</parameter>
         <parameter key="spomky_jose.jwa_manager.class">SpomkyLabs\JoseBundle\Service\JWAManager</parameter>
-        <parameter key="spomky_jose.jwt_manager.class">SpomkyLabs\JoseBundle\Service\JWTManager</parameter>
-        <parameter key="spomky_jose.jwk_manager.class">SpomkyLabs\JoseBundle\Service\JWKManager</parameter>
-        <parameter key="spomky_jose.jwkset_manager.class">SpomkyLabs\JoseBundle\Service\JWKSetManager</parameter>
+        <parameter key="spomky_jose.jwk_manager.class">SpomkyLabs\JoseBundle\Model\JWKManager</parameter>
+        <parameter key="spomky_jose.jwkset_manager.class">SpomkyLabs\JoseBundle\Model\JWKSetManager</parameter>
         <parameter key="spomky_jose.compression_manager.class">SpomkyLabs\JoseBundle\Service\CompressionManager</parameter>
     </parameters>
 
@@ -21,17 +21,36 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
         <service id="spomky_jose.signer.default" class="%spomky_jose.signer.class%">
+            <argument type="service" id="spomky_jose.jwa_manager" />
+            <argument type="service" id="spomky_jose.jwt_manager" />
+            <argument type="service" id="spomky_jose.jwk_manager" />
+            <argument type="service" id="spomky_jose.jwkset_manager" />
         </service>
         <service id="spomky_jose.loader.default" class="%spomky_jose.loader.class%">
+            <argument type="service" id="spomky_jose.jwa_manager" />
+            <argument type="service" id="spomky_jose.jwt_manager" />
+            <argument type="service" id="spomky_jose.jwk_manager" />
+            <argument type="service" id="spomky_jose.jwkset_manager" />
+            <argument type="service" id="spomky_jose.compression_manager" />
         </service>
         <service id="spomky_jose.encrypter.default" class="%spomky_jose.encrypter.class%">
+            <argument type="service" id="spomky_jose.jwa_manager" />
+            <argument type="service" id="spomky_jose.jwt_manager" />
+            <argument type="service" id="spomky_jose.jwk_manager" />
+            <argument type="service" id="spomky_jose.jwkset_manager" />
+            <argument type="service" id="spomky_jose.compression_manager" />
         </service>
         <service id="spomky_jose.jwa_manager.default" class="%spomky_jose.jwa_manager.class%">
             <argument type="service" id="spomky_jose.chain.algorithm" />
         </service>
         <service id="spomky_jose.jwk_manager.default" class="%spomky_jose.jwk_manager.class%">
+            <argument>%spomky_jose.jwk_class%</argument>
+            <argument type="service" id="doctrine" on-invalid="ignore" />
         </service>
         <service id="spomky_jose.jwkset_manager.default" class="%spomky_jose.jwkset_manager.class%">
+            <argument type="service" id="spomky_jose.jwk_manager" />
+            <argument>%spomky_jose.jwkset_class%</argument>
+            <argument type="service" id="doctrine" on-invalid="ignore" />
         </service>
         <service id="spomky_jose.jwt_manager.default" class="%spomky_jose.jwt_manager.class%">
             <argument>%spomky_jose.jwt_class%</argument>

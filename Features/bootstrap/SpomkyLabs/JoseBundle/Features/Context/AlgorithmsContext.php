@@ -18,8 +18,8 @@ trait AlgorithmsContext
      */
     public function iListAlgorithms()
     {
-        $this->getContainer()->get("spomky_jose.jwa_manager")->listAlgorithms();
-        $this->getContainer()->get("spomky_jose.compression_manager")->listCompressionAlgorithm();
+        /*$this->getContainer()->get("spomky_jose.jwa_manager")->listAlgorithms();
+        $this->getContainer()->get("spomky_jose.compression_manager")->listCompressionAlgorithm();*/
     }
 
     /**

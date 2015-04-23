@@ -22,47 +22,47 @@
 
     <services>
         <service id="spomky_jose.algorithm.none" class="%spomky_jose.algorithm.none.class%">
-            <tag name="jose_algorithm" alias="none" />
+            <tag name="jose_algorithm" alias="none" requirement="optional" />
         </service>
 
         <service id="spomky_jose.algorithm.es256" class="%spomky_jose.algorithm.es256.class%">
-            <tag name="jose_algorithm" alias="ES256" />
+            <tag name="jose_algorithm" alias="ES256" requirement="recommended+" />
         </service>
         <service id="spomky_jose.algorithm.es384" class="%spomky_jose.algorithm.es384.class%">
-            <tag name="jose_algorithm" alias="ES384" />
+            <tag name="jose_algorithm" alias="ES384" requirement="optional" />
         </service>
         <service id="spomky_jose.algorithm.es512" class="%spomky_jose.algorithm.es512.class%">
-            <tag name="jose_algorithm" alias="ES512" />
+            <tag name="jose_algorithm" alias="ES512" requirement="optional" />
         </service>
 
         <service id="spomky_jose.algorithm.rs256" class="%spomky_jose.algorithm.rs256.class%">
-            <tag name="jose_algorithm" alias="RS256" />
+            <tag name="jose_algorithm" alias="RS256" requirement="recommended" />
         </service>
         <service id="spomky_jose.algorithm.rs384" class="%spomky_jose.algorithm.rs384.class%">
-            <tag name="jose_algorithm" alias="RS384" />
+            <tag name="jose_algorithm" alias="RS384" requirement="optional" />
         </service>
         <service id="spomky_jose.algorithm.rs512" class="%spomky_jose.algorithm.rs512.class%">
-            <tag name="jose_algorithm" alias="RS512" />
+            <tag name="jose_algorithm" alias="RS512" requirement="optional" />
         </service>
 
         <service id="spomky_jose.algorithm.ps256" class="%spomky_jose.algorithm.ps256.class%">
-            <tag name="jose_algorithm" alias="PS256" />
+            <tag name="jose_algorithm" alias="PS256" requirement="optional" />
         </service>
         <service id="spomky_jose.algorithm.ps384" class="%spomky_jose.algorithm.ps384.class%">
-            <tag name="jose_algorithm" alias="PS384" />
+            <tag name="jose_algorithm" alias="PS384" requirement="optional" />
         </service>
         <service id="spomky_jose.algorithm.ps512" class="%spomky_jose.algorithm.ps512.class%">
-            <tag name="jose_algorithm" alias="PS512" />
+            <tag name="jose_algorithm" alias="PS512" requirement="optional" />
         </service>
 
         <service id="spomky_jose.algorithm.hs256" class="%spomky_jose.algorithm.hs256.class%">
-            <tag name="jose_algorithm" alias="HS256" />
+            <tag name="jose_algorithm" alias="HS256" requirement="required" />
         </service>
         <service id="spomky_jose.algorithm.hs384" class="%spomky_jose.algorithm.hs384.class%">
-            <tag name="jose_algorithm" alias="HS384" />
+            <tag name="jose_algorithm" alias="HS384" requirement="optional" />
         </service>
         <service id="spomky_jose.algorithm.hs512" class="%spomky_jose.algorithm.hs512.class%">
-            <tag name="jose_algorithm" alias="HS512" />
+            <tag name="jose_algorithm" alias="HS512" requirement="optional" />
         </service>
     </services>
 </container>

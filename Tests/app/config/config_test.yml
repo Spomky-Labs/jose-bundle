@@ -35,7 +35,26 @@ twig:
     strict_variables: true
 
 spomky_jose:
-    server_name: "www.example.com" # This is the audience for received or issuer for issued jose
+#    keys:
+#        main1:
+#            public: true
+#            type: x5c
+#            value: azerty
+#        main2:
+#            public: false
+#            type: jwk
+#            value: azerty
+#    keysets:
+#        main1:
+#            public: true
+#            type: x5u
+#            value: azerty
+#        main2:
+#            public: false
+#            type: jwkset
+#            value: azerty
+    server_name: "www.example.com" # This is the audience for received tokens or issuer when issued
+    serialization_mode: compact # Json Serialization Overview for issued jose using only one signature or recipient. Supported modes are 'full', 'flattened' and 'compact'.
     jwt_class: SpomkyLabs\TestJoseBundle\Entity\JWT
     jws_class: SpomkyLabs\TestJoseBundle\Entity\JWS
     jwe_class: SpomkyLabs\TestJoseBundle\Entity\JWE
@@ -44,15 +63,12 @@ spomky_jose:
 #    jwa_manager:
 #    jwt_manager:
 #    jwk_manager:
-#    keys:
-#
-#    serialization_mode: compact # Serialization mode for issued jose. Supported modes are 'flattened' and 'compact'.
+#    jwkset_manager:
 #    storage:
-#        enabled: false
-#        manager: spomky_jose.jwt_manager
+#        enabled: false # If enabled, tokens will have an ID and are stored in a database
 #    jot:
 #        headers:
-#            jku: false # If true, will include the url to the public key in the header of each token
+#            jku: false # If true, will include the url to the public key in the header of each token. It means that the controller/routes are enabled and all public keys can be retreived through HTTP requests.
 #            jwk: false # If true, will include the public key in the header of each token
 #            kid: false # Only if storage is enabled
 #            x5u: false # Only if storage the key is a RSA key
@@ -63,43 +79,52 @@ spomky_jose:
 #        claims:
 #            iss: www.example.com # This claim is mandatory and must not be empty
 #            nbf: true # Not before
-#            iat: true
+#            iat: true # Issued at
 #            lifetime: 5min #
+# Add events for custom claims
     compression_methods: [DEF,GZ,ZLIB]
-    algorithms:
-        - HS256
-        - HS384
-        - HS512
-        - ES256
-        - ES384
-        - ES512
-        - RS256
-        - RS384
-        - RS512
-        - PS256
-        - PS384
-        - PS512
-        - none
-        - dir
-        - RSA1_5
-        - RSA-OAEP
-        - RSA-OAEP-256
-        - ECDH-ES
-        - ECDH-ES+A128KW
-        - ECDH-ES+A192KW
-        - ECDH-ES+A256KW
-        - A128KW
-        - A192KW
-        - A256KW
-        - PBES2-HS256+A128KW
-        - PBES2-HS384+A192KW
-        - PBES2-HS512+A256KW
-        - A128CBC-HS256
-        - A192CBC-HS384
-        - A256CBC-HS512
-        - A128GCMKW
-        - A192GCMKW
-        - A256GCMKW
-        - A128GCM
-        - A192GCM
-        - A256GCM
+    algorithms: # Use the following keywords
+#        - required # Required algorithms
+#        - recommended+ # Recommended+ algorithms
+#        - recommended # Recommended algorithms
+#        - recommended- # Recommended- algorithms
+#        - optional # Optional algorithms
+        - all # All algorithms (this combine all keywords above)
+        - !none # Disable the none algorithm
+    #or specify each algorithm you want to enable
+#        - HS256
+#        - HS384
+#        - HS512
+#        - ES256
+#        - ES384
+#        - ES512
+#        - RS256
+#        - RS384
+#        - RS512
+#        - PS256
+#        - PS384
+#        - PS512
+#        - dir
+#        - RSA1_5
+#        - RSA-OAEP
+#        - RSA-OAEP-256
+#        - ECDH-ES
+#        - ECDH-ES+A128KW
+#        - ECDH-ES+A192KW
+#        - ECDH-ES+A256KW
+#        - A128KW
+#        - A192KW
+#        - A256KW
+#        - PBES2-HS256+A128KW
+#        - PBES2-HS384+A192KW
+#        - PBES2-HS512+A256KW
+#        - A128CBC-HS256
+#        - A192CBC-HS384
+#        - A256CBC-HS512
+#        - A128GCMKW
+#        - A192GCMKW
+#        - A256GCMKW
+#        - A128GCM
+#        - A192GCM
+#        - A256GCM
+#        - none # Please disable this algorithm in production mode. Note that 'none' is always disabled by '!none'

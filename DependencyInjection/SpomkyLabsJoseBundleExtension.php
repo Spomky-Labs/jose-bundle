@@ -32,20 +32,33 @@ class SpomkyLabsJoseBundleExtension extends Extension
             $loader->load(sprintf('%s.xml', $basename));
         }
 
-        $container->setParameter($this->getAlias().'.jwt_class', $config['jwt_class']);
-        $container->setParameter($this->getAlias().'.jws_class', $config['jws_class']);
-        $container->setParameter($this->getAlias().'.jwe_class', $config['jwe_class']);
-        $container->setParameter($this->getAlias().'.jwk_class', $config['jwk_class']);
-        $container->setParameter($this->getAlias().'.jwkset_class', $config['jwkset_class']);
-        $container->setParameter($this->getAlias().'.algorithms', $config['algorithms']);
-        $container->setParameter($this->getAlias().'.compression_methods', $config['compression_methods']);
-        $container->setParameter($this->getAlias().'.server_name', $config['server_name']);
-        $container->setParameter($this->getAlias().'.serialization_mode', $config['serialization_mode']);
-        $container->setAlias($this->getAlias().'.jwa_manager', $config['jwa_manager']);
-        $container->setAlias($this->getAlias().'.jwt_manager', $config['jwt_manager']);
-        $container->setAlias($this->getAlias().'.jwk_manager', $config['jwk_manager']);
-        $container->setAlias($this->getAlias().'.jwkset_manager', $config['jwkset_manager']);
-        $container->setAlias($this->getAlias().'.compression_manager', $config['compression_manager']);
+        $parameters = array(
+            'jwt_class',
+            'jws_class',
+            'jwe_class',
+            'jwk_class',
+            'jwkset_class',
+            'algorithms',
+            'compression_methods',
+            'server_name',
+            'serialization_mode',
+        );
+        $aliases = array(
+            'signer',
+            'loader',
+            'encrypter',
+            'jwa_manager',
+            'jwt_manager',
+            'jwk_manager',
+            'jwkset_manager',
+            'compression_manager',
+        );
+        foreach ($parameters as $parameter) {
+            $container->setParameter($this->getAlias().'.'.$parameter, $config[$parameter]);
+        }
+        foreach ($aliases as $alias) {
+            $container->setAlias($this->getAlias().'.'.$alias, $config[$alias]);
+        }
     }
 
     /**

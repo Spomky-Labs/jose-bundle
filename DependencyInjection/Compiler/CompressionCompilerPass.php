@@ -21,18 +21,18 @@ class CompressionCompilerPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds('jose_compression');
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                if (!array_key_exists("alias", $attributes)) {
+                if (!array_key_exists('alias', $attributes)) {
                     throw new \InvalidArgumentException(sprintf("The compression method '%s' does not have any 'alias' attribute.", $id));
                 }
-                if (in_array($attributes["alias"], $compression_methods_enabled)) {
-                    $loaded[] = $attributes["alias"];
+                if (in_array($attributes['alias'], $compression_methods_enabled)) {
+                    $loaded[] = $attributes['alias'];
                     $definition->addMethodCall('addCompressionMethod', array(new Reference($id)));
                 }
             }
         }
         $diff = array_diff($compression_methods_enabled, $loaded);
         if (!empty($diff)) {
-            throw new \InvalidArgumentException(sprintf("The following compression methods do not exist or can not be loaded: %s.", json_encode(array_values($diff))));
+            throw new \InvalidArgumentException(sprintf('The following compression methods do not exist or can not be loaded: %s.', json_encode(array_values($diff))));
         }
     }
 }
