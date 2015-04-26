@@ -2,22 +2,19 @@
 
 namespace SpomkyLabs\JoseBundle\Model;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Jose\JWKManagerInterface;
-use Jose\JWKSetInterface;
 use Jose\JWKSetManager as Base;
 
-class JWKSetManager extends Base
+class JWKSetManager extends Base implements JWKSetManagerInterface
 {
     /**
-     * @var \Doctrine\Common\Persistence\ObjectRepository|null
+     * @var \SpomkyLabs\JoseBundle\Model\JWKSetInterface
      */
-    private $entity_repository;
+    private $private_jwkset;
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager|null
+     * @var \SpomkyLabs\JoseBundle\Model\JWKSetInterface
      */
-    private $entity_manager = null;
+    private $public_jwkset = null;
 
     /**
      * @var string
@@ -30,17 +27,112 @@ class JWKSetManager extends Base
     private $jwk_manager;
 
     /**
-     * @param \Jose\JWKManagerInterface                    $jwk_manager
-     * @param string                                       $class
-     * @param \Doctrine\Common\Persistence\ManagerRegistry $manager_registry
+     * @param \SpomkyLabs\JoseBundle\Model\JWKManagerInterface $jwk_manager
+     * @param string                                           $class
+     * @param array                                            $keys
      */
-    public function __construct(JWKManagerInterface $jwk_manager, $class, ManagerRegistry $manager_registry = null)
+    public function __construct(JWKManagerInterface $jwk_manager, $class, array $keys)
     {
         $this->class = $class;
         $this->jwk_manager = $jwk_manager;
-        if (!is_null($manager_registry)) {
-            $this->entity_manager = $manager_registry->getManagerForClass($class);
-            $this->entity_repository = $this->entity_manager->getRepository($class);
+
+        $this->public_jwkset = $this->createJWKSet();
+        $this->private_jwkset = $this->createJWKSet();
+
+        $this->loadKeys($keys);
+    }
+
+    protected function getSupportedMethods()
+    {
+        return array_merge(array(
+            'findByKID',
+        ), parent::getSupportedMethods());
+    }
+
+    protected function findByKID($header)
+    {
+        if (!array_key_exists('kid', $header)) {
+            return;
+        }
+        $jwkset = $this->createJWKSet();
+        foreach ($this->getPublicKeyset()->getKeys() as $key) {
+            if ($header['kid'] === $key->getKeyID()) {
+                return $jwkset->addKey($key);
+            }
+        }
+        foreach ($this->getPrivateKeyset()->getKeys() as $key) {
+            if ($header['kid'] === $key->getKeyID()) {
+                return $jwkset->addKey($key);
+            }
+        }
+    }
+
+    /**
+     * @return string
+     */
+    protected function loadKeys(array $keys)
+    {
+        foreach ($keys as $id => $key) {
+            switch ($key['type']) {
+                case 'rsa':
+                    $public_key  = $this->getJWKManager()->loadKeyFromX509Certificate($key['public']['file']);
+                    $private_key = $this->getJWKManager()->loadKeyFromX509Certificate($key['private']['file'], isset($key['private']['passphrase']) ? $key['private']['passphrase'] : null);
+
+                    foreach (array('public' => $public_key, 'private' => $private_key) as $key_type => $jwk) {
+                        $jwk->setValue('kid', $id);
+                        if (isset($key[$key_type]['key_ops']) && !is_null($key[$key_type]['key_ops'])) {
+                            $jwk->setValue('key_ops', $key[$key_type]['key_ops']);
+                        }
+                        foreach (array('alg', 'use') as $index) {
+                            if (!is_null($key[$index])) {
+                                $jwk->setValue($index, $key[$index]);
+                            }
+                        }
+                    }
+
+                    $this->getPublicKeyset()->addKey($public_key);
+                    $this->getPrivateKeyset()->addKey($private_key);
+                    break;
+                case 'ecc':
+                    $public_key  = $this->getJWKManager()->loadKeyFromECCCertificate($key['public']['file']);
+                    $private_key = $this->getJWKManager()->loadKeyFromECCCertificate($key['private']['file'], isset($key['private']['passphrase']) ? $key['private']['passphrase'] : null);
+
+                    foreach (array('public' => $public_key, 'private' => $private_key) as $key_type => $jwk) {
+                        foreach (array('kid', 'key_ops') as $index) {
+                            if (isset($key[$key_type][$index]) && !is_null($key[$key_type][$index])) {
+                                $jwk->setValue($index, $key[$key_type][$index]);
+                            }
+                        }
+                        foreach (array('alg', 'use') as $index) {
+                            if (!is_null($key[$index])) {
+                                $jwk->setValue($index, $key[$index]);
+                            }
+                        }
+                    }
+
+                    $this->getPublicKeyset()->addKey($public_key);
+                    $this->getPrivateKeyset()->addKey($private_key);
+                    break;
+                /*case 'jwk':
+                    $values = json_decode($key['value'], true);
+                    if (is_null($values)) {
+                        throw new \InvalidArgumentException('Bad JWK.');
+                    }
+                    $jwk = $this->getJWKManager()->loadKeyFromValues($values);
+                    $jwk->setValue('kid', $id);
+                    if (!is_null($key['use'])) {
+                        $jwk->setValue('use', $key['use']);
+                    }
+                    if (!is_null($key['key_ops'])) {
+                        $jwk->setValue('key_ops', $key['key_ops']);
+                    }
+                    if ($key['public']) {
+                        $this->getPublicKeyset()->addKey($jwk);
+                    } else {
+                        $this->getPrivateKeyset()->addKey($jwk);
+                    }
+                    break;*/
+            }
         }
     }
 
@@ -53,60 +145,91 @@ class JWKSetManager extends Base
     }
 
     /**
-     * @param \Jose\JWKSetInterface $jwk_set
+     * @param \SpomkyLabs\JoseBundle\Model\JWKSetInterface $jwk_set
      *
      * @return $this
      */
-    public function save(JWKSetInterface $jwk_set)
+    public function setPrivateKeyset(JWKSetInterface $jwk_set)
     {
-        if (is_null($this->getEntityManager())) {
-            throw new \RuntimeException('Doctrine not available');
-        } else {
-            $this->getEntityManager()->persist($jwk_set);
-            $this->getEntityManager()->flush();
-        }
+        $this->private_jwkset = $jwk_set;
 
         return $this;
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository|null
+     * @inheritdoc()
      */
-    public function getEntityRepository()
+    public function getPrivateKeyset()
     {
-        return $this->entity_repository;
+        return $this->private_jwkset;
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectManager|null
+     * @param \SpomkyLabs\JoseBundle\Model\JWKSetInterface $jwk_set
+     *
+     * @return $this
      */
-    public function getEntityManager()
+    public function setPublicKeyset(JWKSetInterface $jwk_set)
     {
-        return $this->entity_manager;
+        $this->public_jwkset = $jwk_set;
+
+        return $this;
     }
 
     /**
-     * Create a JWK object.
+     * @inheritdoc()
+     */
+    public function getPublicKeyset()
+    {
+        return $this->public_jwkset;
+    }
+
+    /**
+     * @param array $values
      *
-     * @param array $values The values to set.
-     *
-     * @return \Jose\JWKInterface Returns a JWKInterface object
+     * @return \SpomkyLabs\JoseBundle\Model\JWKSetInterface
      */
     public function createJWKSet(array $values = array())
     {
         $class = $this->getClass();
-        /*
-         *
-         * @var \Jose\JWKSetInterface $jwk_set
+        /**
+         * @var \SpomkyLabs\JoseBundle\Model\JWKSetInterface
          */
         $jwk_set = new $class();
-        $jwk_set->setValues($values);
+
+        foreach ($values as $value) {
+            $jwk = $this->getJWKManager()->createJWK($value);
+            $jwk_set->addKey($jwk);
+        }
 
         return $jwk_set;
     }
 
+    /**
+     * @inheritdoc()
+     */
     protected function getJWKManager()
     {
         return $this->jwk_manager;
+    }
+
+    /**
+     * @inheritdoc()
+     */
+    public function findKeyById($kid, $public)
+    {
+        if (true === $public) {
+            foreach ($this->getPublicKeyset()->getKeys() as $key) {
+                if ($kid === $key->getKeyID()) {
+                    return $key;
+                }
+            }
+        } else {
+            foreach ($this->getPrivateKeyset()->getKeys() as $key) {
+                if ($kid === $key->getKeyID()) {
+                    return $key;
+                }
+            }
+        }
     }
 }

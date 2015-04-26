@@ -5,60 +5,65 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="spomky_jose.jose.class">SpomkyLabs\JoseBundle\Service\Jose</parameter>
-        <parameter key="spomky_jose.signer.class">SpomkyLabs\JoseBundle\Service\Signer</parameter>
-        <parameter key="spomky_jose.loader.class">SpomkyLabs\JoseBundle\Service\Loader</parameter>
-        <parameter key="spomky_jose.encrypter.class">SpomkyLabs\JoseBundle\Service\Encrypter</parameter>
-        <parameter key="spomky_jose.jwt_manager.class">SpomkyLabs\JoseBundle\Model\JWTManager</parameter>
-        <parameter key="spomky_jose.jwa_manager.class">SpomkyLabs\JoseBundle\Service\JWAManager</parameter>
-        <parameter key="spomky_jose.jwk_manager.class">SpomkyLabs\JoseBundle\Model\JWKManager</parameter>
-        <parameter key="spomky_jose.jwkset_manager.class">SpomkyLabs\JoseBundle\Model\JWKSetManager</parameter>
-        <parameter key="spomky_jose.compression_manager.class">SpomkyLabs\JoseBundle\Service\CompressionManager</parameter>
+        <parameter key="sl_jose.jose.default.class">SpomkyLabs\JoseBundle\Service\Jose</parameter>
+        <parameter key="sl_jose.signer.default.class">SpomkyLabs\JoseBundle\Service\Signer</parameter>
+        <parameter key="sl_jose.loader.default.class">SpomkyLabs\JoseBundle\Service\Loader</parameter>
+        <parameter key="sl_jose.encrypter.default.class">SpomkyLabs\JoseBundle\Service\Encrypter</parameter>
+        <parameter key="sl_jose.jwt_manager.default.class">SpomkyLabs\JoseBundle\Model\JWTManager</parameter>
+        <parameter key="sl_jose.jwa_manager.default.class">SpomkyLabs\JoseBundle\Service\JWAManager</parameter>
+        <parameter key="sl_jose.jwk_manager.default.class">SpomkyLabs\JoseBundle\Model\JWKManager</parameter>
+        <parameter key="sl_jose.jwkset_manager.default.class">SpomkyLabs\JoseBundle\Model\JWKSetManager</parameter>
+        <parameter key="sl_jose.compression_manager.default.class">SpomkyLabs\JoseBundle\Service\CompressionManager</parameter>
     </parameters>
 
     <services>
-        <service id="spomky_jose.jose" class="%spomky_jose.jose.class%">
-            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        <service id="sl_jose.jose.default" class="%sl_jose.jose.default.class%">
+            <argument type="service" id="sl_jose.loader" />
+            <argument type="service" id="sl_jose.signer" />
+            <argument type="service" id="sl_jose.encrypter" />
+            <argument type="service" id="sl_jose.jwkset_manager" />
+            <argument type="service" id="router" />
+            <argument>%sl_jose.jot%</argument>
+            <argument>%sl_jose.server_name%</argument>
         </service>
-        <service id="spomky_jose.signer.default" class="%spomky_jose.signer.class%">
-            <argument type="service" id="spomky_jose.jwa_manager" />
-            <argument type="service" id="spomky_jose.jwt_manager" />
-            <argument type="service" id="spomky_jose.jwk_manager" />
-            <argument type="service" id="spomky_jose.jwkset_manager" />
+        <service id="sl_jose.signer.default" class="%sl_jose.signer.default.class%" public="false">
+            <argument type="service" id="sl_jose.jwa_manager" />
+            <argument type="service" id="sl_jose.jwt_manager" />
+            <argument type="service" id="sl_jose.jwk_manager" />
+            <argument type="service" id="sl_jose.jwkset_manager" />
         </service>
-        <service id="spomky_jose.loader.default" class="%spomky_jose.loader.class%">
-            <argument type="service" id="spomky_jose.jwa_manager" />
-            <argument type="service" id="spomky_jose.jwt_manager" />
-            <argument type="service" id="spomky_jose.jwk_manager" />
-            <argument type="service" id="spomky_jose.jwkset_manager" />
-            <argument type="service" id="spomky_jose.compression_manager" />
+        <service id="sl_jose.loader.default" class="%sl_jose.loader.default.class%" public="false">
+            <argument type="service" id="sl_jose.jwa_manager" />
+            <argument type="service" id="sl_jose.jwt_manager" />
+            <argument type="service" id="sl_jose.jwk_manager" />
+            <argument type="service" id="sl_jose.jwkset_manager" />
+            <argument type="service" id="sl_jose.compression_manager" />
         </service>
-        <service id="spomky_jose.encrypter.default" class="%spomky_jose.encrypter.class%">
-            <argument type="service" id="spomky_jose.jwa_manager" />
-            <argument type="service" id="spomky_jose.jwt_manager" />
-            <argument type="service" id="spomky_jose.jwk_manager" />
-            <argument type="service" id="spomky_jose.jwkset_manager" />
-            <argument type="service" id="spomky_jose.compression_manager" />
+        <service id="sl_jose.encrypter.default" class="%sl_jose.encrypter.default.class%" public="false">
+            <argument type="service" id="sl_jose.jwa_manager" />
+            <argument type="service" id="sl_jose.jwt_manager" />
+            <argument type="service" id="sl_jose.jwk_manager" />
+            <argument type="service" id="sl_jose.jwkset_manager" />
+            <argument type="service" id="sl_jose.compression_manager" />
         </service>
-        <service id="spomky_jose.jwa_manager.default" class="%spomky_jose.jwa_manager.class%">
-            <argument type="service" id="spomky_jose.chain.algorithm" />
+        <service id="sl_jose.jwa_manager.default" class="%sl_jose.jwa_manager.default.class%" public="false">
+            <argument type="service" id="sl_jose.chain.algorithm" />
         </service>
-        <service id="spomky_jose.jwk_manager.default" class="%spomky_jose.jwk_manager.class%">
-            <argument>%spomky_jose.jwk_class%</argument>
-            <argument type="service" id="doctrine" on-invalid="ignore" />
+        <service id="sl_jose.jwk_manager.default" class="%sl_jose.jwk_manager.default.class%" public="false">
+            <argument>%sl_jose.jwk_class%</argument>
         </service>
-        <service id="spomky_jose.jwkset_manager.default" class="%spomky_jose.jwkset_manager.class%">
-            <argument type="service" id="spomky_jose.jwk_manager" />
-            <argument>%spomky_jose.jwkset_class%</argument>
-            <argument type="service" id="doctrine" on-invalid="ignore" />
+        <service id="sl_jose.jwkset_manager.default" class="%sl_jose.jwkset_manager.default.class%" public="false">
+            <argument type="service" id="sl_jose.jwk_manager" />
+            <argument>%sl_jose.jwkset_class%</argument>
+            <argument>%sl_jose.keys%</argument>
         </service>
-        <service id="spomky_jose.jwt_manager.default" class="%spomky_jose.jwt_manager.class%">
-            <argument>%spomky_jose.jwt_class%</argument>
-            <argument>%spomky_jose.jws_class%</argument>
-            <argument>%spomky_jose.jwe_class%</argument>
+        <service id="sl_jose.jwt_manager.default" class="%sl_jose.jwt_manager.default.class%" public="false">
+            <argument>%sl_jose.jwt_class%</argument>
+            <argument>%sl_jose.jws_class%</argument>
+            <argument>%sl_jose.jwe_class%</argument>
         </service>
-        <service id="spomky_jose.compression_manager.default" class="%spomky_jose.compression_manager.class%">
-            <argument type="service" id="spomky_jose.chain.compression" />
+        <service id="sl_jose.compression_manager.default" class="%sl_jose.compression_manager.default.class%" public="false">
+            <argument type="service" id="sl_jose.chain.compression" />
         </service>
     </services>
 </container>

@@ -10,13 +10,13 @@ class CompressionCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('spomky_jose.chain.compression')) {
+        if (!$container->hasDefinition('sl_jose.chain.compression')) {
             return;
         }
 
         $loaded = array();
-        $compression_methods_enabled = $container->getParameter('spomky_jose.compression_methods');
-        $definition = $container->getDefinition('spomky_jose.chain.compression');
+        $compression_methods_enabled = $container->getParameter('sl_jose.compression_methods');
+        $definition = $container->getDefinition('sl_jose.chain.compression');
 
         $taggedServices = $container->findTaggedServiceIds('jose_compression');
         foreach ($taggedServices as $id => $tags) {

@@ -5,15 +5,15 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="spomky_jose.chain.algorithm.class">SpomkyLabs\JoseBundle\Chain\AlgorithmChain</parameter>
-        <parameter key="spomky_jose.chain.compression.class">SpomkyLabs\JoseBundle\Chain\CompressionChain</parameter>
+        <parameter key="sl_jose.chain.algorithm.class">SpomkyLabs\JoseBundle\Chain\AlgorithmChain</parameter>
+        <parameter key="sl_jose.chain.compression.class">SpomkyLabs\JoseBundle\Chain\CompressionChain</parameter>
     </parameters>
 
     <services>
-        <service id="spomky_jose.chain.algorithm" class="%spomky_jose.chain.algorithm.class%">
+        <service id="sl_jose.chain.algorithm" class="%sl_jose.chain.algorithm.class%">
             <argument type="service" id="logger" on-invalid="ignore" />
         </service>
-        <service id="spomky_jose.chain.compression" class="%spomky_jose.chain.compression.class%">
+        <service id="sl_jose.chain.compression" class="%sl_jose.chain.compression.class%">
         </service>
     </services>
 </container>

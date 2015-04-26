@@ -5,19 +5,19 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="spomky_jose.compression.deflate.class">SpomkyLabs\Jose\Compression\Deflate</parameter>
-        <parameter key="spomky_jose.compression.gzip.class">SpomkyLabs\Jose\Compression\GZip</parameter>
-        <parameter key="spomky_jose.compression.zlib.class">SpomkyLabs\Jose\Compression\ZLib</parameter>
+        <parameter key="sl_jose.compression.deflate.class">SpomkyLabs\Jose\Compression\Deflate</parameter>
+        <parameter key="sl_jose.compression.gzip.class">SpomkyLabs\Jose\Compression\GZip</parameter>
+        <parameter key="sl_jose.compression.zlib.class">SpomkyLabs\Jose\Compression\ZLib</parameter>
     </parameters>
 
     <services>
-        <service id="spomky_jose.compression.deflate" class="%spomky_jose.compression.deflate.class%">
+        <service id="sl_jose.compression.deflate" class="%sl_jose.compression.deflate.class%">
             <tag name="jose_compression" alias="DEF" />
         </service>
-        <service id="spomky_jose.compression.gzip" class="%spomky_jose.compression.gzip.class%">
+        <service id="sl_jose.compression.gzip" class="%sl_jose.compression.gzip.class%">
             <tag name="jose_compression" alias="GZ" />
         </service>
-        <service id="spomky_jose.compression.zlib" class="%spomky_jose.compression.zlib.class%">
+        <service id="sl_jose.compression.zlib" class="%sl_jose.compression.zlib.class%">
             <tag name="jose_compression" alias="ZLIB" />
         </service>
     </services>

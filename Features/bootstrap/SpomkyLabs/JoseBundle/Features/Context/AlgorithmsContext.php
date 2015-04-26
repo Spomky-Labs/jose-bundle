@@ -8,6 +8,15 @@ namespace SpomkyLabs\JoseBundle\Features\Context;
 trait AlgorithmsContext
 {
     /**
+     * Returns Mink session.
+     *
+     * @param string|null $name name of the session OR active session will be used
+     *
+     * @return \Behat\Mink\Session
+     */
+    abstract public function getSession($name = null);
+
+    /**
      * Returns HttpKernel service container.
      *
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
@@ -18,8 +27,16 @@ trait AlgorithmsContext
      */
     public function iListAlgorithms()
     {
-        /*$this->getContainer()->get("spomky_jose.jwa_manager")->listAlgorithms();
-        $this->getContainer()->get("spomky_jose.compression_manager")->listCompressionAlgorithm();*/
+        /*
+         * @var \SpomkyLabs\JoseBundle\Service\JoseInterface
+         */
+        $jose = $this->getContainer()->get('jose');
+
+        //$encrypted = $jose->signAndEncrypt(array("sub"=>"me"), "1234", "ABCD", null, array(),array('alg'=>'RSA1_5', 'enc'=>'A256CBC-HS512'));
+        //print_r($encrypted);
+        $signed = $jose->sign(array('sub' => 'me'), 'ABCD');
+        print_r($signed);
+        $jose->load($signed);
     }
 
     /**

@@ -12,7 +12,7 @@ class SpomkyLabsJoseBundle extends Bundle
 {
     public function getContainerExtension()
     {
-        return new SpomkyLabsJoseBundleExtension('spomky_jose');
+        return new SpomkyLabsJoseBundleExtension('sl_jose');
     }
 
     public function build(ContainerBuilder $container)

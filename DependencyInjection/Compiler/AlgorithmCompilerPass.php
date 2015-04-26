@@ -10,7 +10,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('spomky_jose.chain.algorithm')) {
+        if (!$container->hasDefinition('sl_jose.chain.algorithm')) {
             return;
         }
 
@@ -24,7 +24,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
         );
 
         $algorithms = array();
-        $algorithms_enabled = $container->getParameter('spomky_jose.algorithms');
+        $algorithms_enabled = $container->getParameter('sl_jose.algorithms');
         foreach ($keywords as $key => $method) {
             if (in_array($key, $algorithms_enabled)) {
                 $algorithms = array_merge(
@@ -37,7 +37,6 @@ class AlgorithmCompilerPass implements CompilerPassInterface
                 }
             }
         }
-        //var_dump($algorithms);
         $algorithms = array_merge(
             $algorithms,
             $this->getAlgorithmsFromAliases($container, $algorithms_enabled)
@@ -129,8 +128,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
 
     private function loadAlgorithms(ContainerBuilder $container, array $algorithms)
     {
-        $definition = $container->getDefinition('spomky_jose.chain.algorithm');
-
+        $definition = $container->getDefinition('sl_jose.chain.algorithm');
         foreach ($algorithms as $alias => $id) {
             $definition->addMethodCall('addAlgorithm', array($alias, new Reference($id)));
         }

@@ -1,3 +1,2 @@
-api:
-    resource: "@TestJoseBundle/Controller"
-    type:     annotation
+jwkset_endpoint:
+    resource: "@SpomkyLabsJoseBundle/Resources/config/routing/jwkset_endpoint.xml"

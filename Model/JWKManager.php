@@ -2,38 +2,23 @@
 
 namespace SpomkyLabs\JoseBundle\Model;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Jose\JWKInterface;
 use Jose\JWKManager as Base;
+use SpomkyLabs\Jose\Util\ECConverter;
+use SpomkyLabs\Jose\Util\RSAConverter;
 
-class JWKManager extends Base
+class JWKManager extends Base implements JWKManagerInterface
 {
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectRepository|null
-     */
-    private $entity_repository;
-
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectManager|null
-     */
-    private $entity_manager = null;
-
     /**
      * @var string
      */
     private $class;
 
     /**
-     * @param string                                       $class
-     * @param \Doctrine\Common\Persistence\ManagerRegistry $manager_registry
+     * @param string $class
      */
-    public function __construct($class, ManagerRegistry $manager_registry = null)
+    public function __construct($class)
     {
         $this->class = $class;
-        if (!is_null($manager_registry)) {
-            $this->entity_manager = $manager_registry->getManagerForClass($class);
-            $this->entity_repository = $this->entity_manager->getRepository($class);
-        }
     }
 
     /**
@@ -45,51 +30,51 @@ class JWKManager extends Base
     }
 
     /**
-     * @param \Jose\JWKInterface $jwk
+     * @param array $values
      *
-     * @return $this
-     */
-    public function save(JWKInterface $jwk)
-    {
-        if (is_null($this->getEntityManager())) {
-            throw new \RuntimeException('Doctrine not available');
-        } else {
-            $this->getEntityManager()->persist($jwk);
-            $this->getEntityManager()->flush();
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository|null
-     */
-    public function getEntityRepository()
-    {
-        return $this->entity_repository;
-    }
-
-    /**
-     * @return \Doctrine\Common\Persistence\ObjectManager|null
-     */
-    public function getEntityManager()
-    {
-        return $this->entity_manager;
-    }
-
-    /**
-     * Create a JWK object.
-     *
-     * @param array $values The values to set.
-     *
-     * @return \Jose\JWKInterface Returns a JWKInterface object
+     * @return \SpomkyLabs\JoseBundle\Model\JWKInterface
      */
     public function createJWK(array $values = array())
     {
         $class = $this->getClass();
+        /**
+         * @var \SpomkyLabs\JoseBundle\Model\JWKInterface
+         */
         $jwk = new $class();
         $jwk->setValues($values);
 
         return $jwk;
+    }
+
+    /**
+     * @inheritdoc()
+     */
+    public function loadKeyFromX509Certificate($certificate, $passphrase = null)
+    {
+        $values = RSAConverter::loadKeyFromFile($certificate, $passphrase);
+
+        return $this->createJWK($values);
+    }
+
+    /**
+     * @inheritdoc()
+     */
+    public function loadKeyFromECCCertificate($certificate)
+    {
+        $values = ECConverter::loadKeyFromFile($certificate);
+
+        return $this->createJWK($values);
+    }
+
+    /**
+     * @inheritdoc()
+     */
+    public function loadKeyFromValues(array $values)
+    {
+        return $this->createJWK($values);
+    }
+
+    public function findKeyById($kid, $public)
+    {
     }
 }
