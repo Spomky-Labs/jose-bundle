@@ -19,8 +19,6 @@
         "symfony/monolog-bundle": "~2.7",
         "sensio/framework-extra-bundle": "^3.0",
         "symfony/symfony": "~2.7",
-        "behat/behat": "3.*",
-        "behat/symfony2-extension": "2.0.x-dev",
         "behat/mink": "*",
         "behat/mink-extension": "*",
         "behat/mink-browserkit-driver":  "*",
