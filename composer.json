@@ -25,7 +25,7 @@
         "behat/mink-extension": "*",
         "behat/mink-browserkit-driver":  "*",
         "doctrine/doctrine-fixtures-bundle": "~2.2",
-        "vipsoft/doctrine-data-fixtures-extension": "3.*@dev",
+        "vipsoft/doctrine-data-fixtures-extension": "dev-master",
         "doctrine/orm": ">=2.2,<2.5-dev"
     },
     "suggest": {
