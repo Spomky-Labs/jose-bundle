@@ -8,8 +8,4 @@
         <default key="_controller">sl_jose.jwkset_endpoint:getPublicKeysetAction</default>
         <requirement key="_method">GET</requirement>
     </route>
-    <route id="sl_jose_jwk_endpoint" pattern="/key/{id}">
-        <default key="_controller">sl_jose.jwkset_endpoint:getPublicKeyAction</default>
-        <requirement key="_method">GET</requirement>
-    </route>
 </routes>

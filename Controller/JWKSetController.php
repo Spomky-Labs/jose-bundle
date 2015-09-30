@@ -29,20 +29,6 @@ class JWKSetController
         );
     }
 
-    public function getPublicKeyAction($id)
-    {
-        $jwk = $this->getJWKSetManager()->findKeyById($id, true);
-        if (is_null($jwk)) {
-            throw new NotFoundHttpException(sprintf('The public key with ID "%s" does not exist.', $id));
-        }
-
-        return new Response(
-            json_encode($jwk),
-            200,
-            array('Content-Type' => 'application/json; charset=UTF-8')
-        );
-    }
-
     protected function getJWKSetManager()
     {
         return $this->jwkset_manager;

@@ -40,23 +40,21 @@ sl_jose:
             type: rsa
             public:
                 file: "file://%kernel.root_dir%/Keys/RSA/public.key"
-                key_ops: [verify] # The use of this parameter is deprecated and should not be used when 'use' parameter is declared.
+                key_ops: [verify] # Should not be used when 'use' parameter is declared.
             private:
                 file: "file://%kernel.root_dir%/Keys/RSA/private.key"
                 passphrase: 'tests' # If the private key is password protected
-                key_ops: [sign] # The use of this parameter is deprecated and should not be used when 'use' parameter is declared.
+                key_ops: [sign] # Should not be used when 'use' parameter is declared.
             alg: PS512 # null or an algorithm authorized for this key type.
             use: sig # Should not be used whet 'key_ops' parameter is declared.
-#        key2:
-#            type: ecc
-#            public:
-#                kid:
-#                file: "file://%kernel.root_dir%/Keys/EC/public.es512.key"
-#            private:
-#                kid:
-#                file: "file://%kernel.root_dir%/Keys/EC/private.es512.key"
-#            alg: ECDH-ES # null or an algorithm authorized for this key type.
-#            use: enc # Should not be used whet 'key_ops' parameter is declared.
+        key2:
+            type: ecc
+            public:
+                file: "file://%kernel.root_dir%/Keys/EC/public.es512.key"
+            private:
+                file: "file://%kernel.root_dir%/Keys/EC/private.es512.key"
+            alg: ECDH-ES # null or an algorithm authorized for this key type.
+            use: enc # Should not be used whet 'key_ops' parameter is declared.
 #        key3:
 #            type: jwk
 #            value: '{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","alg":"ES256"}'
@@ -90,14 +88,14 @@ sl_jose:
 #        enabled: false # If enabled, tokens will have an ID and are stored in a database
     jot:
         headers:
-            jku: true # If true, will include the url to the public key set in the header of each token. It means that the controller is enabled and all public keys can be retreived through HTTP requests.
-            jwk: true # If true, will include the public key in the header of each token
+            jku: false # If true, will include the url to the public key set in the header of each token. It means that the controller is enabled and all public keys can be retreived through HTTP requests.
+            jwk: false # If true, will include the public key in the header of each token
             kid: true # Will use the name of the key as key ID
 #           x5u: false # Only if controller is enabled and the key is a RSA key. Should not be mixed with other x5* parameters.
             x5c: false # Only if the key is a X509 certificate. Should not be mixed with other x5* parameters.
             x5t: false # Only if the key is a X509 certificate. Should not be mixed with other x5* parameters.
             x5t#256: false # Only if the key is a X509 certificate. Should not be mixed with other x5* parameters.
-            crit: [jku,jwk,kid,exp,iat,nbf, iss] # Supported values are null/empty array or a non-empty array of headers/claims.
+#            crit: [jku,jwk,kid,exp,iat,nbf, iss] # Supported values are null/empty array or a non-empty array of headers/claims.
         claims:
             iss: true # If true, the issuer (server_name) will be added
             nbf: true # Not before # Recommended

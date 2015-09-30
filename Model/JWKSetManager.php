@@ -80,7 +80,7 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
 
                     foreach (array('public' => $public_key, 'private' => $private_key) as $key_type => $jwk) {
                         $jwk->setValue('kid', $id);
-                        if (isset($key[$key_type]['key_ops']) && !is_null($key[$key_type]['key_ops'])) {
+                        if (isset($key[$key_type]['key_ops']) && !empty($key[$key_type]['key_ops'])) {
                             $jwk->setValue('key_ops', $key[$key_type]['key_ops']);
                         }
                         foreach (array('alg', 'use') as $index) {
@@ -99,7 +99,7 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
 
                     foreach (array('public' => $public_key, 'private' => $private_key) as $key_type => $jwk) {
                         foreach (array('kid', 'key_ops') as $index) {
-                            if (isset($key[$key_type][$index]) && !is_null($key[$key_type][$index])) {
+                            if (isset($key[$key_type][$index]) && !empty($key[$key_type][$index])) {
                                 $jwk->setValue($index, $key[$key_type][$index]);
                             }
                         }

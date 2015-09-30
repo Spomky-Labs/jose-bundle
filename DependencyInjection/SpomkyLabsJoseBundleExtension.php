@@ -47,7 +47,6 @@ class SpomkyLabsJoseBundleExtension extends Extension
             'algorithms',
             'compression_methods',
             'server_name',
-            'serialization_mode',
         );
         $aliases = array(
             'signer',
