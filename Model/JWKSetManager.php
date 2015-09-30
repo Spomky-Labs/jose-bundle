@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle\Model;
 
 use Jose\JWKSetManager as Base;
@@ -44,9 +53,9 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
 
     protected function getSupportedMethods()
     {
-        return array_merge(array(
+        return array_merge([
             'findByKID',
-        ), parent::getSupportedMethods());
+        ], parent::getSupportedMethods());
     }
 
     protected function findByKID($header)
@@ -75,15 +84,15 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
         foreach ($keys as $id => $key) {
             switch ($key['type']) {
                 case 'rsa':
-                    $public_key  = $this->getJWKManager()->loadKeyFromX509Certificate($key['public']['file']);
+                    $public_key = $this->getJWKManager()->loadKeyFromX509Certificate($key['public']['file']);
                     $private_key = $this->getJWKManager()->loadKeyFromX509Certificate($key['private']['file'], isset($key['private']['passphrase']) ? $key['private']['passphrase'] : null);
 
-                    foreach (array('public' => $public_key, 'private' => $private_key) as $key_type => $jwk) {
+                    foreach (['public' => $public_key, 'private' => $private_key] as $key_type => $jwk) {
                         $jwk->setValue('kid', $id);
                         if (isset($key[$key_type]['key_ops']) && !empty($key[$key_type]['key_ops'])) {
                             $jwk->setValue('key_ops', $key[$key_type]['key_ops']);
                         }
-                        foreach (array('alg', 'use') as $index) {
+                        foreach (['alg', 'use'] as $index) {
                             if (!is_null($key[$index])) {
                                 $jwk->setValue($index, $key[$index]);
                             }
@@ -94,16 +103,16 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
                     $this->getPrivateKeyset()->addKey($private_key);
                     break;
                 case 'ecc':
-                    $public_key  = $this->getJWKManager()->loadKeyFromECCCertificate($key['public']['file']);
+                    $public_key = $this->getJWKManager()->loadKeyFromECCCertificate($key['public']['file']);
                     $private_key = $this->getJWKManager()->loadKeyFromECCCertificate($key['private']['file'], isset($key['private']['passphrase']) ? $key['private']['passphrase'] : null);
 
-                    foreach (array('public' => $public_key, 'private' => $private_key) as $key_type => $jwk) {
-                        foreach (array('kid', 'key_ops') as $index) {
+                    foreach (['public' => $public_key, 'private' => $private_key] as $key_type => $jwk) {
+                        foreach (['kid', 'key_ops'] as $index) {
                             if (isset($key[$key_type][$index]) && !empty($key[$key_type][$index])) {
                                 $jwk->setValue($index, $key[$key_type][$index]);
                             }
                         }
-                        foreach (array('alg', 'use') as $index) {
+                        foreach (['alg', 'use'] as $index) {
                             if (!is_null($key[$index])) {
                                 $jwk->setValue($index, $key[$index]);
                             }
@@ -157,7 +166,7 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
     }
 
     /**
-     * @inheritdoc()
+     * {@inheritdoc}()
      */
     public function getPrivateKeyset()
     {
@@ -177,7 +186,7 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
     }
 
     /**
-     * @inheritdoc()
+     * {@inheritdoc}()
      */
     public function getPublicKeyset()
     {
@@ -189,10 +198,10 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
      *
      * @return \SpomkyLabs\JoseBundle\Model\JWKSetInterface
      */
-    public function createJWKSet(array $values = array())
+    public function createJWKSet(array $values = [])
     {
         $class = $this->getClass();
-        /**
+        /*
          * @var \SpomkyLabs\JoseBundle\Model\JWKSetInterface
          */
         $jwk_set = new $class();
@@ -206,7 +215,7 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
     }
 
     /**
-     * @inheritdoc()
+     * {@inheritdoc}()
      */
     protected function getJWKManager()
     {
@@ -214,7 +223,7 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
     }
 
     /**
-     * @inheritdoc()
+     * {@inheritdoc}()
      */
     public function findKeyById($kid, $public)
     {

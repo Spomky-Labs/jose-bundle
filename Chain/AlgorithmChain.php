@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle\Chain;
 
 use Jose\JWAInterface;
@@ -8,7 +17,7 @@ use Psr\Log\LoggerInterface;
 class AlgorithmChain
 {
     private $logger;
-    private $algorithms = array();
+    private $algorithms = [];
 
     public function __construct(LoggerInterface $logger = null)
     {

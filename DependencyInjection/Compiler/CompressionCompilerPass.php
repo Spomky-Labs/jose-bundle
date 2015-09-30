@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 class CompressionCompilerPass implements CompilerPassInterface
@@ -14,7 +23,7 @@ class CompressionCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $loaded = array();
+        $loaded = [];
         $compression_methods_enabled = $container->getParameter('sl_jose.compression_methods');
         $definition = $container->getDefinition('sl_jose.chain.compression');
 
@@ -26,7 +35,7 @@ class CompressionCompilerPass implements CompilerPassInterface
                 }
                 if (in_array($attributes['alias'], $compression_methods_enabled)) {
                     $loaded[] = $attributes['alias'];
-                    $definition->addMethodCall('addCompressionMethod', array(new Reference($id)));
+                    $definition->addMethodCall('addCompressionMethod', [new Reference($id)]);
                 }
             }
         }

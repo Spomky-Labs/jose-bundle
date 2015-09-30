@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
 /**
@@ -22,6 +31,7 @@ trait AlgorithmsContext
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
      */
     abstract protected function getContainer();
+
     /**
      * @When I list algorithms
      */
@@ -34,7 +44,7 @@ trait AlgorithmsContext
 
         //$encrypted = $jose->signAndEncrypt(array("sub"=>"me"), "1234", "ABCD", null, array(),array('alg'=>'RSA1_5', 'enc'=>'A256CBC-HS512'));
         //print_r($encrypted);
-        $signed = $jose->sign(array('sub' => 'me'), 'ABCD');
+        $signed = $jose->sign(['sub' => 'me'], 'ABCD');
         print_r($signed);
         $jose->load($signed);
     }

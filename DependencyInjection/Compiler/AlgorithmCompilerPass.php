@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AlgorithmCompilerPass implements CompilerPassInterface
@@ -14,16 +23,16 @@ class AlgorithmCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $keywords = array(
-            'required' => 'getRequiredAlgorithms',
+        $keywords = [
+            'required'     => 'getRequiredAlgorithms',
             'recommended+' => 'getRecommendedPlusAlgorithms',
-            'recommended' => 'getRecommendedAlgorithms',
+            'recommended'  => 'getRecommendedAlgorithms',
             'recommended-' => 'getRecommendedMinusAlgorithms',
-            'optional' => 'getOptionalAlgorithms',
-            'all' => 'getAllAlgorithms',
-        );
+            'optional'     => 'getOptionalAlgorithms',
+            'all'          => 'getAllAlgorithms',
+        ];
 
-        $algorithms = array();
+        $algorithms = [];
         $algorithms_enabled = $container->getParameter('sl_jose.algorithms');
         foreach ($keywords as $key => $method) {
             if (in_array($key, $algorithms_enabled)) {
@@ -80,7 +89,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
 
     private function getAlgorithmsFromRequirement(ContainerBuilder $container, $requirement = null)
     {
-        $result = array();
+        $result = [];
         $taggedServices = $container->findTaggedServiceIds('jose_algorithm');
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
@@ -101,8 +110,8 @@ class AlgorithmCompilerPass implements CompilerPassInterface
 
     private function getAlgorithmsFromAliases(ContainerBuilder $container, array $aliases)
     {
-        $loaded = array('!none');
-        $result = array();
+        $loaded = ['!none'];
+        $result = [];
         $taggedServices = $container->findTaggedServiceIds('jose_algorithm');
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
@@ -130,7 +139,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
     {
         $definition = $container->getDefinition('sl_jose.chain.algorithm');
         foreach ($algorithms as $alias => $id) {
-            $definition->addMethodCall('addAlgorithm', array($alias, new Reference($id)));
+            $definition->addMethodCall('addAlgorithm', [$alias, new Reference($id)]);
         }
     }
 }

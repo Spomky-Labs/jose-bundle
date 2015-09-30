@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -19,14 +28,14 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($this->alias);
 
-        $supportedSerializationModes = array('full', 'compact', 'flattened');
+        $supportedSerializationModes = ['full', 'compact', 'flattened'];
 
         $this->addJotSection($rootNode);
         $this->addKeySection($rootNode);
@@ -49,8 +58,8 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('jwk_class')->defaultValue('\SpomkyLabs\JoseBundle\Entity\JWK')->cannotBeEmpty()->end()
                 ->scalarNode('jwkset_class')->defaultValue('\SpomkyLabs\JoseBundle\Entity\JWKSet')->cannotBeEmpty()->end()
                 ->scalarNode('compression_manager')->defaultValue('sl_jose.compression_manager.default')->cannotBeEmpty()->end()
-                ->arrayNode('algorithms')->prototype('scalar')->end()->treatNullLike(array())->end()
-                ->arrayNode('compression_methods')->prototype('scalar')->end()->treatNullLike(array())->end()
+                ->arrayNode('algorithms')->prototype('scalar')->end()->treatNullLike([])->end()
+                ->arrayNode('compression_methods')->prototype('scalar')->end()->treatNullLike([])->end()
             ->end();
 
         return $treeBuilder;
@@ -79,7 +88,7 @@ class Configuration implements ConfigurationInterface
                                 ->booleanNode('x5t#256')->defaultFalse()->end()
                                 ->arrayNode('crit')
                                     ->prototype('scalar')->end()
-                                    ->treatNullLike(array())
+                                    ->treatNullLike([])
                                 ->end()
                             ->end()
                         ->end()
@@ -102,11 +111,11 @@ class Configuration implements ConfigurationInterface
      */
     private function addKeySection(ArrayNodeDefinition $node)
     {
-        $supportedUsages = array('sig', 'enc');
-        $supportedKeyTypes = array('rsa', 'ecc'/*, 'jwk', 'jwkset'*/);
+        $supportedUsages = ['sig', 'enc'];
+        $supportedKeyTypes = ['rsa', 'ecc'/*, 'jwk', 'jwkset'*/];
 
         $node
-            ->treatNullLike(array())
+            ->treatNullLike([])
             ->children()
                 ->arrayNode('keys')
                     ->useAttributeAsKey('name')
@@ -131,13 +140,12 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end()
-        ;
+            ->end();
     }
 
     private function getPublicKeyConfiguration()
     {
-        $supportedKeyOps = array('sign', 'verify', 'decrypt', 'encrypt', 'wrapKey', 'unwrapKey', 'deriveKey', 'deriveBits');
+        $supportedKeyOps = ['sign', 'verify', 'decrypt', 'encrypt', 'wrapKey', 'unwrapKey', 'deriveKey', 'deriveBits'];
         $builder = new TreeBuilder();
         $node = $builder->root('public');
 
@@ -147,7 +155,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('file')->cannotBeEmpty()->end()
                 ->arrayNode('key_ops')
                     ->prototype('scalar')->end()
-                    ->treatNullLike(array())
+                    ->treatNullLike([])
                     /*->validate()
                         ->ifNotInArray($supportedKeyOps)
                         ->thenInvalid('The value "%s" is not a valid. Please choose one of null or '.json_encode($supportedKeyOps))
@@ -160,7 +168,7 @@ class Configuration implements ConfigurationInterface
 
     private function getPrivateKeyConfiguration()
     {
-        $supportedKeyOps = array('sign', 'verify', 'decrypt', 'encrypt', 'wrapKey', 'unwrapKey', 'deriveKey', 'deriveBits');
+        $supportedKeyOps = ['sign', 'verify', 'decrypt', 'encrypt', 'wrapKey', 'unwrapKey', 'deriveKey', 'deriveBits'];
         $builder = new TreeBuilder();
         $node = $builder->root('private');
 
@@ -171,7 +179,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('passphrase')->defaultNull()->end()
                 ->arrayNode('key_ops')
                     ->prototype('scalar')->end()
-                    ->treatNullLike(array())
+                    ->treatNullLike([])
                     /*->validate()
                         ->ifNotInArray($supportedKeyOps)
                         ->thenInvalid('The value "%s" is not a valid. Please choose one of null or '.json_encode($supportedKeyOps))

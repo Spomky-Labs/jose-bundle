@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle\Service;
 
 use Jose\EncrypterInterface;
@@ -57,13 +66,13 @@ class Jose implements  JoseInterface
         array $configuration,
         $server_name
     ) {
-        $this->loader         = $loader;
-        $this->signer         = $signer;
-        $this->encrypter      = $encrypter;
+        $this->loader = $loader;
+        $this->signer = $signer;
+        $this->encrypter = $encrypter;
         $this->jwkset_manager = $jwkset_manager;
-        $this->configuration  = $configuration;
-        $this->server_name    = $server_name;
-        $this->router         = $router;
+        $this->configuration = $configuration;
+        $this->server_name = $server_name;
+        $this->router = $router;
     }
 
     /**
@@ -147,12 +156,12 @@ class Jose implements  JoseInterface
      *
      * @return string
      */
-    public function signAndEncrypt($input, $signature_key, $recipient_key, $sender_key, array $signature_protected_header = array(), array $encryption_protected_header = array())
+    public function signAndEncrypt($input, $signature_key, $recipient_key, $sender_key, array $signature_protected_header = [], array $encryption_protected_header = [])
     {
-        $signed    = $this->sign($input, $signature_key, $signature_protected_header);
-        $encrypted = $this->encrypt($signed, $recipient_key, $sender_key, array_merge($encryption_protected_header, array(
+        $signed = $this->sign($input, $signature_key, $signature_protected_header);
+        $encrypted = $this->encrypt($signed, $recipient_key, $sender_key, array_merge($encryption_protected_header, [
             'cty' => 'JWT',
-        )));
+        ]));
 
         return $encrypted;
     }
@@ -165,14 +174,14 @@ class Jose implements  JoseInterface
      *
      * @return string
      */
-    public function encrypt($input, $recipient_key, $sender_key = null, array $protected_header = array())
+    public function encrypt($input, $recipient_key, $sender_key = null, array $protected_header = [])
     {
         //checkInput()
         $instruction = new EncryptionInstruction();
 
         //Get key
         $recipient_jwk = $this->getJWSetKManager()->findKeyById($recipient_key, true);
-        $sender_jwk    = $this->getJWSetKManager()->findKeyById($sender_key, false);
+        $sender_jwk = $this->getJWSetKManager()->findKeyById($sender_key, false);
         if (is_null($recipient_jwk)) {
             throw new \InvalidArgumentException(sprintf('The public key with key ID "%s" does not exist.', $recipient_key));
         }
@@ -196,7 +205,7 @@ class Jose implements  JoseInterface
             $instruction->setSenderKey($sender_jwk);
         }
 
-        return $this->getEncrypter()->encrypt($input, array($instruction), $protected_header);
+        return $this->getEncrypter()->encrypt($input, [$instruction], $protected_header);
     }
 
     /**
@@ -206,14 +215,14 @@ class Jose implements  JoseInterface
      *
      * @return string
      */
-    public function sign($input, $key, array $protected_header = array())
+    public function sign($input, $key, array $protected_header = [])
     {
         //checkInput()
         $instruction = new SignatureInstruction();
 
         //Get key
         $private_jwk = $this->getJWSetKManager()->findKeyById($key, false);
-        $public_jwk  = $this->getJWSetKManager()->findKeyById($key, true);
+        $public_jwk = $this->getJWSetKManager()->findKeyById($key, true);
         if (is_null($private_jwk)) {
             throw new \InvalidArgumentException(sprintf('The private key with key ID "%s" does not exist.', $key));
         }
@@ -238,19 +247,19 @@ class Jose implements  JoseInterface
         $instruction->setKey($private_jwk);
         $instruction->setProtectedHeader($protected_header);
 
-        return $this->getSigner()->sign($input, array($instruction));
+        return $this->getSigner()->sign($input, [$instruction]);
     }
 
     protected function prepareHeaders(JWKInterface $jwk)
     {
-        $headers = array(
+        $headers = [
             'typ' => 'JWT',
-        );
+        ];
         foreach ($this->getConfiguration()['headers'] as $key => $value) {
             switch ($key) {
                 case 'jku':
                     if (true === $value) {
-                        $headers[$key] = $this->getRouter()->generate('sl_jose_jwkset_endpoint', array(), true);
+                        $headers[$key] = $this->getRouter()->generate('sl_jose_jwkset_endpoint', [], true);
                     }
                     break;
                 case 'jwk':
@@ -291,7 +300,7 @@ class Jose implements  JoseInterface
 
     protected function prepareClaims()
     {
-        $claims = array();
+        $claims = [];
         foreach ($this->getConfiguration()['claims'] as $key => $value) {
             switch ($key) {
                 case 'iss':
