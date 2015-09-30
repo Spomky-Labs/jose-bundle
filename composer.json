@@ -20,13 +20,13 @@
         "sensio/framework-extra-bundle": "^3.0",
         "symfony/symfony": "~2.7",
         "behat/behat": "3.*",
-        "behat/symfony2-extension": "~2.1",
+        "behat/symfony2-extension": "2.0.x-dev",
         "behat/mink": "*",
         "behat/mink-extension": "*",
         "behat/mink-browserkit-driver":  "*",
         "doctrine/doctrine-fixtures-bundle": "~2.2",
         "vipsoft/doctrine-data-fixtures-extension": "dev-master",
-        "doctrine/orm": ">=2.2,<2.5-dev"
+        "doctrine/orm": ">=2.2"
     },
     "suggest": {
     },
