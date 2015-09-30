@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle\Service;
 
 use Jose\Compression\CompressionManagerInterface;
@@ -38,10 +47,10 @@ class Encrypter extends Base
 
     public function __construct(JWAManagerInterface $jwa_manager, JWTManagerInterface $jwt_manager, JWKManagerInterface $jwk_manager, JWKSetManagerInterface $jwkset_manager, CompressionManagerInterface $compression_manager)
     {
-        $this->jwa_manager         = $jwa_manager;
-        $this->jwt_manager         = $jwt_manager;
-        $this->jwk_manager         = $jwk_manager;
-        $this->jwkset_manager      = $jwkset_manager;
+        $this->jwa_manager = $jwa_manager;
+        $this->jwt_manager = $jwt_manager;
+        $this->jwk_manager = $jwk_manager;
+        $this->jwkset_manager = $jwkset_manager;
         $this->compression_manager = $compression_manager;
     }
 

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle\Model;
 
 use Jose\JWKManager as Base;
@@ -34,10 +43,10 @@ class JWKManager extends Base implements JWKManagerInterface
      *
      * @return \SpomkyLabs\JoseBundle\Model\JWKInterface
      */
-    public function createJWK(array $values = array())
+    public function createJWK(array $values = [])
     {
         $class = $this->getClass();
-        /**
+        /*
          * @var \SpomkyLabs\JoseBundle\Model\JWKInterface
          */
         $jwk = new $class();
@@ -47,7 +56,7 @@ class JWKManager extends Base implements JWKManagerInterface
     }
 
     /**
-     * @inheritdoc()
+     * {@inheritdoc}()
      */
     public function loadKeyFromX509Certificate($certificate, $passphrase = null)
     {
@@ -57,7 +66,7 @@ class JWKManager extends Base implements JWKManagerInterface
     }
 
     /**
-     * @inheritdoc()
+     * {@inheritdoc}()
      */
     public function loadKeyFromECCCertificate($certificate)
     {
@@ -67,7 +76,7 @@ class JWKManager extends Base implements JWKManagerInterface
     }
 
     /**
-     * @inheritdoc()
+     * {@inheritdoc}()
      */
     public function loadKeyFromValues(array $values)
     {
