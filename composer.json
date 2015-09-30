@@ -12,26 +12,21 @@
     ],
     "require": {
         "php": ">=5.6",
-        "symfony/framework-bundle": "~2.3",
+        "symfony/framework-bundle": "~2.7",
         "spomky-labs/jose": "~0.0.0"
     },
     "require-dev": {
-        "symfony/monolog-bundle": "~2.4",
-        "sensio/framework-extra-bundle": "~3.0",
-        "symfony/symfony": "~2.3",
+        "symfony/monolog-bundle": "~2.7",
+        "sensio/framework-extra-bundle": "^3.0",
+        "symfony/symfony": "~2.7,
         "behat/behat": "3.*",
         "behat/symfony2-extension": "2.0.x-dev",
         "behat/mink": "*",
         "behat/mink-extension": "*",
         "behat/mink-browserkit-driver":  "*",
-        "doctrine/doctrine-fixtures-bundle": "*@dev",
+        "doctrine/doctrine-fixtures-bundle": "~2.2",
         "vipsoft/doctrine-data-fixtures-extension": "3.*@dev",
-        "doctrine/orm": ">=2.2,<2.5-dev",
-        "phpseclib/phpseclib": ">=0.3.5",
-        "mdanter/ecc": "~0.2",
-        "lib-openssl": "*",
-        "spomky-labs/pbkdf2": "~1.0",
-        "spomky-labs/aes-key-wrap": "~2.0"
+        "doctrine/orm": ">=2.2,<2.5-dev"
     },
     "suggest": {
     },
