@@ -4,8 +4,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="sl_jose_jwkset_endpoint" pattern="/keys">
-        <default key="_controller">sl_jose.jwkset_endpoint:getPublicKeysetAction</default>
+    <route id="jose_jwkset_endpoint" pattern="/keys">
+        <default key="_controller">jose.jwkset_endpoint:getPublicKeysetAction</default>
         <requirement key="_method">GET</requirement>
     </route>
 </routes>

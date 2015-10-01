@@ -19,7 +19,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('sl_jose.chain.algorithm')) {
+        if (!$container->hasDefinition('jose.algorithm_manager')) {
             return;
         }
 
@@ -33,7 +33,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
         ];
 
         $algorithms = [];
-        $algorithms_enabled = $container->getParameter('sl_jose.algorithms');
+        $algorithms_enabled = $container->getParameter('jose.algorithms');
         foreach ($keywords as $key => $method) {
             if (in_array($key, $algorithms_enabled)) {
                 $algorithms = array_merge(
@@ -137,9 +137,9 @@ class AlgorithmCompilerPass implements CompilerPassInterface
 
     private function loadAlgorithms(ContainerBuilder $container, array $algorithms)
     {
-        $definition = $container->getDefinition('sl_jose.chain.algorithm');
+        $definition = $container->getDefinition('jose.algorithm_manager');
         foreach ($algorithms as $alias => $id) {
-            $definition->addMethodCall('addAlgorithm', [$alias, new Reference($id)]);
+            $definition->addMethodCall('addAlgorithm', [new Reference($id)]);
         }
     }
 }

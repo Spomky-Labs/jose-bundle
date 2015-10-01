@@ -18,6 +18,6 @@ class TestJoseBundle extends Bundle
 {
     public function getContainerExtension()
     {
-        return new TestExtension('sl_jose_test');
+        return new TestExtension('jose_test');
     }
 }

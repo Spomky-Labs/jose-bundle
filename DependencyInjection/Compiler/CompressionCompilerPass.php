@@ -19,13 +19,13 @@ class CompressionCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('sl_jose.chain.compression')) {
+        if (!$container->hasDefinition('jose.compression_manager')) {
             return;
         }
 
         $loaded = [];
-        $compression_methods_enabled = $container->getParameter('sl_jose.compression_methods');
-        $definition = $container->getDefinition('sl_jose.chain.compression');
+        $compression_methods_enabled = $container->getParameter('jose.compression_methods');
+        $definition = $container->getDefinition('jose.compression_manager');
 
         $taggedServices = $container->findTaggedServiceIds('jose_compression');
         foreach ($taggedServices as $id => $tags) {
@@ -35,7 +35,7 @@ class CompressionCompilerPass implements CompilerPassInterface
                 }
                 if (in_array($attributes['alias'], $compression_methods_enabled)) {
                     $loaded[] = $attributes['alias'];
-                    $definition->addMethodCall('addCompressionMethod', [new Reference($id)]);
+                    $definition->addMethodCall('addCompressionAlgorithm', [new Reference($id)]);
                 }
             }
         }

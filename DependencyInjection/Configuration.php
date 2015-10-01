@@ -35,29 +35,15 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($this->alias);
 
-        $supportedSerializationModes = ['full', 'compact', 'flattened'];
-
         $this->addJotSection($rootNode);
         $this->addKeySection($rootNode);
         $rootNode
             ->children()
                 ->scalarNode('server_name')->isRequired()->cannotBeEmpty()->end()
                 ->booleanNode('use_controller')->defaultTrue()->end()
-                ->scalarNode('jose')->defaultValue('sl_jose.jose.default')->cannotBeEmpty()->end()
-                ->scalarNode('jwa_manager')->defaultValue('sl_jose.jwa_manager.default')->cannotBeEmpty()->end()
-                ->scalarNode('jwt_manager')->defaultValue('sl_jose.jwt_manager.default')->cannotBeEmpty()->end()
-                ->scalarNode('jwk_manager')->defaultValue('sl_jose.jwk_manager.default')->cannotBeEmpty()->end()
-                ->scalarNode('jwkset_manager')->defaultValue('sl_jose.jwkset_manager.default')->cannotBeEmpty()->end()
-                ->scalarNode('signer')->defaultValue('sl_jose.signer.default')->cannotBeEmpty()->end()
-                ->scalarNode('loader')->defaultValue('sl_jose.loader.default')->cannotBeEmpty()->end()
-                ->scalarNode('encrypter')->defaultValue('sl_jose.encrypter.default')->cannotBeEmpty()->end()
-                ->scalarNode('jwkset_manager')->defaultValue('sl_jose.jwkset_manager.default')->cannotBeEmpty()->end()
-                ->scalarNode('jwt_class')->defaultValue('\SpomkyLabs\JoseBundle\Entity\JWT')->cannotBeEmpty()->end()
-                ->scalarNode('jws_class')->defaultValue('\SpomkyLabs\JoseBundle\Entity\JWS')->cannotBeEmpty()->end()
-                ->scalarNode('jwe_class')->defaultValue('\SpomkyLabs\JoseBundle\Entity\JWE')->cannotBeEmpty()->end()
-                ->scalarNode('jwk_class')->defaultValue('\SpomkyLabs\JoseBundle\Entity\JWK')->cannotBeEmpty()->end()
-                ->scalarNode('jwkset_class')->defaultValue('\SpomkyLabs\JoseBundle\Entity\JWKSet')->cannotBeEmpty()->end()
-                ->scalarNode('compression_manager')->defaultValue('sl_jose.compression_manager.default')->cannotBeEmpty()->end()
+                ->scalarNode('jwt_manager')->defaultValue('jose.jwt_manager.default')->cannotBeEmpty()->end()
+                ->scalarNode('jwk_manager')->defaultValue('jose.jwk_manager.default')->cannotBeEmpty()->end()
+                ->scalarNode('jwkset_manager')->defaultValue('jose.jwkset_manager.default')->cannotBeEmpty()->end()
                 ->arrayNode('algorithms')->prototype('scalar')->end()->treatNullLike([])->end()
                 ->arrayNode('compression_methods')->prototype('scalar')->end()->treatNullLike([])->end()
             ->end();
@@ -112,7 +98,7 @@ class Configuration implements ConfigurationInterface
     private function addKeySection(ArrayNodeDefinition $node)
     {
         $supportedUsages = ['sig', 'enc'];
-        $supportedKeyTypes = ['rsa', 'ecc'/*, 'jwk', 'jwkset'*/];
+        $supportedKeyTypes = ['rsa', 'ecc', 'shared', 'direct', 'jwk', 'jwkset'];
 
         $node
             ->treatNullLike([])
@@ -128,8 +114,18 @@ class Configuration implements ConfigurationInterface
                                 ->thenInvalid('The supported key types are "%s" is not supported. Please choose one of '.json_encode($supportedKeyTypes))
                             ->end()
                         ->end()
-                        ->append($this->getPublicKeyConfiguration())
-                        ->append($this->getPrivateKeyConfiguration())
+                        ->scalarNode('private_file')->cannotBeEmpty()->end()
+                        ->scalarNode('public_file')->cannotBeEmpty()->end()
+                        ->scalarNode('value')->end()
+                        ->scalarNode('passphrase')->defaultNull()->end()
+                        ->arrayNode('key_ops')
+                        ->prototype('scalar')->end()
+                            ->treatNullLike([])
+                            /*->validate()
+                                ->ifNotInArray($supportedKeyOps)
+                                ->thenInvalid('The value "%s" is not a valid. Please choose one of null or '.json_encode($supportedKeyOps))
+                            ->end()*/
+                        ->end()
                         ->scalarNode('alg')->defaultNull()->end()
                         ->scalarNode('use')
                             ->defaultNull()
@@ -141,52 +137,5 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
-    }
-
-    private function getPublicKeyConfiguration()
-    {
-        $supportedKeyOps = ['sign', 'verify', 'decrypt', 'encrypt', 'wrapKey', 'unwrapKey', 'deriveKey', 'deriveBits'];
-        $builder = new TreeBuilder();
-        $node = $builder->root('public');
-
-        $node
-            ->isRequired()
-            ->children()
-                ->scalarNode('file')->cannotBeEmpty()->end()
-                ->arrayNode('key_ops')
-                    ->prototype('scalar')->end()
-                    ->treatNullLike([])
-                    /*->validate()
-                        ->ifNotInArray($supportedKeyOps)
-                        ->thenInvalid('The value "%s" is not a valid. Please choose one of null or '.json_encode($supportedKeyOps))
-                    ->end()*/
-                ->end()
-            ->end();
-
-        return $node;
-    }
-
-    private function getPrivateKeyConfiguration()
-    {
-        $supportedKeyOps = ['sign', 'verify', 'decrypt', 'encrypt', 'wrapKey', 'unwrapKey', 'deriveKey', 'deriveBits'];
-        $builder = new TreeBuilder();
-        $node = $builder->root('private');
-
-        $node
-            ->isRequired()
-            ->children()
-                ->scalarNode('file')->cannotBeEmpty()->end()
-                ->scalarNode('passphrase')->defaultNull()->end()
-                ->arrayNode('key_ops')
-                    ->prototype('scalar')->end()
-                    ->treatNullLike([])
-                    /*->validate()
-                        ->ifNotInArray($supportedKeyOps)
-                        ->thenInvalid('The value "%s" is not a valid. Please choose one of null or '.json_encode($supportedKeyOps))
-                    ->end()*/
-                ->end()
-            ->end();
-
-        return $node;
     }
 }

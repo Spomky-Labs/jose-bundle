@@ -34,74 +34,56 @@ twig:
     debug:            true
     strict_variables: true
 
-sl_jose:
+jose:
     keys:
         ABCD:
             type: rsa
-            public:
-                file: "file://%kernel.root_dir%/Keys/RSA/public.key"
-                key_ops: [verify] # Should not be used when 'use' parameter is declared.
-            private:
-                file: "file://%kernel.root_dir%/Keys/RSA/private.key"
-                passphrase: 'tests' # If the private key is password protected
-                key_ops: [sign] # Should not be used when 'use' parameter is declared.
+            public_file: "file://%kernel.root_dir%/Keys/RSA/public.key"
+            private_file: "file://%kernel.root_dir%/Keys/RSA/private.key"
+            passphrase: 'tests' # If the key is password protected
+            key_ops: [sign, verify] # Should not be used when 'use' parameter is declared.
             alg: PS512 # null or an algorithm authorized for this key type.
             use: sig # Should not be used whet 'key_ops' parameter is declared.
         key2:
             type: ecc
-            public:
-                file: "file://%kernel.root_dir%/Keys/EC/public.es512.key"
-            private:
-                file: "file://%kernel.root_dir%/Keys/EC/private.es512.key"
-            alg: ECDH-ES # null or an algorithm authorized for this key type.
-            use: enc # Should not be used whet 'key_ops' parameter is declared.
-#        key3:
-#            type: jwk
-#            value: '{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","alg":"ES256"}'
-##           alg: ES512 # null or an algorithm authorized for this key type.
-##           use: sig # Should not be used whet 'key_ops' parameter is declared.
-##           key_ops: sign # Should not be used whet 'use' parameter is declared.
-#        key4:
-#            type: oct
-#            value: "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU"
-##           alg: ES512 # null or an algorithm authorized for this key type.
-##           use: sig # Should not be used whet 'key_ops' parameter is declared.
-##           key_ops: sign # Should not be used whet 'use' parameter is declared.
-##       key5:
-##           type: jwkset
-##           value: '{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","alg":"ES256"}'
-##           public: 1
-##           private: 0
-##           key_ops: [sign]
+            private_file: "file://%kernel.root_dir%/Keys/EC/private.es512.key"
+            public_file: "file://%kernel.root_dir%/Keys/EC/public.es512.key"
+            alg: ECDH-ES
+            use: enc
+        key3:
+            type: jwk
+            value: '{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","alg":"ES256"}'
+        key4:
+            type: shared
+            value: "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU"
+        key5:
+            type: direct
+            value: "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU"
+        key6:
+            type: jwkset
+            value: '{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}'
     use_controller: true # If true, the controller is enabled and your public key set is exposed
     server_name: "www.example.com" # The audience
-#    jws_class: SpomkyLabs\TestJoseBundle\Entity\JWS
-#    jwt_class: SpomkyLabs\TestJoseBundle\Entity\JWT
-#    jwe_class: SpomkyLabs\TestJoseBundle\Entity\JWE
-#    jwk_class: SpomkyLabs\TestJoseBundle\Entity\JWK
-#    jwkset_class: SpomkyLabs\TestJoseBundle\Entity\JWKSet
-#    jwa_manager: sl_jose.jwa_manager.default
-#    jwt_manager: sl_jose.jwt_manager.default
-#    jwk_manager: sl_jose.jwk_manager.default
-#    jwkset_manager: sl_jose.jwkset_manager.default
+#    jwt_manager: jose.jwt_manager.default
+#    jwk_manager: jose.jwk_manager.default
+#    jwkset_manager: jose.jwkset_manager.default
 #    storage:
 #        enabled: false # If enabled, tokens will have an ID and are stored in a database
+#                       # This also means that your JWS/JWE can be revoked
     jot:
         headers:
             jku: false # If true, will include the url to the public key set in the header of each token. It means that the controller is enabled and all public keys can be retreived through HTTP requests.
             jwk: false # If true, will include the public key in the header of each token
             kid: true # Will use the name of the key as key ID
-#           x5u: false # Only if controller is enabled and the key is a RSA key. Should not be mixed with other x5* parameters.
+#           x5u: false # Only if controller is enabled and the key is a X509 certificate. Should not be mixed with other x5* parameters.
             x5c: false # Only if the key is a X509 certificate. Should not be mixed with other x5* parameters.
             x5t: false # Only if the key is a X509 certificate. Should not be mixed with other x5* parameters.
             x5t#256: false # Only if the key is a X509 certificate. Should not be mixed with other x5* parameters.
 #            crit: [jku,jwk,kid,exp,iat,nbf, iss] # Supported values are null/empty array or a non-empty array of headers/claims.
         claims:
-            iss: true # If true, the issuer (server_name) will be added
             nbf: true # Not before # Recommended
             iat: true # Issued at # Highly recommended
             lifetime: 5min # Highly recommended. This option will set an 'exp' claim on each token.
-# Add events for custom claims
     compression_methods: [DEF,GZ,ZLIB]
     algorithms: # Use the following keywords
 #        - required # Required algorithms

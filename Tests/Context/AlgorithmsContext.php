@@ -16,6 +16,7 @@ namespace SpomkyLabs\JoseBundle\Features\Context;
  */
 trait AlgorithmsContext
 {
+    private $algorithm_list = [];
     /**
      * Returns Mink session.
      *
@@ -37,22 +38,20 @@ trait AlgorithmsContext
      */
     public function iListAlgorithms()
     {
-        /*
-         * @var \SpomkyLabs\JoseBundle\Service\JoseInterface
+        /**
+         * @var $jose \Jose\JWAManagerInterface
          */
-        $jose = $this->getContainer()->get('jose');
+        $jwa_manager = $this->getContainer()->get('jose.algorithm_manager');
 
-        //$encrypted = $jose->signAndEncrypt(array("sub"=>"me"), "1234", "ABCD", null, array(),array('alg'=>'RSA1_5', 'enc'=>'A256CBC-HS512'));
-        //print_r($encrypted);
-        $signed = $jose->sign(['sub' => 'me'], 'ABCD');
-        print_r($signed);
-        $jose->load($signed);
+        $this->algorithm_list = $jwa_manager->listAlgorithms();
     }
-
     /**
-     * @Then I should get a list of algorithms
+     * @Then I should get a non empty list of algorithms
      */
-    public function iShouldGetAListOfAlgorithms()
+    public function iShouldGetANonEmptyListOfAlgorithms()
     {
+        if (empty($this->algorithm_list)) {
+            throw new \Exception('No algorithm supported by the algorithm manager');
+        }
     }
 }

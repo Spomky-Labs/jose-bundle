@@ -37,7 +37,7 @@ class SpomkyLabsJoseBundleExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $services = ['services', 'chain', 'signature_algorithms', 'encryption_algorithms', 'compression_methods'];
+        $services = ['services', 'signature_algorithms', 'encryption_algorithms', 'compression_methods', 'checkers', 'payload_converters'];
         if (true === $config['use_controller']) {
             $services[] = 'jwkset_controller';
         }
@@ -48,24 +48,14 @@ class SpomkyLabsJoseBundleExtension extends Extension
         $parameters = [
             'jot',
             'keys',
-            'jwt_class',
-            'jws_class',
-            'jwe_class',
-            'jwk_class',
-            'jwkset_class',
             'algorithms',
             'compression_methods',
             'server_name',
         ];
         $aliases = [
-            'signer',
-            'loader',
-            'encrypter',
-            'jwa_manager',
             'jwt_manager',
             'jwk_manager',
             'jwkset_manager',
-            'compression_manager',
         ];
         foreach ($parameters as $parameter) {
             $container->setParameter($this->getAlias().'.'.$parameter, $config[$parameter]);
@@ -73,7 +63,6 @@ class SpomkyLabsJoseBundleExtension extends Extension
         foreach ($aliases as $alias) {
             $container->setAlias($this->getAlias().'.'.$alias, $config[$alias]);
         }
-        $container->setAlias('jose', $config['jose']);
     }
 
     /**

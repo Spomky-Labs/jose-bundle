@@ -259,7 +259,7 @@ class Jose implements  JoseInterface
             switch ($key) {
                 case 'jku':
                     if (true === $value) {
-                        $headers[$key] = $this->getRouter()->generate('sl_jose_jwkset_endpoint', [], true);
+                        $headers[$key] = $this->getRouter()->generate('jose_jwkset_endpoint', [], true);
                     }
                     break;
                 case 'jwk':

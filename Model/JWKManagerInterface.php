@@ -19,29 +19,22 @@ interface JWKManagerInterface extends Base
      * @param string $kid    The key ID
      * @param bool   $public True if the key to find is public, false if the key is private
      *
-     * @return \SpomkyLabs\JoseBundle\Model\JWKInterface|null
+     * @return \Jose\JWKInterface|null
      */
     public function findKeyById($kid, $public);
 
     /**
-     * @param string $certificate A certificate or the path to a certificate
+     * @param string $certificate An ECC or RSA key file or the path to a certificate
      * @param string $passphrase  Password if certificate is protected
      *
-     * @return \SpomkyLabs\JoseBundle\Model\JWKInterface
+     * @return \Jose\JWKInterface
      */
-    public function loadKeyFromX509Certificate($certificate, $passphrase = null);
-
-    /**
-     * @param string $certificate A certificate or the path to a certificate
-     *
-     * @return \SpomkyLabs\JoseBundle\Model\JWKInterface
-     */
-    public function loadKeyFromECCCertificate($certificate);
+    public function loadKeyFromKeyFile($certificate, $passphrase = null);
 
     /**
      * @param array $values Values of the key
      *
-     * @return \SpomkyLabs\JoseBundle\Model\JWKInterface
+     * @return \Jose\JWKInterface
      */
     public function loadKeyFromValues(array $values);
 }

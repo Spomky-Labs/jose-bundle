@@ -4,64 +4,48 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="sl_jose.algorithm.none.class">SpomkyLabs\Jose\Algorithm\Signature\None</parameter>
-        <parameter key="sl_jose.algorithm.es256.class">SpomkyLabs\Jose\Algorithm\Signature\ES256</parameter>
-        <parameter key="sl_jose.algorithm.es384.class">SpomkyLabs\Jose\Algorithm\Signature\ES384</parameter>
-        <parameter key="sl_jose.algorithm.es512.class">SpomkyLabs\Jose\Algorithm\Signature\ES512</parameter>
-        <parameter key="sl_jose.algorithm.rs256.class">SpomkyLabs\Jose\Algorithm\Signature\RS256</parameter>
-        <parameter key="sl_jose.algorithm.rs384.class">SpomkyLabs\Jose\Algorithm\Signature\RS384</parameter>
-        <parameter key="sl_jose.algorithm.rs512.class">SpomkyLabs\Jose\Algorithm\Signature\RS512</parameter>
-        <parameter key="sl_jose.algorithm.ps256.class">SpomkyLabs\Jose\Algorithm\Signature\PS256</parameter>
-        <parameter key="sl_jose.algorithm.ps384.class">SpomkyLabs\Jose\Algorithm\Signature\PS384</parameter>
-        <parameter key="sl_jose.algorithm.ps512.class">SpomkyLabs\Jose\Algorithm\Signature\PS512</parameter>
-        <parameter key="sl_jose.algorithm.hs256.class">SpomkyLabs\Jose\Algorithm\Signature\HS256</parameter>
-        <parameter key="sl_jose.algorithm.hs384.class">SpomkyLabs\Jose\Algorithm\Signature\HS384</parameter>
-        <parameter key="sl_jose.algorithm.hs512.class">SpomkyLabs\Jose\Algorithm\Signature\HS512</parameter>
-    </parameters>
-
     <services>
-        <service id="sl_jose.algorithm.none" class="%sl_jose.algorithm.none.class%">
+        <service id="jose.algorithm.none" class="SpomkyLabs\Jose\Algorithm\Signature\None" public="false">
             <tag name="jose_algorithm" alias="none" requirement="optional" />
         </service>
 
-        <service id="sl_jose.algorithm.es256" class="%sl_jose.algorithm.es256.class%">
+        <service id="jose.algorithm.es256" class="SpomkyLabs\Jose\Algorithm\Signature\ES256" public="false">
             <tag name="jose_algorithm" alias="ES256" requirement="recommended+" />
         </service>
-        <service id="sl_jose.algorithm.es384" class="%sl_jose.algorithm.es384.class%">
+        <service id="jose.algorithm.es384" class="SpomkyLabs\Jose\Algorithm\Signature\ES384" public="false">
             <tag name="jose_algorithm" alias="ES384" requirement="optional" />
         </service>
-        <service id="sl_jose.algorithm.es512" class="%sl_jose.algorithm.es512.class%">
+        <service id="jose.algorithm.es512" class="SpomkyLabs\Jose\Algorithm\Signature\ES512" public="false">
             <tag name="jose_algorithm" alias="ES512" requirement="optional" />
         </service>
 
-        <service id="sl_jose.algorithm.rs256" class="%sl_jose.algorithm.rs256.class%">
+        <service id="jose.algorithm.rs256" class="SpomkyLabs\Jose\Algorithm\Signature\RS256" public="false">
             <tag name="jose_algorithm" alias="RS256" requirement="recommended" />
         </service>
-        <service id="sl_jose.algorithm.rs384" class="%sl_jose.algorithm.rs384.class%">
+        <service id="jose.algorithm.rs384" class="SpomkyLabs\Jose\Algorithm\Signature\RS384" public="false">
             <tag name="jose_algorithm" alias="RS384" requirement="optional" />
         </service>
-        <service id="sl_jose.algorithm.rs512" class="%sl_jose.algorithm.rs512.class%">
+        <service id="jose.algorithm.rs512" class="SpomkyLabs\Jose\Algorithm\Signature\RS512" public="false">
             <tag name="jose_algorithm" alias="RS512" requirement="optional" />
         </service>
 
-        <service id="sl_jose.algorithm.ps256" class="%sl_jose.algorithm.ps256.class%">
+        <service id="jose.algorithm.ps256" class="SpomkyLabs\Jose\Algorithm\Signature\PS256" public="false">
             <tag name="jose_algorithm" alias="PS256" requirement="optional" />
         </service>
-        <service id="sl_jose.algorithm.ps384" class="%sl_jose.algorithm.ps384.class%">
+        <service id="jose.algorithm.ps384" class="SpomkyLabs\Jose\Algorithm\Signature\PS384" public="false">
             <tag name="jose_algorithm" alias="PS384" requirement="optional" />
         </service>
-        <service id="sl_jose.algorithm.ps512" class="%sl_jose.algorithm.ps512.class%">
+        <service id="jose.algorithm.ps512" class="SpomkyLabs\Jose\Algorithm\Signature\PS512" public="false">
             <tag name="jose_algorithm" alias="PS512" requirement="optional" />
         </service>
 
-        <service id="sl_jose.algorithm.hs256" class="%sl_jose.algorithm.hs256.class%">
+        <service id="jose.algorithm.hs256" class="SpomkyLabs\Jose\Algorithm\Signature\HS256" public="false">
             <tag name="jose_algorithm" alias="HS256" requirement="required" />
         </service>
-        <service id="sl_jose.algorithm.hs384" class="%sl_jose.algorithm.hs384.class%">
+        <service id="jose.algorithm.hs384" class="SpomkyLabs\Jose\Algorithm\Signature\HS384" public="false">
             <tag name="jose_algorithm" alias="HS384" requirement="optional" />
         </service>
-        <service id="sl_jose.algorithm.hs512" class="%sl_jose.algorithm.hs512.class%">
+        <service id="jose.algorithm.hs512" class="SpomkyLabs\Jose\Algorithm\Signature\HS512" public="false">
             <tag name="jose_algorithm" alias="HS512" requirement="optional" />
         </service>
     </services>

@@ -23,10 +23,9 @@
         "behat/mink-extension": "*",
         "behat/mink-browserkit-driver":  "*",
         "doctrine/doctrine-fixtures-bundle": "~2.2",
-        "vipsoft/doctrine-data-fixtures-extension": "dev-master",
-        "doctrine/orm": ">=2.2"
-    },
-    "suggest": {
+        "doctrine/orm": ">=2.2",
+        "behat/behat": "~3.0",
+        "behat/symfony2-extension": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -35,7 +34,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "SpomkyLabs\\TestJoseBundle\\": "Tests/TestJoseBundle"
+            "SpomkyLabs\\TestJoseBundle\\": "Tests/TestJoseBundle",
+            "SpomkyLabs\\JoseBundle\\Features\\Context\\": "Tests/Context"
         }
     },
     "extra": {
