@@ -10,6 +10,7 @@
  */
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
+
 use Jose\JWKSetInterface;
 
 /**
@@ -47,7 +48,7 @@ trait ControllerContext
         if (!isset($headers['content-type']) || !is_array($headers['content-type'])) {
             throw new \Exception('The response header does not contain "'.$content_type.'"');
         }
-        foreach($headers['content-type'] as $type) {
+        foreach ($headers['content-type'] as $type) {
             if ($content_type === substr($type, 0, strlen($content_type))) {
                 return;
             }
@@ -61,7 +62,7 @@ trait ControllerContext
     public function iShouldSeeAValidKeySet()
     {
         /**
-         * @var $jwkset_manager \Jose\JWKSetManagerInterface
+         * @var \Jose\JWKSetManagerInterface
          */
         $jwkset_manager = $this->getContainer()->get('jose.jwkset_manager');
 
@@ -86,5 +87,4 @@ trait ControllerContext
             throw new \Exception('The JWKSet is empty');
         }
     }
-
 }
