@@ -11,7 +11,6 @@
 
 namespace SpomkyLabs\JoseBundle\Model;
 
-use Jose\JWKSetInterface;
 use SpomkyLabs\Jose\JWKSetManager as Base;
 use SpomkyLabs\Jose\KeyConverter\KeyConverter;
 
@@ -137,8 +136,8 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
                     break;
                 case 'direct':
                     $jwk = $this->getJWKManager()->createJWK([
-                        'kid' => $id,
-                        'kty' => 'dir',
+                        'kid'   => $id,
+                        'kty'   => 'dir',
                         'dir'   => $key['value'],
                     ]);
                     foreach (['key_ops', 'alg', 'use'] as $index) {

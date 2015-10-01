@@ -17,6 +17,7 @@ namespace SpomkyLabs\JoseBundle\Features\Context;
 trait AlgorithmsContext
 {
     private $algorithm_list = [];
+
     /**
      * Returns Mink session.
      *
@@ -38,13 +39,14 @@ trait AlgorithmsContext
      */
     public function iListAlgorithms()
     {
-        /**
+        /*
          * @var $jose \Jose\JWAManagerInterface
          */
         $jwa_manager = $this->getContainer()->get('jose.algorithm_manager');
 
         $this->algorithm_list = $jwa_manager->listAlgorithms();
     }
+
     /**
      * @Then I should get a non empty list of algorithms
      */
