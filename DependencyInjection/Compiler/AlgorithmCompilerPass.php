@@ -30,9 +30,9 @@ class AlgorithmCompilerPass implements CompilerPassInterface
 
     private function removeKeywordAlgorithms(array &$algorithms_enabled, array &$available_algorithms, array &$algorithms_loaded)
     {
-        foreach ($algorithms_enabled as $key=>$algorithm) {
+        foreach ($algorithms_enabled as $key => $algorithm) {
             if ('!' === substr($algorithm, 0, 1)) {
-                $keyword = substr($algorithm, 1, strlen($algorithm)-1);
+                $keyword = substr($algorithm, 1, strlen($algorithm) - 1);
                 if (in_array($keyword, $this->getSupportedKeywords()) && array_key_exists($keyword, $available_algorithms)) {
                     foreach ($available_algorithms[$keyword] as $algo) {
                         if (array_key_exists($algorithm, $algo)) {
@@ -47,10 +47,10 @@ class AlgorithmCompilerPass implements CompilerPassInterface
 
     private function removeAliasAlgorithms(array &$algorithms_enabled, array &$algorithms_loaded)
     {
-        foreach ($algorithms_enabled as $key=>$algorithm) {
+        foreach ($algorithms_enabled as $key => $algorithm) {
             if ('!' === substr($algorithm, 0, 1)) {
-                if (true === array_key_exists(substr($algorithm, 1, strlen($algorithm)-1), $algorithms_loaded)) {
-                    unset($algorithms_loaded[substr($algorithm, 1, strlen($algorithm)-1)]);
+                if (true === array_key_exists(substr($algorithm, 1, strlen($algorithm) - 1), $algorithms_loaded)) {
+                    unset($algorithms_loaded[substr($algorithm, 1, strlen($algorithm) - 1)]);
                 }
                 unset($algorithms_enabled[$key]);
             }
@@ -59,7 +59,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
 
     private function addAliasAlgorithms(array &$algorithms_enabled, array &$available_algorithms, array &$algorithms_loaded)
     {
-        foreach ($algorithms_enabled as $key=>$algorithm) {
+        foreach ($algorithms_enabled as $key => $algorithm) {
             foreach ($available_algorithms as $algo) {
                 if (array_key_exists($algorithm, $algo)) {
                     $algorithms_loaded[$algorithm] = $algo[$algorithm];
@@ -72,7 +72,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
 
     private function addKeywordAlgorithms(array &$algorithms_enabled, array &$available_algorithms, array &$algorithms_loaded)
     {
-        foreach ($this->getSupportedKeywords() as $key=>$keyword) {
+        foreach ($this->getSupportedKeywords() as $key => $keyword) {
             if (in_array($keyword, $algorithms_enabled) && array_key_exists($keyword, $available_algorithms)) {
                 $algorithms_loaded = array_merge(
                     $algorithms_loaded,
@@ -137,6 +137,7 @@ class AlgorithmCompilerPass implements CompilerPassInterface
                 $result[$attributes['requirement']][$attributes['alias']] = $id;
             }
         }
+
         return $result;
     }
 
