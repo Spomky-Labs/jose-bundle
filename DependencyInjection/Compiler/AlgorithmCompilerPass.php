@@ -46,10 +46,6 @@ class AlgorithmCompilerPass implements CompilerPassInterface
                 }
             }
         }
-        $algorithms = array_merge(
-            $algorithms,
-            $this->getAlgorithmsFromAliases($container, $algorithms_enabled)
-        );
 
         foreach ($algorithms as $algorithm) {
             if ('!' === substr($algorithm, 0, 1)) {
@@ -59,6 +55,11 @@ class AlgorithmCompilerPass implements CompilerPassInterface
                 unset($algorithms[$algorithm]);
             }
         }
+        
+        $algorithms = array_merge(
+            $algorithms,
+            $this->getAlgorithmsFromAliases($container, $algorithms_enabled)
+        );
         $this->loadAlgorithms($container, $algorithms);
     }
 
