@@ -49,7 +49,7 @@ class Jose implements  JoseInterface
     protected $configuration;
 
     /**
-     * @var \Symfony\Component\Routing\RouterInterface
+     * @var string
      */
     protected $server_name;
 
@@ -58,6 +58,15 @@ class Jose implements  JoseInterface
      */
     protected $router;
 
+    /**
+     * @param \Jose\LoaderInterface                               $loader
+     * @param \Jose\SignerInterface                               $signer
+     * @param \Jose\EncrypterInterface                            $encrypter
+     * @param \SpomkyLabs\JoseBundle\Model\JWKSetManagerInterface $jwkset_manager
+     * @param \Symfony\Component\Routing\RouterInterface          $router
+     * @param array                                               $configuration
+     * @param string                                              $server_name
+     */
     public function __construct(
         LoaderInterface $loader,
         SignerInterface $signer,

@@ -45,7 +45,7 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
     /**
      * @param $header
      *
-     * @return \Jose\JWKSetInterface|\SpomkyLabs\Jose\JWKSet|null
+     * @return null|\SpomkyLabs\Jose\JWKSet
      */
     protected function findByKID($header)
     {
