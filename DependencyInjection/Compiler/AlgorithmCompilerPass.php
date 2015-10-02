@@ -51,8 +51,13 @@ class AlgorithmCompilerPass implements CompilerPassInterface
             $this->getAlgorithmsFromAliases($container, $algorithms_enabled)
         );
 
-        if (in_array('!none', $algorithms_enabled) && array_key_exists('none', $algorithms)) {
-            unset($algorithms['none']);
+        foreach ($algorithms as $algorithm) {
+            if ('!' === substr($algorithm, 0, 1)) {
+                if (true === array_key_exists(substr($algorithm, 1, strlen($algorithm)-1), $algorithms)) {
+                    unset($algorithms[substr($algorithm, 1, strlen($algorithm)-1)]);
+                }
+                unset($algorithms[$algorithm]);
+            }
         }
         $this->loadAlgorithms($container, $algorithms);
     }
