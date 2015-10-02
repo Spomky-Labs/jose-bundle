@@ -43,9 +43,9 @@ interface JoseInterface
     public function encrypt($input, $recipient_key, $sender_key = null, array $protected_header = []);
 
     /**
-     * @param array|\SpomkyLabs\JoseBundle\Model\JWKSetInterface|\SpomkyLabs\JoseBundle\Model\JWKSetInterface $input
-     * @param string                                                                                          $key
-     * @param array                                                                                           $protected_header
+     * @param array|\Jose\JWKSetInterface|\Jose\JWKSetInterface $input
+     * @param string                                            $key
+     * @param array                                             $protected_header
      *
      * @return string
      */

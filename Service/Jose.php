@@ -16,7 +16,8 @@ use Jose\LoaderInterface;
 use Jose\SignerInterface;
 use SpomkyLabs\Jose\EncryptionInstruction;
 use SpomkyLabs\Jose\SignatureInstruction;
-use SpomkyLabs\JoseBundle\Model\JWKInterface;
+use Jose\JWKInterface;
+use Jose\JWKSetInterface;
 use SpomkyLabs\JoseBundle\Model\JWKSetManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -53,7 +54,7 @@ class Jose implements  JoseInterface
     protected $server_name;
 
     /**
-     * @var string
+     * @var \Symfony\Component\Routing\RouterInterface
      */
     protected $router;
 
@@ -182,7 +183,7 @@ class Jose implements  JoseInterface
         //Get key
         $recipient_jwk = $this->getJWSetKManager()->findKeyById($recipient_key, true);
         $sender_jwk = $this->getJWSetKManager()->findKeyById($sender_key, false);
-        if (is_null($recipient_jwk)) {
+        if (null === $recipient_jwk) {
             throw new \InvalidArgumentException(sprintf('The public key with key ID "%s" does not exist.', $recipient_key));
         }
 
@@ -192,16 +193,16 @@ class Jose implements  JoseInterface
         if (is_array($input)) {
             $additional_claims = $this->prepareClaims();
             $input = array_merge($input, $additional_claims);
-        } elseif ($input instanceof \Jose\JWKInterface) {
+        } elseif ($input instanceof JWKInterface) {
             //Replicate 'aud', 'iss' and 'sub' in header
             $protected_header['cty'] = 'jwk+json';
-        } elseif ($input instanceof \Jose\JWKSetInterface) {
+        } elseif ($input instanceof JWKSetInterface) {
             //Replicate 'aud', 'iss' and 'sub' in header
             $protected_header['cty'] = 'jwkset+json';
         }
 
         $instruction->setRecipientKey($recipient_jwk);
-        if (!is_null($sender_jwk)) {
+        if (null !== $sender_jwk) {
             $instruction->setSenderKey($sender_jwk);
         }
 
@@ -209,9 +210,9 @@ class Jose implements  JoseInterface
     }
 
     /**
-     * @param array|\SpomkyLabs\JoseBundle\Model\JWKSetInterface|\SpomkyLabs\JoseBundle\Model\JWKSetInterface $input
-     * @param string                                                                                          $key
-     * @param array                                                                                           $protected_header
+     * @param array|\Jose\JWKSetInterface|\Jose\JWKSetInterface $input
+     * @param string                                            $key
+     * @param array                                             $protected_header
      *
      * @return string
      */
@@ -223,10 +224,10 @@ class Jose implements  JoseInterface
         //Get key
         $private_jwk = $this->getJWSetKManager()->findKeyById($key, false);
         $public_jwk = $this->getJWSetKManager()->findKeyById($key, true);
-        if (is_null($private_jwk)) {
+        if (null !== $private_jwk) {
             throw new \InvalidArgumentException(sprintf('The private key with key ID "%s" does not exist.', $key));
         }
-        if (is_null($public_jwk)) {
+        if (null !== $public_jwk) {
             throw new \InvalidArgumentException(sprintf('The public key with key ID "%s" does not exist.', $key));
         }
 
@@ -236,10 +237,10 @@ class Jose implements  JoseInterface
         if (is_array($input)) {
             $additional_claims = $this->prepareClaims();
             $input = array_merge($input, $additional_claims);
-        } elseif ($input instanceof \Jose\JWKInterface) {
+        } elseif ($input instanceof JWKInterface) {
             //Replicate 'aud', 'iss' and 'sub' in header
             $protected_header['cty'] = 'jwk+json';
-        } elseif ($input instanceof \Jose\JWKSetInterface) {
+        } elseif ($input instanceof JWKSetInterface) {
             //Replicate 'aud', 'iss' and 'sub' in header
             $protected_header['cty'] = 'jwkset+json';
         }
@@ -273,17 +274,17 @@ class Jose implements  JoseInterface
                     }
                     break;
                 case 'x5c':
-                    if (true === $value && !is_null($jwk->getX509CertificateChain())) {
+                    if (true === $value && null !== $jwk->getX509CertificateChain()) {
                         $headers[$key] = $jwk->getX509CertificateChain();
                     }
                     break;
                 case 'x5t':
-                    if (true === $value && !is_null($jwk->getX509CertificateSha1Thumbprint())) {
+                    if (true === $value && null !== $jwk->getX509CertificateSha1Thumbprint()) {
                         $headers[$key] = $jwk->getX509CertificateSha1Thumbprint();
                     }
                     break;
                 case 'x5t#256':
-                    if (true === $value && !is_null($jwk->getX509CertificateSha256Thumbprint())) {
+                    if (true === $value && null !== $jwk->getX509CertificateSha256Thumbprint()) {
                         $headers[$key] = $jwk->getX509CertificateSha256Thumbprint();
                     }
                     break;
@@ -315,7 +316,7 @@ class Jose implements  JoseInterface
                     }
                     break;
                 case 'lifetime':
-                    if (!is_null($value)) {
+                    if (null !== $value) {
                         $lifetime = new \DateTime(sprintf('now +%s', $value));
                         $claims['exp'] = $lifetime->getTimestamp();
                     }

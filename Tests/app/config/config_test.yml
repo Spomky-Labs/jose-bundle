@@ -91,7 +91,7 @@ jose:
 #        - recommended # Recommended algorithms
 #        - recommended- # Recommended- algorithms
 #        - optional # Optional algorithms
-        - all # All algorithms (this combine all keywords above)
+        - all # All algorithms (this combines all keywords above)
         - !none # Disable the none algorithm
         - !A128GCMKW # All GCM algorithms disabled for tests to pass (Crypto extension not yet available on PHP7 and HHVM)
         - !A192GCMKW

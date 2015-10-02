@@ -11,18 +11,18 @@
 
 namespace SpomkyLabs\JoseBundle\Controller;
 
-use Jose\JWKSetManagerInterface;
+use SpomkyLabs\JoseBundle\Model\JWKSetManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class JWKSetController
 {
     /**
-     * @var \Jose\JWKSetManagerInterface
+     * @var \SpomkyLabs\JoseBundle\Model\JWKSetManagerInterface
      */
     protected $jwkset_manager;
 
     /**
-     * @param \Jose\JWKSetManagerInterface $jwkset_manager
+     * @param \SpomkyLabs\JoseBundle\Model\JWKSetManagerInterface $jwkset_manager
      */
     public function __construct(JWKSetManagerInterface $jwkset_manager)
     {
@@ -44,7 +44,7 @@ class JWKSetController
     }
 
     /**
-     * @return \Jose\JWKSetManagerInterface
+     * @return \SpomkyLabs\JoseBundle\Model\JWKSetManagerInterface
      */
     protected function getJWKSetManager()
     {

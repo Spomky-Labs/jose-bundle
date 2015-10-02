@@ -16,12 +16,12 @@ use Jose\JWKSetManagerInterface as Base;
 interface JWKSetManagerInterface extends Base
 {
     /**
-     * @return \SpomkyLabs\JoseBundle\Model\JWKSetInterface
+     * @return \Jose\JWKSetInterface
      */
     public function getPublicKeyset();
 
     /**
-     * @return \SpomkyLabs\JoseBundle\Model\JWKSetInterface
+     * @return \Jose\JWKSetInterface
      */
     public function getPrivateKeyset();
 
@@ -29,7 +29,7 @@ interface JWKSetManagerInterface extends Base
      * @param string $kid    The key ID
      * @param bool   $public True if the key to find is public, false if the key is private
      *
-     * @return \SpomkyLabs\JoseBundle\Model\JWKInterface|null
+     * @return \Jose\JWKInterface|null
      */
     public function findKeyById($kid, $public);
 }

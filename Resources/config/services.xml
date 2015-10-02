@@ -58,7 +58,7 @@
 
         <service id="jose.algorithm_manager" class="SpomkyLabs\Jose\JWAManager" />
 
-        <service id="jose.jwk_manager.default" class="SpomkyLabs\JoseBundle\Model\JWKManager" />
+        <service id="jose.jwk_manager.default" class="SpomkyLabs\Jose\JWKManager" />
 
         <service id="jose.jwkset_manager.default" class="SpomkyLabs\JoseBundle\Model\JWKSetManager">
             <call method="setJWKManager">
