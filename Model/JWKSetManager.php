@@ -118,7 +118,7 @@ class JWKSetManager extends Base implements JWKSetManagerInterface
                         throw new \InvalidArgumentException('Bad JWK.');
                     }
                     $jwkset = $this->createJWKSet($values);
-                    foreach ($jwkset as $jwk) {
+                    foreach ($jwkset->getKeys() as $jwk) {
                         $this->private_jwkset->addKey($jwk);
                     }
                     break;
