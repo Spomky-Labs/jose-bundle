@@ -6,9 +6,11 @@
 
     <services>
         <service id="jose.payload_converter.jwk" class="SpomkyLabs\Jose\Payload\JWKConverter" public="false">
+            <argument type="service" id="jose.jwk_manager" />
             <tag name="jose_payload_converter" />
         </service>
         <service id="jose.payload_converter.jwkset" class="SpomkyLabs\Jose\Payload\JWKSetConverter" public="false">
+            <argument type="service" id="jose.jwkset_manager" />
             <tag name="jose_payload_converter" />
         </service>
     </services>

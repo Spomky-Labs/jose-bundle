@@ -14,13 +14,6 @@ namespace SpomkyLabs\JoseBundle\Service;
 interface JoseInterface
 {
     /**
-     * @param $input
-     *
-     * @return \Jose\JWEInterface|\Jose\JWEInterface[]|\Jose\JWSInterface|\Jose\JWSInterface[]|null
-     */
-    public function load($input);
-
-    /**
      * @param       $input
      * @param       $signature_key
      * @param       $recipient_key

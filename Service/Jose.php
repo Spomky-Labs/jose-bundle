@@ -133,21 +133,6 @@ class Jose implements  JoseInterface
     }
 
     /**
-     * @param $input
-     *
-     * @return \Jose\JWEInterface|\Jose\JWEInterface[]|\Jose\JWSInterface|\Jose\JWSInterface[]|null
-     */
-    public function load($input)
-    {
-        $loaded = $this->getLoader()->load($input);
-        if (!$this->getLoader()->verify($loaded) || !$this->getLoader()->verifySignature($loaded, $this->getJWSetKManager()->getPublicKeyset())) {
-            return;
-        }
-
-        return $loaded;
-    }
-
-    /**
      * @param       $input
      * @param       $signature_key
      * @param       $recipient_key
@@ -224,10 +209,10 @@ class Jose implements  JoseInterface
         //Get key
         $private_jwk = $this->getJWSetKManager()->findKeyById($key, false);
         $public_jwk = $this->getJWSetKManager()->findKeyById($key, true);
-        if (null !== $private_jwk) {
+        if (null === $private_jwk) {
             throw new \InvalidArgumentException(sprintf('The private key with key ID "%s" does not exist.', $key));
         }
-        if (null !== $public_jwk) {
+        if (null === $public_jwk) {
             throw new \InvalidArgumentException(sprintf('The public key with key ID "%s" does not exist.', $key));
         }
 
