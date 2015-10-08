@@ -12,312 +12,295 @@
 namespace SpomkyLabs\JoseBundle\Service;
 
 use Jose\EncrypterInterface;
+use Jose\JSONSerializationModes;
+use Jose\JWAManagerInterface;
+use Jose\JWEInterface;
+use Jose\JWKInterface;
+use Jose\JWKSetInterface;
+use Jose\JWKSetManagerInterface;
+use Jose\JWSInterface;
+use Jose\JWTInterface;
 use Jose\LoaderInterface;
 use Jose\SignerInterface;
 use SpomkyLabs\Jose\EncryptionInstruction;
 use SpomkyLabs\Jose\SignatureInstruction;
-use Jose\JWKInterface;
-use Jose\JWKSetInterface;
-use SpomkyLabs\JoseBundle\Model\JWKSetManagerInterface;
-use Symfony\Component\Routing\RouterInterface;
+use SpomkyLabs\JoseBundle\Model\JotInterface;
+use SpomkyLabs\JoseBundle\Model\JotManagerInterface;
 
-class Jose implements  JoseInterface
+class Jose
 {
+    /**
+     * @var \Jose\LoaderInterface
+     */
+    private $loader;
+
     /**
      * @var \Jose\SignerInterface
      */
-    protected $signer;
+    private $signer;
 
     /**
      * @var \Jose\EncrypterInterface
      */
-    protected $encrypter;
+    private $encrypter;
 
     /**
-     * @var \Jose\LoaderInterface
+     * @var \Jose\JWKSetManagerInterface
      */
-    protected $loader;
+    private $keyset_manager;
 
     /**
-     * @var \SpomkyLabs\JoseBundle\Model\JWKSetManagerInterface
+     * @var \Jose\JWAManagerInterface
      */
-    protected $jwkset_manager;
+    private $algorithm_manager;
 
     /**
-     * @var array
+     * @var null|\SpomkyLabs\JoseBundle\Model\JotManagerInterface
      */
-    protected $configuration;
+    private $jot_manager;
 
     /**
      * @var string
      */
-    protected $server_name;
+    private $server_name;
 
     /**
-     * @var \Symfony\Component\Routing\RouterInterface
-     */
-    protected $router;
-
-    /**
-     * @param \Jose\LoaderInterface                               $loader
-     * @param \Jose\SignerInterface                               $signer
-     * @param \Jose\EncrypterInterface                            $encrypter
-     * @param \SpomkyLabs\JoseBundle\Model\JWKSetManagerInterface $jwkset_manager
-     * @param \Symfony\Component\Routing\RouterInterface          $router
-     * @param array                                               $configuration
-     * @param string                                              $server_name
+     * @param \Jose\LoaderInterface                                 $loader
+     * @param \Jose\SignerInterface                                 $signer
+     * @param \Jose\EncrypterInterface                              $encrypter
+     * @param \Jose\JWKSetManagerInterface                          $keyset_manager
+     * @param \Jose\JWAManagerInterface                             $algorithm_manager
+     * @param string                                                $server_name
+     * @param \SpomkyLabs\JoseBundle\Model\JotManagerInterface|null $jot_manager
      */
     public function __construct(
         LoaderInterface $loader,
         SignerInterface $signer,
         EncrypterInterface $encrypter,
-        JWKSetManagerInterface $jwkset_manager,
-        RouterInterface $router,
-        array $configuration,
-        $server_name
-    ) {
+        JWKSetManagerInterface $keyset_manager,
+        JWAManagerInterface $algorithm_manager,
+        $server_name,
+        JotManagerInterface $jot_manager = null
+    )
+    {
         $this->loader = $loader;
         $this->signer = $signer;
         $this->encrypter = $encrypter;
-        $this->jwkset_manager = $jwkset_manager;
-        $this->configuration = $configuration;
+        $this->keyset_manager = $keyset_manager;
+        $this->algorithm_manager = $algorithm_manager;
+        $this->jot_manager = $jot_manager;
         $this->server_name = $server_name;
-        $this->router = $router;
     }
 
     /**
-     * @return \Symfony\Component\Routing\RouterInterface
+     * @return \string[]
      */
-    protected function getRouter()
+    public function getSupportedAlgorithms()
     {
-        return $this->router;
+        return $this->algorithm_manager->listAlgorithms();
     }
 
     /**
-     * @return \Jose\LoaderInterface
-     */
-    protected function getLoader()
-    {
-        return $this->loader;
-    }
-
-    /**
-     * @return \Jose\SignerInterface
-     */
-    protected function getSigner()
-    {
-        return $this->signer;
-    }
-
-    /**
-     * @return \Jose\EncrypterInterface
-     */
-    protected function getEncrypter()
-    {
-        return $this->encrypter;
-    }
-
-    /**
-     * @return \SpomkyLabs\JoseBundle\Model\JWKSetManagerInterface
-     */
-    protected function getJWSetKManager()
-    {
-        return $this->jwkset_manager;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getServerName()
-    {
-        return $this->server_name;
-    }
-
-    /**
-     * @param       $input
-     * @param       $signature_key
-     * @param       $recipient_key
-     * @param       $sender_key
-     * @param array $signature_protected_header
-     * @param array $encryption_protected_header
+     * Load data and try to return a JWSInterface object or a JWEInterface object.
      *
-     * @return string
-     */
-    public function signAndEncrypt($input, $signature_key, $recipient_key, $sender_key, array $signature_protected_header = [], array $encryption_protected_header = [])
-    {
-        $signed = $this->sign($input, $signature_key, $signature_protected_header);
-        $encrypted = $this->encrypt($signed, $recipient_key, $sender_key, array_merge($encryption_protected_header, [
-            'cty' => 'JWT',
-        ]));
-
-        return $encrypted;
-    }
-
-    /**
-     * @param       $input
-     * @param       $recipient_key
-     * @param null  $sender_key
-     * @param array $protected_header
+     * @param string                     $input   A string that represents a JSON Web Token message
+     * @param \Jose\JWKSetInterface|null $jwk_set If not null, use the key set used to verify or decrypt the input, else this method should use a default keys manager.
+     * @param null|string                $detached_payload   If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
      *
-     * @return string
+     * @return \Jose\JWSInterface|\Jose\JWEInterface|null If the data has been loaded.
      */
-    public function encrypt($input, $recipient_key, $sender_key = null, array $protected_header = [])
+    public function load($input, JWKSetInterface $jwk_set = null, $detached_payload = null)
     {
-        //checkInput()
-        $instruction = new EncryptionInstruction();
-
-        //Get key
-        $recipient_jwk = $this->getJWSetKManager()->findKeyById($recipient_key, true);
-        $sender_jwk = $this->getJWSetKManager()->findKeyById($sender_key, false);
-        if (null === $recipient_jwk) {
-            throw new \InvalidArgumentException(sprintf('The public key with key ID "%s" does not exist.', $recipient_key));
+        $result = $this->loader->load($input);
+        $loaded = null;
+        if (is_array($result)) {
+            foreach($result as $temp) {
+                $loaded = $this->checkResult($temp, $jwk_set, $detached_payload);
+                if (null !== $loaded) {
+                    break;
+                }
+            }
+        } else {
+            $loaded = $this->checkResult($result, $jwk_set, $detached_payload);
         }
 
-        //Prepare header values
-        $additional_protected_header = $this->prepareHeaders($recipient_jwk);
-        $protected_header = array_merge($protected_header, $additional_protected_header);
-        if (is_array($input)) {
-            $additional_claims = $this->prepareClaims();
-            $input = array_merge($input, $additional_claims);
-        } elseif ($input instanceof JWKInterface) {
-            //Replicate 'aud', 'iss' and 'sub' in header
-            $protected_header['cty'] = 'jwk+json';
-        } elseif ($input instanceof JWKSetInterface) {
-            //Replicate 'aud', 'iss' and 'sub' in header
-            $protected_header['cty'] = 'jwkset+json';
+        if (null === $loaded) {
+            throw new \InvalidArgumentException('Unable to load the input');
         }
 
-        $instruction->setRecipientKey($recipient_jwk);
-        if (null !== $sender_jwk) {
-            $instruction->setSenderKey($sender_jwk);
-        }
+        $this->verify($loaded);
 
-        return $this->getEncrypter()->encrypt($input, [$instruction], $protected_header);
+        return $loaded;
     }
 
     /**
-     * @param array|\Jose\JWKSetInterface|\Jose\JWKSetInterface $input
-     * @param string                                            $key
-     * @param array                                             $protected_header
+     * Load data and try to return a JWSInterface object, a JWEInterface object or a list of these objects.
      *
-     * @return string
+     * @param string                     $input   A string that represents a JSON Web Token message
+     * @param \Jose\JWKSetInterface|null $jwk_set If not null, use the key set used to verify or decrypt the input, else this method should use a default keys manager.
+     * @param null|string                $detached_payload   If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
+     *
+     * @return \Jose\JWSInterface|\Jose\JWEInterface|null If the data has been loaded.
      */
-    public function sign($input, $key, array $protected_header = [])
+    protected function checkResult($input, JWKSetInterface $jwk_set = null, $detached_payload = null)
     {
-        //checkInput()
+        if ($input instanceof JWSInterface) {
+            if (true !== $this->verifySignature($input, $jwk_set, $detached_payload)) {
+                return null;
+            }
+        } elseif ($input instanceof JWEInterface) {
+            if (true !== $this->decrypt($input, $jwk_set)) {
+                return null;
+            }
+        }
+        return $input;
+    }
+
+    /**
+     * Load data and try to return a JWSInterface object, a JWEInterface object or a list of these objects.
+     * If the result is a JWE, nothing is decrypted and method `decrypt` must be executed
+     * If the result is a JWS, no signature is verified and method `verifySignature` must be executed
+     *
+     * @param \Jose\JWEInterface         $input   A JWE object to decrypt
+     * @param \Jose\JWKSetInterface|null $jwk_set If not null, use the key set used to verify or decrypt the input, else this method should use a default keys manager.
+     *
+     * @return bool Returns true if the JWE has been populated with decrypted values, else false.
+     */
+    protected function decrypt(JWEInterface &$input, JWKSetInterface $jwk_set = null)
+    {
+        return $this->loader->decrypt($input, $jwk_set);
+    }
+
+    /**
+     * Verify the signature of the input.
+     * The input must be a valid JWS. This method is usually called after the "load" method.
+     *
+     * @param \Jose\JWSInterface         $input              A JWS object.
+     * @param \Jose\JWKSetInterface|null $jwk_set            If not null, the signature will be verified only using keys in the key set, else this method should use a default keys manager
+     * @param null|string                $detached_payload   If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
+     *
+     * @return bool True if the signature has been verified, else false
+     */
+    protected function verifySignature(JWSInterface $input, JWKSetInterface $jwk_set = null, $detached_payload = null)
+    {
+        return $this->loader->verifySignature($input, $jwk_set, $detached_payload);
+    }
+
+    /**
+     * Verify the claims of the input.
+     * This method must verify if claims are valid or not.
+     * For example, if the "exp" header is set and the JWT expired, this method will return false.
+     *
+     * @param \Jose\JWTInterface $input A JWS object.
+     *
+     * @return bool True if the JWT has been verified, else false
+     */
+    protected function verify(JWTInterface $input)
+    {
+        return $this->loader->verify($input);
+    }
+
+
+    /**
+     * Sign an input and convert it into JWS JSON (Compact/Flattened) Serialized representation.
+     *
+     * @param \Jose\JWTInterface|\Jose\JWKInterface|\Jose\JWKSetInterface|string|array $input              A JWKInterface/JWKInterface/JWKSetInterface object
+     * @param string                                                                   $serialization      Serialization method. If the argument $keys contains more than one private key and value is JSON_COMPACT_SERIALIZATION or JSON_FLATTENED_SERIALIZATION, the result will be an array of JWT.
+     * @param bool                                                                     $detached_signature If true, the payload will be detached and variable $detached_payload will be set
+     * @param null|string                                                              $detached_payload   The detached payload encoded in Base64 URL safe
+     *
+     * @throws \Exception
+     *
+     * @return string|string[] The JSON (Compact/Flattened) Serialized representation
+     */
+    public function sign($input, JWKInterface $key, array $protected_header = [], array $unprotected_header = [], $serialization = JSONSerializationModes::JSON_COMPACT_SERIALIZATION, $detached_signature = false, &$detached_payload = null)
+    {
+        $jot = null;
+        if (null !== $this->jot_manager) {
+            $jot = $this->jot_manager->createJot();
+            $this->populateJti($input, $jot);
+        }
+
         $instruction = new SignatureInstruction();
+        $instruction->setKey($key)
+            ->setProtectedHeader($protected_header)
+            ->setUnprotectedHeader($unprotected_header);
 
-        //Get key
-        $private_jwk = $this->getJWSetKManager()->findKeyById($key, false);
-        $public_jwk = $this->getJWSetKManager()->findKeyById($key, true);
-        if (null === $private_jwk) {
-            throw new \InvalidArgumentException(sprintf('The private key with key ID "%s" does not exist.', $key));
-        }
-        if (null === $public_jwk) {
-            throw new \InvalidArgumentException(sprintf('The public key with key ID "%s" does not exist.', $key));
-        }
+        $signature = $this->signer->sign($input, [$instruction], $serialization, $detached_signature, $detached_payload);
 
-        //Prepare header values
-        $additional_protected_header = $this->prepareHeaders($public_jwk);
-        $protected_header = array_merge($protected_header, $additional_protected_header);
-        if (is_array($input)) {
-            $additional_claims = $this->prepareClaims();
-            $input = array_merge($input, $additional_claims);
-        } elseif ($input instanceof JWKInterface) {
-            //Replicate 'aud', 'iss' and 'sub' in header
-            $protected_header['cty'] = 'jwk+json';
-        } elseif ($input instanceof JWKSetInterface) {
-            //Replicate 'aud', 'iss' and 'sub' in header
-            $protected_header['cty'] = 'jwkset+json';
+        if (null !== $this->jot_manager) {
+            $this->populateData($input, $jot, $signature);
         }
 
-        $instruction->setKey($private_jwk);
-        $instruction->setProtectedHeader($protected_header);
-
-        return $this->getSigner()->sign($input, [$instruction]);
+        return $signature;
     }
 
-    protected function prepareHeaders(JWKInterface $jwk)
+    /**
+     * @param \Jose\JWTInterface|\Jose\JWKInterface|\Jose\JWKSetInterface|string|array $input
+     * @param \SpomkyLabs\JoseBundle\Model\JotInterface                                $jot
+     */
+    protected function populateJti(&$input, JotInterface $jot)
     {
-        $headers = [
-            'typ' => 'JWT',
-        ];
-        foreach ($this->getConfiguration()['headers'] as $key => $value) {
-            switch ($key) {
-                case 'jku':
-                    if (true === $value) {
-                        $headers[$key] = $this->getRouter()->generate('jose_jwkset_endpoint', [], true);
-                    }
-                    break;
-                case 'jwk':
-                    if (true === $value) {
-                        $headers[$key] = $jwk;
-                    }
-                    break;
-                case 'kid':
-                    if (true === $value) {
-                        $headers[$key] = $jwk->getKeyID();
-                    }
-                    break;
-                case 'x5c':
-                    if (true === $value && null !== $jwk->getX509CertificateChain()) {
-                        $headers[$key] = $jwk->getX509CertificateChain();
-                    }
-                    break;
-                case 'x5t':
-                    if (true === $value && null !== $jwk->getX509CertificateSha1Thumbprint()) {
-                        $headers[$key] = $jwk->getX509CertificateSha1Thumbprint();
-                    }
-                    break;
-                case 'x5t#256':
-                    if (true === $value && null !== $jwk->getX509CertificateSha256Thumbprint()) {
-                        $headers[$key] = $jwk->getX509CertificateSha256Thumbprint();
-                    }
-                    break;
-                case 'crit':
-                    if (!empty($value)) {
-                        $headers[$key] = $value;
-                    }
-                    break;
+        if(is_array($input)) {
+            $input['jti'] = $jot->getJti();
+        } elseif ($input instanceof JWTInterface) {
+            $payload = $input->getPayload();
+            if(is_array($payload)) {
+                $payload['jti'] = $jot->getJti();
+                $input->setPayload($payload);
             }
         }
-
-        return $headers;
     }
 
-    protected function prepareClaims()
+    /**
+     * @param                                           $input
+     * @param \SpomkyLabs\JoseBundle\Model\JotInterface $jot
+     * @param                                           $data
+     */
+    protected function populateData($input, JotInterface &$jot, $data)
     {
-        $claims = [];
-        foreach ($this->getConfiguration()['claims'] as $key => $value) {
-            switch ($key) {
-                case 'iss':
-                    if (true === $value) {
-                        $claims[$key] = $this->getServerName();
-                    }
-                    break;
-                case 'nbf':
-                case 'iat':
-                    if (true === $value) {
-                        $claims[$key] = time();
-                    }
-                    break;
-                case 'lifetime':
-                    if (null !== $value) {
-                        $lifetime = new \DateTime(sprintf('now +%s', $value));
-                        $claims['exp'] = $lifetime->getTimestamp();
-                    }
-                    break;
-            }
+        if(is_array($input) || ($input instanceof JWTInterface && is_array($input->getPayload()))) {
+            $jot->setData($data);
+            $this->jot_manager->saveJot($jot);
+        }
+    }
+
+    /**
+     * Encrypt an input and convert it into a JWE JSON (Compact/Flattened) Serialized representation.
+     *
+     * To encrypt the input using different algorithms, the "alg" parameter must be set in the unprotected header of the $instruction.
+     * Please note that this is not possible when using the algorithms "dir" or "ECDH-ES".
+     *
+     * @param \Jose\JWTInterface|\Jose\JWKInterface|\Jose\JWKSetInterface|array|string $input                     A JWKInterface/JWKInterface/JWKSetInterface object
+     * @param array                                                                    $shared_protected_header   Shared protected headers. If the input is a JWTInterface object, this parameter is merged with the protected header of the input.
+     * @param array                                                                    $shared_unprotected_header Shared unprotected headers. If the input is a JWTInterface object, this parameter is merged with the unprotected header of the input.
+     * @param string                                                                   $serialization             Serialization method.
+     * @param string|null                                                              $aad                       Additional Authentication Data. This parameter is useless if the serialization is JSON_COMPACT_SERIALIZATION.
+     *
+     * @throws \Exception
+     *
+     * @return string|string[] The JSON (Compact/Flattened) Serialized representation
+     */
+    public function encrypt($input, JWKInterface $recipient_key, JWKInterface $sender_key = null, array $shared_protected_header = [], array $shared_unprotected_header = [], array $recipient_unprotected_hearder = [], $serialization = JSONSerializationModes::JSON_COMPACT_SERIALIZATION, $aad = null)
+    {
+        $jot = null;
+        if (null !== $this->jot_manager) {
+            $jot = $this->jot_manager->createJot();
+            $this->populateJti($input, $jot);
         }
 
-        return $claims;
+        $instruction = new EncryptionInstruction();
+        $instruction->setRecipientKey($recipient_key)
+            ->setSenderKey($sender_key)
+            ->setRecipientUnprotectedHeader($recipient_unprotected_hearder);
+
+        $encryption =  $this->encrypter->encrypt($input, [$instruction], $shared_protected_header, $shared_unprotected_header, $serialization, $aad);
+
+        if (null !== $this->jot_manager) {
+            $jot = $this->jot_manager->createJot();
+            $this->populateData($input, $jot, $encryption);
+        }
+
+        return $encryption;
     }
 }

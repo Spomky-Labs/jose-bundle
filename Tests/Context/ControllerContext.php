@@ -18,10 +18,7 @@ use Jose\JWKSetInterface;
  */
 trait ControllerContext
 {
-    /**
-     * @var null|\Jose\JWKSetInterface
-     */
-    private $jwkset = null;
+    private $controller_response;
 
     /**
      * Returns Mink session.
@@ -38,6 +35,11 @@ trait ControllerContext
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
      */
     abstract protected function getContainer();
+
+    /**
+     * @return \Jose\JWKSetManagerInterface
+     */
+    abstract protected function getKeysetManager();
 
     /**
      * @Then The content type is :content_type
@@ -61,29 +63,24 @@ trait ControllerContext
      */
     public function iShouldSeeAValidKeySet()
     {
-        /**
-         * @var \Jose\JWKSetManagerInterface
-         */
-        $jwkset_manager = $this->getContainer()->get('jose.jwkset_manager');
-
         $content = $this->getSession()->getPage()->getContent();
         $data = json_decode($content, true);
         if (!is_array($data)) {
             throw new \Exception('The response is not an array');
         }
 
-        $this->jwkset = $jwkset_manager->createJWKSet($data);
-        if (!$this->jwkset instanceof JWKSetInterface) {
+        $this->controller_response = $this->getKeysetManager()->createJWKSet($data);
+        if (!$this->controller_response instanceof JWKSetInterface) {
             throw new \Exception('The response is not a valid JWKSet');
         }
     }
 
     /**
-     * @Then the key set contains at least one key
+     * @Then the response contains at least one key
      */
-    public function theKeySetContainsAtLeastOneKey()
+    public function theResponseContainsAtLeastOneKey()
     {
-        if (0 === count($this->jwkset)) {
+        if (0 === count($this->controller_response)) {
             throw new \Exception('The JWKSet is empty');
         }
     }

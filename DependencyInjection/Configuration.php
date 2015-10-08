@@ -35,13 +35,12 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($this->alias);
 
-        $this->addJotSection($rootNode);
         $this->addKeySection($rootNode);
+        $this->addStorageSection($rootNode);
         $rootNode
             ->children()
-                ->scalarNode('server_name')->isRequired()->cannotBeEmpty()->end()
                 ->booleanNode('use_controller')->defaultTrue()->end()
-                ->scalarNode('jwt_manager')->defaultValue('jose.jwt_manager.default')->cannotBeEmpty()->end()
+                ->scalarNode('server_name')->cannotBeEmpty()->end()
                 ->scalarNode('jwk_manager')->defaultValue('jose.jwk_manager.default')->cannotBeEmpty()->end()
                 ->scalarNode('jwkset_manager')->defaultValue('jose.jwkset_manager.default')->cannotBeEmpty()->end()
                 ->arrayNode('algorithms')->prototype('scalar')->end()->treatNullLike([])->end()
@@ -54,39 +53,15 @@ class Configuration implements ConfigurationInterface
     /**
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
      */
-    private function addJotSection(ArrayNodeDefinition $node)
+    private function addStorageSection(ArrayNodeDefinition $node)
     {
         $node
-            ->addDefaultsIfNotSet()
             ->children()
-                ->arrayNode('jot')
-                    ->addDefaultsIfNotSet()
+                ->arrayNode('storage')
                     ->children()
-                        ->arrayNode('headers')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->booleanNode('jku')->defaultFalse()->end()
-                                ->booleanNode('jwk')->defaultFalse()->end()
-                                ->booleanNode('kid')->defaultTrue()->end()
-#                                ->booleanNode('x5u')->defaultFalse()->end()
-                                ->booleanNode('x5c')->defaultFalse()->end()
-                                ->booleanNode('x5t')->defaultFalse()->end()
-                                ->booleanNode('x5t#256')->defaultFalse()->end()
-                                ->arrayNode('crit')
-                                    ->prototype('scalar')->end()
-                                    ->treatNullLike([])
-                                ->end()
-                            ->end()
-                        ->end()
-                        ->arrayNode('claims')
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->booleanNode('iss')->defaultTrue()->end()
-                                ->booleanNode('nbf')->defaultTrue()->end()
-                                ->booleanNode('iat')->defaultTrue()->end()
-                                ->scalarNode('lifetime')->defaultValue('5 min')->end()
-                            ->end()
-                        ->end()
+                        ->booleanNode('enabled')->defaultFalse()->end()
+                        ->scalarNode('manager')->defaultValue('jose.jot_manager.default')->cannotBeEmpty()->end()
+                        ->scalarNode('class')->defaultNull()->end()
                     ->end()
                 ->end()
             ->end();
@@ -98,7 +73,7 @@ class Configuration implements ConfigurationInterface
     private function addKeySection(ArrayNodeDefinition $node)
     {
         $supportedUsages = ['sig', 'enc'];
-        $supportedKeyTypes = ['rsa', 'ecc', 'shared', 'direct', 'jwk', 'jwkset'];
+        $supportedKeyTypes = ['file', 'jwk', 'jwkset'];
 
         $node
             ->treatNullLike([])
@@ -114,9 +89,8 @@ class Configuration implements ConfigurationInterface
                                 ->thenInvalid('The supported key types are "%s" is not supported. Please choose one of '.json_encode($supportedKeyTypes))
                             ->end()
                         ->end()
-                        ->scalarNode('private_file')->cannotBeEmpty()->end()
-                        ->scalarNode('public_file')->cannotBeEmpty()->end()
-                        ->scalarNode('value')->end()
+                        ->scalarNode('file')->defaultNull()->end()
+                        ->scalarNode('value')->defaultNull()->end()
                         ->scalarNode('passphrase')->defaultNull()->end()
                         ->arrayNode('key_ops')
                         ->prototype('scalar')->end()

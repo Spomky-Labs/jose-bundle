@@ -41,22 +41,26 @@ class SpomkyLabsJoseBundleExtension extends Extension
         if (true === $config['use_controller']) {
             $services[] = 'jwkset_controller';
         }
+        if (true === $config['storage']['enabled']) {
+            $services[] = 'storage';
+            $container->setParameter($this->getAlias().'.storage.class', $config['storage']['class']);
+            $container->setAlias($this->getAlias().'.jot_manager', $config['storage']['manager']);
+        }
         foreach ($services as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
 
         $parameters = [
-            'jot',
+            'server_name',
             'keys',
             'algorithms',
             'compression_methods',
-            'server_name',
         ];
         $aliases = [
-            'jwt_manager',
             'jwk_manager',
             'jwkset_manager',
         ];
+
         foreach ($parameters as $parameter) {
             $container->setParameter($this->getAlias().'.'.$parameter, $config[$parameter]);
         }

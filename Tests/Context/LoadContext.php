@@ -15,14 +15,27 @@ use Jose\JWEInterface;
 use Jose\JWKInterface;
 use Jose\JWKSetInterface;
 use Jose\JWSInterface;
+use Jose\JWTInterface;
 
 /**
  * Behat context class.
  */
 trait LoadContext
 {
+    /**
+     * @var null|mixed|array|\Jose\JWTInterface|\Jose\JWSInterface|\Jose\JWEInterface|\Jose\JWKInterface|\Jose\JWKSetInterface
+     */
     private $loaded_data;
-    private $jwkset;
+
+    /**
+     * @var null|\Exception
+     */
+    private $exception;
+
+    /**
+     * @return \Jose\JWKSetInterface
+     */
+    abstract protected function getKeyset();
 
     /**
      * Returns Mink session.
@@ -40,23 +53,6 @@ trait LoadContext
      */
     abstract protected function getContainer();
 
-    /**
-     * @Given I have the following public key in my public key set
-     */
-    public function iHaveTheFollowingPublicKeyInMyPublicKeySet(PyStringNode $lines)
-    {
-        if (!$this->jwkset instanceof JWKSetInterface) {
-            $this->jwkset = $this->getKeysetManager()->createJWKSet();
-        }
-        $data = [];
-        foreach ($lines->getStrings() as $line) {
-            list($key,$value) = explode(':', $line);
-            $data[$key] = $value;
-        }
-        $jwk = $this->getKeyManager()->createJWK($data);
-        $this->jwkset->addKey($jwk);
-    }
-
 
     /**
      * @When I try to load the following data
@@ -68,7 +64,11 @@ trait LoadContext
         }
 
         foreach($lines->getStrings() as $data) {
-            $this->loaded_data = $this->getLoader()->load($data);
+            try {
+                $this->loaded_data = $this->getLoader()->load($data, $this->getKeyset());
+            } catch (\Exception $e) {
+                $this->exception = $e;
+            }
         }
     }
 
@@ -113,24 +113,6 @@ trait LoadContext
     }
 
     /**
-     * @Then the signature of the loaded data is valid
-     */
-    public function theSignatureOfTheLoadedDataIsValid()
-    {
-        if (false === $this->getLoader()->verifySignature($this->loaded_data, $this->jwkset)) {
-            throw new \Exception('The signature is not valid');
-        }
-    }
-
-    /**
-     * @Then the claims of the loaded data are valid
-     */
-    public function theClaimsOfTheLoadedDataAreValid()
-    {
-        $this->getLoader()->verify($this->loaded_data);
-    }
-
-    /**
      * @Then the payload of the loaded data is :payload
      */
     public function thePayloadOfTheLoadedDataIs($payload)
@@ -152,26 +134,58 @@ trait LoadContext
 
 
     /**
-     * @return \Jose\LoaderInterface
+     * @return \SpomkyLabs\JoseBundle\Service\Jose
      */
     private function getLoader()
     {
-        return $this->getContainer()->get('jose.loader');
+        return $this->getContainer()->get('jose');
     }
 
     /**
-     * @return \Jose\JWKSetManagerInterface
+     * @Then I should receive an exception
      */
-    private function getKeysetManager()
+    public function iShouldReceiveAnException()
     {
-        return $this->getContainer()->get('jose.jwkset_manager');
+        if ($this->loaded_data instanceof \Exception) {
+            throw new \Exception(sprintf('The loaded data is not an exception. Its class is %s', get_class($this->loaded_data)));
+        }
     }
 
     /**
-     * @return \Jose\JWKManagerInterface
+     * @Then the exception message is :message
      */
-    private function getKeyManager()
+    public function theExceptionMessageIs($message)
     {
-        return $this->getContainer()->get('jose.jwk_manager');
+        if ($message !== $this->exception->getMessage()) {
+            throw new \Exception(sprintf('The exception message is "%s"', $message));
+        }
+    }
+
+    /**
+     * @Then the JWT :position :parameter is not null
+     */
+    public function theJwtParameterIsNotNull($position, $parameter)
+    {
+        if (!in_array($position, ['header', 'payload'])) {
+            throw new \Exception(sprintf('Supported positions are "%s"', json_encode(['header', 'payload'])));
+        }
+        $value = 'header' === $position?$this->loaded_data->getHeaderValue($parameter):$this->loaded_data->getPayloadValue($parameter);
+        if (null === $value) {
+            throw new \Exception('The value is null');
+        }
+    }
+
+    /**
+     * @Then the JWT :position :parameter is null
+     */
+    public function theJwtParameterIsNull($position, $parameter)
+    {
+        if (!in_array($position, ['header', 'payload'])) {
+            throw new \Exception(sprintf('Supported positions are "%s"', json_encode(['header', 'payload'])));
+        }
+        $value = 'header' === $position?$this->loaded_data->getHeaderValue($parameter):$this->loaded_data->getPayloadValue($parameter);
+        if (null !== $value) {
+            throw new \Exception(sprintf('The value is not null. Its value is "%s"', $value));
+        }
     }
 }

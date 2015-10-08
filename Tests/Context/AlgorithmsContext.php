@@ -19,15 +19,6 @@ trait AlgorithmsContext
     private $algorithm_list = [];
 
     /**
-     * Returns Mink session.
-     *
-     * @param string|null $name name of the session OR active session will be used
-     *
-     * @return \Behat\Mink\Session
-     */
-    abstract public function getSession($name = null);
-
-    /**
      * Returns HttpKernel service container.
      *
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
@@ -39,12 +30,7 @@ trait AlgorithmsContext
      */
     public function iListAlgorithms()
     {
-        /*
-         * @var $jose \Jose\JWAManagerInterface
-         */
-        $jwa_manager = $this->getContainer()->get('jose.algorithm_manager');
-
-        $this->algorithm_list = $jwa_manager->listAlgorithms();
+        $this->algorithm_list = $this->getAlgorithmManager()->getSupportedAlgorithms();
     }
 
     /**
@@ -55,5 +41,13 @@ trait AlgorithmsContext
         if (empty($this->algorithm_list)) {
             throw new \Exception('No algorithm supported by the algorithm manager');
         }
+    }
+
+    /**
+     * @return \SpomkyLabs\JoseBundle\Service\Jose
+     */
+    protected function getAlgorithmManager()
+    {
+        return $this->getContainer()->get('jose');
     }
 }

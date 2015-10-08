@@ -7,4 +7,4 @@ Feature: JWKSet Controller
     When I am on "https://local.dev/keys"
     Then The content type is "application/json"
     And I should see a valid key set
-    And the key set contains at least one key
+    And the response contains at least one key

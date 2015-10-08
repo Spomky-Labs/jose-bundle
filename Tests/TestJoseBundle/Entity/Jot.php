@@ -11,8 +11,14 @@
 
 namespace SpomkyLabs\TestJoseBundle\Entity;
 
-use SpomkyLabs\JoseBundle\Model\JWT as Base;
+use SpomkyLabs\JoseBundle\Entity\Jot as Base;
 
-class JWT extends Base
+class Jot extends Base
 {
+    private $id;
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

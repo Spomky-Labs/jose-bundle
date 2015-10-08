@@ -26,6 +26,6 @@ class KeysCompilerPass implements CompilerPassInterface
 
         $keys = $container->getParameter('jose.keys');
 
-        $definition->addMethodCall('loadKeys', [$keys]);
+        //$definition->addMethodCall('loadKeys', [$keys]);
     }
 }

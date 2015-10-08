@@ -9,10 +9,10 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace SpomkyLabs\TestJoseBundle\Entity;
+namespace SpomkyLabs\JoseBundle\Entity;
 
-use SpomkyLabs\JoseBundle\Model\JWS as Base;
+use SpomkyLabs\JoseBundle\Model\Jot as Base;
 
-class JWS extends Base
+class Jot extends Base
 {
 }
