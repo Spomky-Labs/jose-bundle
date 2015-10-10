@@ -92,6 +92,8 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('file')->defaultNull()->end()
                         ->scalarNode('value')->defaultNull()->end()
                         ->scalarNode('passphrase')->defaultNull()->end()
+                        ->booleanNode('load_public_key')->defaultTrue()->end()
+                        ->booleanNode('shared')->defaultFalse()->end()
                         ->arrayNode('key_ops')
                         ->prototype('scalar')->end()
                             ->treatNullLike([])

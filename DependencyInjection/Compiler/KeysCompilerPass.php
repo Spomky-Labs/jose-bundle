@@ -26,6 +26,18 @@ class KeysCompilerPass implements CompilerPassInterface
 
         $keys = $container->getParameter('jose.keys');
 
-        //$definition->addMethodCall('loadKeys', [$keys]);
+        foreach ($keys as $id=>$key) {
+            switch ($key['type']) {
+                case 'file':
+                    var_dump($key);
+                    break;
+                case 'jwk':
+                    $definition->addMethodCall('loadKeyFromJWK', [$key['value'], $key['shared']]);
+                    break;
+                case 'jwkset':
+                    $definition->addMethodCall('loadKeyFromJWKSet', [$key['value'], $key['shared']]);
+                    break;
+            }
+        }
     }
 }

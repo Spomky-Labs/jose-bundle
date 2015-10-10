@@ -62,7 +62,7 @@
 
         <service id="jose.jwt_manager" class="SpomkyLabs\Jose\JWTManager" public="false" />
 
-        <service id="jose.jwkset_manager.default" class="SpomkyLabs\Jose\JWKSetManager">
+        <service id="jose.jwkset_manager.default" class="SpomkyLabs\JoseBundle\Model\KeysetManager">
             <call method="setJWKManager">
                 <argument type="service" id="jose.jwk_manager" />
             </call>

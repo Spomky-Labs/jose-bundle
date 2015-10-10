@@ -11,30 +11,30 @@
 
 namespace SpomkyLabs\JoseBundle\Controller;
 
-use Jose\JWKSetManagerInterface;
+use SpomkyLabs\JoseBundle\Model\KeysetManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class JWKSetController
 {
     /**
-     * @var \Jose\JWKSetManagerInterface
+     * @var \SpomkyLabs\JoseBundle\Model\KeysetManagerInterface
      */
     protected $jwkset_manager;
 
     /**
-     * @param \Jose\JWKSetManagerInterface $jwkset_manager
+     * @param \SpomkyLabs\JoseBundle\Model\KeysetManagerInterface $jwkset_manager
      */
-    public function __construct(JWKSetManagerInterface $jwkset_manager)
+    public function __construct(KeysetManagerInterface $jwkset_manager)
     {
         $this->jwkset_manager = $jwkset_manager;
     }
 
     public function getPublicKeysetAction()
     {
-        //$jwkset = $this->getJWKSetManager()->getPublicKeyset();
-        //if (null === $jwkset) {
+        $jwkset = $this->getJWKSetManager()->getSharedKeyset();
+        if (null === $jwkset) {
             $jwkset = [];
-        //}
+        }
 
         return new Response(
             json_encode($jwkset),
@@ -44,7 +44,7 @@ class JWKSetController
     }
 
     /**
-     * @return \Jose\JWKSetManagerInterface
+     * @return \SpomkyLabs\JoseBundle\Model\KeysetManagerInterface
      */
     protected function getJWKSetManager()
     {
