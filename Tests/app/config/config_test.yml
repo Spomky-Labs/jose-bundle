@@ -65,12 +65,15 @@ jose:
             shared: true # (default) If a public key is loaded, the key will be shared (only usefull if the controller is enabled)
         key2:
             type: file
-            file: "file://%kernel.root_dir%/Keys/EC/private.es512.key"
+            file: "file://%kernel.root_dir%/Keys/EC/private.es512.encrypted.key"
+            passphrase: 'test' # If the key is password protected
             alg: ECDH-ES
             use: enc
+            load_public_key: true
+            shared: true
         key3:
             type: jwk
-            value: '{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","alg":"ES256"}'
+            value: '{"kid":"018c0ae5-4d9b-471b-bfd6-eef314bc7037","kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","alg":"ES256"}'
             shared: true
         key6:
             type: jwkset

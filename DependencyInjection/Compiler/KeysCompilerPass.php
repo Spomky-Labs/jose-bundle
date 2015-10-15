@@ -29,7 +29,14 @@ class KeysCompilerPass implements CompilerPassInterface
         foreach ($keys as $id=>$key) {
             switch ($key['type']) {
                 case 'file':
-                    var_dump($key);
+                    $additional_data = [
+                    ];
+                    foreach(['alg'=>'alg', 'use'=>'use', 'key_ops'=>'key_ops'] as  $k=>$v) {
+                        if (!empty($key[$k])) {
+                            $additional_data[$v] = $key[$k];
+                        }
+                    }
+                    $definition->addMethodCall('loadKeyFromFile', [$id, $key['file'], $key['passphrase'], $key['shared'], $key['load_public_key'], $additional_data]);
                     break;
                 case 'jwk':
                     $definition->addMethodCall('loadKeyFromJWK', [$key['value'], $key['shared']]);

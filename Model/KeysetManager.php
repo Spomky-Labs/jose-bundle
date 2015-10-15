@@ -13,7 +13,9 @@ namespace SpomkyLabs\JoseBundle\Model;
 
 use Jose\JWKInterface;
 use SpomkyLabs\Jose\JWKSetManager;
+use SpomkyLabs\Jose\KeyConverter\ECKey;
 use SpomkyLabs\Jose\KeyConverter\KeyConverter;
+use SpomkyLabs\Jose\KeyConverter\RSAKey;
 
 class KeysetManager extends JWKSetManager implements KeysetManagerInterface
 {
@@ -131,9 +133,12 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
      */
     public function addKey(JWKInterface $key, $is_shared = false)
     {
+        if (null === $key->getKeyID()) {
+            throw new \InvalidArgumentException('The key has no ID.');
+        }
         $type = $key->getKeyType();
         if (null === $type) {
-            throw new \InvalidArgumentException('The key has not type.');
+            throw new \InvalidArgumentException('The key has no type.');
         }
         switch ($type) {
             case 'RSA':
@@ -158,10 +163,38 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function loadKeyFromFile($filename, $password = null, $is_shared = false)
+    public function loadKeyFromFile($id, $filename, $password = null, $is_shared = false, $load_public = true, array $additional_data = [])
     {
+        $additional_data['kid'] = $id;
+
         $values = KeyConverter::loadKeyFromFile($filename, $password);
+        if (array_key_exists('d', $values) && true === $load_public) {
+            return $this->loadPrivateAndPublicKey($values, $is_shared, $additional_data);
+        }
+        $values = array_merge($values, $additional_data);
         return $this->loadKeyFromValues($values, $is_shared);
+    }
+
+    /**
+     * @param array $private_values
+     * @param bool  $is_shared
+     * @param array $additional_data
+     */
+    private function loadPrivateAndPublicKey(array $private_values, $is_shared, array $additional_data)
+    {
+        if ('EC' === $private_values['kty']) {
+            $private_key = new ECKey($private_values);
+            $public_values = ECKey::toPublic($private_key)->toArray();
+        } elseif ('RSA' === $private_values['kty']) {
+            $private_key = new RSAKey($private_values);
+            $public_values = RSAKey::toPublic($private_key)->toArray();
+        } else {
+            throw new \InvalidArgumentException('Unsupported key type');
+        }
+        $public_values = array_merge($public_values, $additional_data);
+        $private_values = array_merge($private_values, $additional_data);
+        $this->loadKeyFromValues($public_values, $is_shared);
+        $this->loadKeyFromValues($private_values);
     }
 
     /**

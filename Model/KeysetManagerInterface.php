@@ -72,13 +72,16 @@ interface KeysetManagerInterface extends JWKSetManagerInterface
     public function addKey(JWKInterface $key, $is_shared = false);
 
     /**
+     * @param string      $id
      * @param string      $filename
-     * @param string|null $password
+     * @param null|string $password
      * @param bool        $is_shared
+     * @param bool        $load_public
+     * @param array       $additional_data
      *
-     * @return self
+     * @return mixed
      */
-    public function loadKeyFromFile($filename, $password = null, $is_shared = false);
+    public function loadKeyFromFile($id, $filename, $password = null, $is_shared = false, $load_public = false, array $additional_data = []);
 
     /**
      * @param array $values
