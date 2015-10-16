@@ -31,6 +31,7 @@ Please consider the following optional third party libraries and extensions:
 # Continuous Integration
 
 It has been successfully tested using `PHP 5.6`, `PHP 7` and `HHVM` with all algorithms under Symfony 2.7.
+Please note that it has not yet been tested on Symfony 3.0. 
 
 We also track bugs and code quality using [Scrutinizer-CI](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/) and [Sensio Insight](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05).
 
