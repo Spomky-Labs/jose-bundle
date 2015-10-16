@@ -1,18 +1,30 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\AlgorithmCompilerPass;
+use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\CheckerCompilerPass;
+use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\CompressionCompilerPass;
+use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\KeysCompilerPass;
+use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\PayloadConverterCompilerPass;
 use SpomkyLabs\JoseBundle\DependencyInjection\SpomkyLabsJoseBundleExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\AlgorithmCompilerPass;
-use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\CompressionCompilerPass;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SpomkyLabsJoseBundle extends Bundle
 {
     public function getContainerExtension()
     {
-        return new SpomkyLabsJoseBundleExtension('spomky_jose');
+        return new SpomkyLabsJoseBundleExtension('jose');
     }
 
     public function build(ContainerBuilder $container)
@@ -21,5 +33,8 @@ class SpomkyLabsJoseBundle extends Bundle
 
         $container->addCompilerPass(new AlgorithmCompilerPass());
         $container->addCompilerPass(new CompressionCompilerPass());
+        $container->addCompilerPass(new CheckerCompilerPass());
+        $container->addCompilerPass(new PayloadConverterCompilerPass());
+        $container->addCompilerPass(new KeysCompilerPass());
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="jose.checker.audience" class="SpomkyLabs\Jose\Checker\AudienceChecker" public="false">
+            <argument>%jose.server_name%</argument>
+            <tag name="jose_checker" />
+        </service>
+        <service id="jose.checker.critical" class="SpomkyLabs\Jose\Checker\CriticalChecker" public="false">
+            <tag name="jose_checker" />
+        </service>
+        <service id="jose.checker.expiration" class="SpomkyLabs\Jose\Checker\ExpirationChecker" public="false">
+            <tag name="jose_checker" />
+        </service>
+        <service id="jose.checker.issued_at" class="SpomkyLabs\Jose\Checker\IssuedAtChecker" public="false">
+            <tag name="jose_checker" />
+        </service>
+        <service id="jose.checker.not_before" class="SpomkyLabs\Jose\Checker\NotBeforeChecker" public="false">
+            <tag name="jose_checker" />
+        </service>
+    </services>
+</container>

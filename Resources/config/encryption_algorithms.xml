@@ -4,103 +4,76 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="spomky_jose.algorithm.a128cbchs256.class">SpomkyLabs\Jose\Algorithm\ContentEncryption\A128CBCHS256</parameter>
-        <parameter key="spomky_jose.algorithm.a192cbchs384.class">SpomkyLabs\Jose\Algorithm\ContentEncryption\A192CBCHS384</parameter>
-        <parameter key="spomky_jose.algorithm.a256cbchs512.class">SpomkyLabs\Jose\Algorithm\ContentEncryption\A256CBCHS512</parameter>
-        <parameter key="spomky_jose.algorithm.a128gcm.class">SpomkyLabs\Jose\Algorithm\ContentEncryption\A128GCM</parameter>
-        <parameter key="spomky_jose.algorithm.a192gcm.class">SpomkyLabs\Jose\Algorithm\ContentEncryption\A192GCM</parameter>
-        <parameter key="spomky_jose.algorithm.a256gcm.class">SpomkyLabs\Jose\Algorithm\ContentEncryption\A256GCM</parameter>
-
-        <parameter key="spomky_jose.algorithm.a128kw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\A128KW</parameter>
-        <parameter key="spomky_jose.algorithm.a192kw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\A192KW</parameter>
-        <parameter key="spomky_jose.algorithm.a256kw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\A256KW</parameter>
-        <parameter key="spomky_jose.algorithm.a128gcmkw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\A128GCMKW</parameter>
-        <parameter key="spomky_jose.algorithm.a192gcmkw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\A192GCMKW</parameter>
-        <parameter key="spomky_jose.algorithm.a256gcmkw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\A256GCMKW</parameter>
-        <parameter key="spomky_jose.algorithm.dir.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\Dir</parameter>
-        <parameter key="spomky_jose.algorithm.ecdhes.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\ECDHES</parameter>
-        <parameter key="spomky_jose.algorithm.ecdhesa128kw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\ECDHESA128KW</parameter>
-        <parameter key="spomky_jose.algorithm.ecdhesa192kw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\ECDHESA192KW</parameter>
-        <parameter key="spomky_jose.algorithm.ecdhesa256kw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\ECDHESA256KW</parameter>
-        <parameter key="spomky_jose.algorithm.pbes2hs256a128kw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\PBES2HS256A128KW</parameter>
-        <parameter key="spomky_jose.algorithm.pbes2hs384a192kw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\PBES2HS384A192KW</parameter>
-        <parameter key="spomky_jose.algorithm.pbes2hs512a256kw.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\PBES2HS512A256KW</parameter>
-        <parameter key="spomky_jose.algorithm.rsa1_5.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\RSA15</parameter>
-        <parameter key="spomky_jose.algorithm.rsa_oaep.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\RSAOAEP</parameter>
-        <parameter key="spomky_jose.algorithm.rsa_oaep256.class">SpomkyLabs\Jose\Algorithm\KeyEncryption\RSAOAEP256</parameter>
-    </parameters>
-
     <services>
-        <service id="spomky_jose.algorithm.a128cbchs256" class="%spomky_jose.algorithm.a128cbchs256.class%">
-            <tag name="jose_algorithm" alias="A128CBC-HS256" />
+        <service id="jose.algorithm.a128cbchs256" class="SpomkyLabs\Jose\Algorithm\ContentEncryption\A128CBCHS256" public="false">
+            <tag name="jose_algorithm" alias="A128CBC-HS256" requirement="required" />
         </service>
-        <service id="spomky_jose.algorithm.a192cbchs384" class="%spomky_jose.algorithm.a192cbchs384.class%">
-            <tag name="jose_algorithm" alias="A192CBC-HS384" />
+        <service id="jose.algorithm.a192cbchs384" class="SpomkyLabs\Jose\Algorithm\ContentEncryption\A192CBCHS384" public="false">
+            <tag name="jose_algorithm" alias="A192CBC-HS384" requirement="optional" />
         </service>
-        <service id="spomky_jose.algorithm.a256cbchs512" class="%spomky_jose.algorithm.a256cbchs512.class%">
-            <tag name="jose_algorithm" alias="A256CBC-HS512" />
+        <service id="jose.algorithm.a256cbchs512" class="SpomkyLabs\Jose\Algorithm\ContentEncryption\A256CBCHS512" public="false">
+            <tag name="jose_algorithm" alias="A256CBC-HS512" requirement="required" />
         </service>
-        <service id="spomky_jose.algorithm.a128gcm" class="%spomky_jose.algorithm.a128gcm.class%">
-            <tag name="jose_algorithm" alias="A128GCM" />
+        <service id="jose.algorithm.a128gcm" class="SpomkyLabs\Jose\Algorithm\ContentEncryption\A128GCM" public="false">
+            <tag name="jose_algorithm" alias="A128GCM" requirement="recommended" />
         </service>
-        <service id="spomky_jose.algorithm.a192gcm" class="%spomky_jose.algorithm.a192gcm.class%">
-            <tag name="jose_algorithm" alias="A192GCM" />
+        <service id="jose.algorithm.a192gcm" class="SpomkyLabs\Jose\Algorithm\ContentEncryption\A192GCM" public="false">
+            <tag name="jose_algorithm" alias="A192GCM" requirement="optional" />
         </service>
-        <service id="spomky_jose.algorithm.a256gcm" class="%spomky_jose.algorithm.a256gcm.class%">
-            <tag name="jose_algorithm" alias="A256GCM" />
+        <service id="jose.algorithm.a256gcm" class="SpomkyLabs\Jose\Algorithm\ContentEncryption\A256GCM" public="false">
+            <tag name="jose_algorithm" alias="A256GCM" requirement="recommended" />
         </service>
 
-        <service id="spomky_jose.algorithm.a128kw" class="%spomky_jose.algorithm.a128kw.class%">
-            <tag name="jose_algorithm" alias="A128KW" />
+        <service id="jose.algorithm.a128kw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\A128KW" public="false">
+            <tag name="jose_algorithm" alias="A128KW" requirement="recommended" />
         </service>
-        <service id="spomky_jose.algorithm.a192kw" class="%spomky_jose.algorithm.a192kw.class%">
-            <tag name="jose_algorithm" alias="A192KW" />
+        <service id="jose.algorithm.a192kw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\A192KW" public="false">
+            <tag name="jose_algorithm" alias="A192KW" requirement="optional" />
         </service>
-        <service id="spomky_jose.algorithm.a256kw" class="%spomky_jose.algorithm.a256kw.class%">
-            <tag name="jose_algorithm" alias="A256KW" />
+        <service id="jose.algorithm.a256kw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\A256KW" public="false">
+            <tag name="jose_algorithm" alias="A256KW" requirement="recommended" />
         </service>
-        <service id="spomky_jose.algorithm.a128gcmkw" class="%spomky_jose.algorithm.a128gcmkw.class%">
-            <tag name="jose_algorithm" alias="A128GCMKW" />
+        <service id="jose.algorithm.a128gcmkw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\A128GCMKW" public="false">
+            <tag name="jose_algorithm" alias="A128GCMKW" requirement="optional" />
         </service>
-        <service id="spomky_jose.algorithm.a192gcmkw" class="%spomky_jose.algorithm.a192gcmkw.class%">
-            <tag name="jose_algorithm" alias="A192GCMKW" />
+        <service id="jose.algorithm.a192gcmkw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\A192GCMKW" public="false">
+            <tag name="jose_algorithm" alias="A192GCMKW" requirement="optional" />
         </service>
-        <service id="spomky_jose.algorithm.a256gcmkw" class="%spomky_jose.algorithm.a256gcmkw.class%">
-            <tag name="jose_algorithm" alias="A256GCMKW" />
+        <service id="jose.algorithm.a256gcmkw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\A256GCMKW" public="false">
+            <tag name="jose_algorithm" alias="A256GCMKW" requirement="optional" />
         </service>
-        <service id="spomky_jose.algorithm.dir" class="%spomky_jose.algorithm.dir.class%">
-            <tag name="jose_algorithm" alias="dir" />
+        <service id="jose.algorithm.dir" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\Dir" public="false">
+            <tag name="jose_algorithm" alias="dir" requirement="recommended" />
         </service>
-        <service id="spomky_jose.algorithm.ecdhes" class="%spomky_jose.algorithm.ecdhes.class%">
-            <tag name="jose_algorithm" alias="ECDH-ES" />
+        <service id="jose.algorithm.ecdhes" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\ECDHES" public="false">
+            <tag name="jose_algorithm" alias="ECDH-ES" requirement="recommended+" />
         </service>
-        <service id="spomky_jose.algorithm.ecdhesa128kw" class="%spomky_jose.algorithm.ecdhesa128kw.class%">
-            <tag name="jose_algorithm" alias="ECDH-ES+A128KW" />
+        <service id="jose.algorithm.ecdhesa128kw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\ECDHESA128KW" public="false">
+            <tag name="jose_algorithm" alias="ECDH-ES+A128KW" requirement="recommended" />
         </service>
-        <service id="spomky_jose.algorithm.ecdhesa192kw" class="%spomky_jose.algorithm.ecdhesa192kw.class%">
-            <tag name="jose_algorithm" alias="ECDH-ES+A192KW" />
+        <service id="jose.algorithm.ecdhesa192kw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\ECDHESA192KW" public="false">
+            <tag name="jose_algorithm" alias="ECDH-ES+A192KW" requirement="optional" />
         </service>
-        <service id="spomky_jose.algorithm.ecdhesa256kw" class="%spomky_jose.algorithm.ecdhesa256kw.class%">
-            <tag name="jose_algorithm" alias="ECDH-ES+A256KW" />
+        <service id="jose.algorithm.ecdhesa256kw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\ECDHESA256KW" public="false">
+            <tag name="jose_algorithm" alias="ECDH-ES+A256KW" requirement="recommended" />
         </service>
-        <service id="spomky_jose.algorithm.pbes2hs256a128kw" class="%spomky_jose.algorithm.pbes2hs256a128kw.class%">
-            <tag name="jose_algorithm" alias="PBES2-HS256+A128KW" />
+        <service id="jose.algorithm.pbes2hs256a128kw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\PBES2HS256A128KW" public="false">
+            <tag name="jose_algorithm" alias="PBES2-HS256+A128KW" requirement="optional" />
         </service>
-        <service id="spomky_jose.algorithm.pbes2hs384a192kw" class="%spomky_jose.algorithm.pbes2hs384a192kw.class%">
-            <tag name="jose_algorithm" alias="PBES2-HS384+A192KW" />
+        <service id="jose.algorithm.pbes2hs384a192kw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\PBES2HS384A192KW" public="false">
+            <tag name="jose_algorithm" alias="PBES2-HS384+A192KW" requirement="optional" />
         </service>
-        <service id="spomky_jose.algorithm.pbes2hs512a256kw" class="%spomky_jose.algorithm.pbes2hs512a256kw.class%">
-            <tag name="jose_algorithm" alias="PBES2-HS512+A256KW" />
+        <service id="jose.algorithm.pbes2hs512a256kw" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\PBES2HS512A256KW" public="false">
+            <tag name="jose_algorithm" alias="PBES2-HS512+A256KW" requirement="optional" />
         </service>
-        <service id="spomky_jose.algorithm.rsa1_5" class="%spomky_jose.algorithm.rsa1_5.class%">
-            <tag name="jose_algorithm" alias="RSA1_5" />
+        <service id="jose.algorithm.rsa1_5" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\RSA15" public="false">
+            <tag name="jose_algorithm" alias="RSA1_5" requirement="recommended-" />
         </service>
-        <service id="spomky_jose.algorithm.rsa_oaep" class="%spomky_jose.algorithm.rsa_oaep.class%">
-            <tag name="jose_algorithm" alias="RSA-OAEP" />
+        <service id="jose.algorithm.rsa_oaep" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\RSAOAEP" public="false">
+            <tag name="jose_algorithm" alias="RSA-OAEP" requirement="recommended+" />
         </service>
-        <service id="spomky_jose.algorithm.rsa_oaep256" class="%spomky_jose.algorithm.rsa_oaep256.class%">
-            <tag name="jose_algorithm" alias="RSA-OAEP-256" />
+        <service id="jose.algorithm.rsa_oaep256" class="SpomkyLabs\Jose\Algorithm\KeyEncryption\RSAOAEP256" public="false">
+            <tag name="jose_algorithm" alias="RSA-OAEP-256" requirement="optional" />
         </service>
     </services>
 </container>

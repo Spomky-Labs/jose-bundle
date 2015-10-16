@@ -15,91 +15,127 @@ framework:
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
-    templating:
-        engines: ['twig']
+#    templating:
+#        engines: ['twig']
     trusted_hosts:   ~
     trusted_proxies: ~
     fragments:       ~
     http_method_override: true
 
-monolog:
-    handlers:
-        main:
-            type:   stream
-            path:   "%kernel.logs_dir%/%kernel.environment%.log"
-            level:  debug
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        host:     localhost
+        port:
+        path:     "%kernel.cache_dir%/project.db"
+        user:     root
+        password:
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: true
+        auto_mapping: true
 
-# Twig Configuration
-twig:
-    debug:            true
-    strict_variables: true
-
-spomky_jose:
-    server_name: "www.example.com" # This is the audience for received or issuer for issued jose
-    jwt_class: SpomkyLabs\TestJoseBundle\Entity\JWT
-    jws_class: SpomkyLabs\TestJoseBundle\Entity\JWS
-    jwe_class: SpomkyLabs\TestJoseBundle\Entity\JWE
-    jwk_class: SpomkyLabs\TestJoseBundle\Entity\JWK
-    jwkset_class: SpomkyLabs\TestJoseBundle\Entity\JWKSet
-#    jwa_manager:
-#    jwt_manager:
-#    jwk_manager:
-#    keys:
-#
-#    serialization_mode: compact # Serialization mode for issued jose. Supported modes are 'flattened' and 'compact'.
-#    storage:
-#        enabled: false
-#        manager: spomky_jose.jwt_manager
+jose:
+    server_name: My Server #Issuer for all signatures and encryptions; expected Audience for all input loaded
+#    jwk_manager: jose.jwk_manager.default
+#    jwkset_manager: jose.jwkset_manager.default
 #    jot:
 #        headers:
-#            jku: false # If true, will include the url to the public key in the header of each token
+#            jku: false # If true, will include the url to the public key set in the header of each token. It means that the controller is enabled and all public keys can be retreived through HTTP requests.
 #            jwk: false # If true, will include the public key in the header of each token
-#            kid: false # Only if storage is enabled
-#            x5u: false # Only if storage the key is a RSA key
-#            x5c: false # Only if storage the key is a RSA key
-#            x5t: false # Only if storage the key is a RSA key
-#            x5t#256: false # Only if storage the key is a RSA key
-#            crit: false # Supported values are false or a non-empty array of headers.
+#            kid: true # Will set the kid parameter
+#           x5u: false # Only if controller is enabled and the key is a X509 certificate. Should not be mixed with other x5* parameters.
+#            x5c: false # Only if the key is a X509 certificate. Should not be mixed with other x5* parameters.
+#            x5t: false # Only if the key is a X509 certificate. Should not be mixed with other x5* parameters.
+#            x5t#256: false # Only if the key is a X509 certificate. Should not be mixed with other x5* parameters.
+#            crit: [jku,jwk,kid,exp,iat,nbf, iss] # Supported values are null/empty array or a non-empty array of headers/claims.
 #        claims:
-#            iss: www.example.com # This claim is mandatory and must not be empty
-#            nbf: true # Not before
-#            iat: true
-#            lifetime: 5min #
+#            nbf: true # Not before # Recommended
+#            iat: true # Issued at # Highly recommended
+#            lifetime: 5min # Highly recommended. If not null, this option will set an 'exp' claim on each token. The expected value is a string with lifetime of the token (e.g. "1 hour")
+    keys:
+        ABCD:
+            type: file
+            value: "file://%kernel.root_dir%/Keys/RSA/private.key"
+            passphrase: 'tests' # If the key is password protected
+            key_ops: [sign, verify] # Should not be used when 'use' parameter is declared.
+            alg: PS512 # null or an algorithm authorized for this key type.
+            use: sig # Should not be used whet 'key_ops' parameter is declared.
+            load_public_key: true # (default) If the key is private, the public key will be loaded into the public key set
+            shared: true # (default) If a public key is loaded, the key will be shared (only usefull if the controller is enabled)
+                         # Please note that you cannot share private keys
+        key2:
+            type: file
+            value: "file://%kernel.root_dir%/Keys/EC/private.es512.encrypted.key"
+            passphrase: 'test' # If the key is password protected
+            alg: ECDH-ES
+            use: enc
+            load_public_key: true
+            shared: true
+        key3:
+            type: jwk
+            value: '{"kid":"018c0ae5-4d9b-471b-bfd6-eef314bc7037","kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","alg":"ES256"}'
+            shared: false
+            # Please note parameter "load_public_key" has not effect here
+        key6:
+            type: jwkset
+            value: '{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}'
+            shared: false
+            # Please note parameter "load_public_key" has not effect here
+    use_controller: true # If true, the controller is enabled and your public key set is exposed
+    storage:
+        enabled: true # If enabled, tokens will be able to have an ID and be stored in a database. This also means that your JWS/JWE can be revoked
+#        manager: jose.jot_manager.default
+        class: SpomkyLabs\TestJoseBundle\Entity\Jot
     compression_methods: [DEF,GZ,ZLIB]
-    algorithms:
-        - HS256
-        - HS384
-        - HS512
-        - ES256
-        - ES384
-        - ES512
-        - RS256
-        - RS384
-        - RS512
-        - PS256
-        - PS384
-        - PS512
-        - none
-        - dir
-        - RSA1_5
-        - RSA-OAEP
-        - RSA-OAEP-256
-        - ECDH-ES
-        - ECDH-ES+A128KW
-        - ECDH-ES+A192KW
-        - ECDH-ES+A256KW
-        - A128KW
-        - A192KW
-        - A256KW
-        - PBES2-HS256+A128KW
-        - PBES2-HS384+A192KW
-        - PBES2-HS512+A256KW
-        - A128CBC-HS256
-        - A192CBC-HS384
-        - A256CBC-HS512
-        - A128GCMKW
-        - A192GCMKW
-        - A256GCMKW
-        - A128GCM
-        - A192GCM
-        - A256GCM
+    algorithms: # Use the following keywords
+#        - required # Required algorithms
+#        - recommended+ # Recommended+ algorithms
+#        - recommended # Recommended algorithms
+#        - recommended- # Recommended- algorithms
+#        - optional # Optional algorithms
+        - all # All algorithms (this combines all keywords above)
+        - !none # Disable the none algorithm
+        - !A128GCMKW # All GCM algorithms disabled for tests to pass (Crypto extension not yet available on PHP7 and HHVM)
+        - !A192GCMKW
+        - !A256GCMKW
+        - !A128GCM
+        - !A192GCM
+        - !A256GCM
+    #or specify each algorithm you want to enable
+#        - HS256
+#        - HS384
+#        - HS512
+#        - ES256
+#        - ES384
+#        - ES512
+#        - RS256
+#        - RS384
+#        - RS512
+#        - PS256
+#        - PS384
+#        - PS512
+#        - dir
+#        - RSA1_5
+#        - RSA-OAEP
+#        - RSA-OAEP-256
+#        - ECDH-ES
+#        - ECDH-ES+A128KW
+#        - ECDH-ES+A192KW
+#        - ECDH-ES+A256KW
+#        - A128KW
+#        - A192KW
+#        - A256KW
+#        - PBES2-HS256+A128KW
+#        - PBES2-HS384+A192KW
+#        - PBES2-HS512+A256KW
+#        - A128CBC-HS256
+#        - A192CBC-HS384
+#        - A256CBC-HS512
+#        - A128GCMKW
+#        - A192GCMKW
+#        - A256GCMKW
+#        - A128GCM
+#        - A192GCM
+#        - A256GCM
+#        - none # Please disable this algorithm in production mode.

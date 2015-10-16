@@ -4,42 +4,86 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="spomky_jose.jose.class">SpomkyLabs\JoseBundle\Service\Jose</parameter>
-        <parameter key="spomky_jose.signer.class">SpomkyLabs\JoseBundle\Service\Signer</parameter>
-        <parameter key="spomky_jose.loader.class">SpomkyLabs\JoseBundle\Service\Loader</parameter>
-        <parameter key="spomky_jose.encrypter.class">SpomkyLabs\JoseBundle\Service\Encrypter</parameter>
-        <parameter key="spomky_jose.jwa_manager.class">SpomkyLabs\JoseBundle\Service\JWAManager</parameter>
-        <parameter key="spomky_jose.jwt_manager.class">SpomkyLabs\JoseBundle\Service\JWTManager</parameter>
-        <parameter key="spomky_jose.jwk_manager.class">SpomkyLabs\JoseBundle\Service\JWKManager</parameter>
-        <parameter key="spomky_jose.jwkset_manager.class">SpomkyLabs\JoseBundle\Service\JWKSetManager</parameter>
-        <parameter key="spomky_jose.compression_manager.class">SpomkyLabs\JoseBundle\Service\CompressionManager</parameter>
-    </parameters>
-
     <services>
-        <service id="spomky_jose.jose" class="%spomky_jose.jose.class%">
-            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        <service id="jose.signer" class="SpomkyLabs\Jose\Signer" public="false">
+            <call method="setJWAManager">
+                <argument type="service" id="jose.algorithm_manager" />
+            </call>
+            <call method="setJWTManager">
+                <argument type="service" id="jose.jwt_manager" />
+            </call>
+            <call method="setPayloadConverter">
+                <argument type="service" id="jose.payload_converter_manager" />
+            </call>
         </service>
-        <service id="spomky_jose.signer.default" class="%spomky_jose.signer.class%">
+
+        <service id="jose.loader" class="SpomkyLabs\Jose\Loader" public="false">
+            <call method="setJWAManager">
+                <argument type="service" id="jose.algorithm_manager" />
+            </call>
+            <call method="setJWTManager">
+                <argument type="service" id="jose.jwt_manager" />
+            </call>
+            <call method="setJWKManager">
+                <argument type="service" id="jose.jwk_manager" />
+            </call>
+            <call method="setJWKSetManager">
+                <argument type="service" id="jose.jwkset_manager" />
+            </call>
+            <call method="setCheckerManager">
+                <argument type="service" id="jose.checker_manager" />
+            </call>
+            <call method="setPayloadConverter">
+                <argument type="service" id="jose.payload_converter_manager" />
+            </call>
+            <call method="setCompressionManager">
+                <argument type="service" id="jose.compression_manager" />
+            </call>
         </service>
-        <service id="spomky_jose.loader.default" class="%spomky_jose.loader.class%">
+
+        <service id="jose.encrypter" class="SpomkyLabs\Jose\Encrypter" public="false">
+            <call method="setJWAManager">
+                <argument type="service" id="jose.algorithm_manager" />
+            </call>
+            <call method="setJWTManager">
+                <argument type="service" id="jose.jwt_manager" />
+            </call>
+            <call method="setPayloadConverter">
+                <argument type="service" id="jose.payload_converter_manager" />
+            </call>
+            <call method="setCompressionManager">
+                <argument type="service" id="jose.compression_manager" />
+            </call>
         </service>
-        <service id="spomky_jose.encrypter.default" class="%spomky_jose.encrypter.class%">
+
+        <service id="jose.algorithm_manager" class="SpomkyLabs\Jose\JWAManager" public="false" />
+
+        <service id="jose.jwk_manager.default" class="SpomkyLabs\Jose\JWKManager" />
+
+        <service id="jose.jwt_manager" class="SpomkyLabs\Jose\JWTManager" public="false" />
+
+        <service id="jose.jwkset_manager.default" class="SpomkyLabs\JoseBundle\Model\KeysetManager">
+            <call method="setJWKManager">
+                <argument type="service" id="jose.jwk_manager" />
+            </call>
         </service>
-        <service id="spomky_jose.jwa_manager.default" class="%spomky_jose.jwa_manager.class%">
-            <argument type="service" id="spomky_jose.chain.algorithm" />
-        </service>
-        <service id="spomky_jose.jwk_manager.default" class="%spomky_jose.jwk_manager.class%">
-        </service>
-        <service id="spomky_jose.jwkset_manager.default" class="%spomky_jose.jwkset_manager.class%">
-        </service>
-        <service id="spomky_jose.jwt_manager.default" class="%spomky_jose.jwt_manager.class%">
-            <argument>%spomky_jose.jwt_class%</argument>
-            <argument>%spomky_jose.jws_class%</argument>
-            <argument>%spomky_jose.jwe_class%</argument>
-        </service>
-        <service id="spomky_jose.compression_manager.default" class="%spomky_jose.compression_manager.class%">
-            <argument type="service" id="spomky_jose.chain.compression" />
+
+        <service id="jose.jwt_manager.default" class="SpomkyLabs\Jose\JWTManager" public="false" />
+
+        <service id="jose.compression_manager" class="SpomkyLabs\Jose\Compression\CompressionManager" public="false" />
+
+        <service id="jose.payload_converter_manager" class="SpomkyLabs\Jose\Payload\PayloadConverterManager" public="false" />
+
+        <service id="jose.checker_manager" class="SpomkyLabs\Jose\Checker\CheckerManager" public="false" />
+
+        <service id="jose" class="SpomkyLabs\JoseBundle\Service\Jose">
+            <argument type="service" id="jose.loader" />
+            <argument type="service" id="jose.signer" />
+            <argument type="service" id="jose.encrypter" />
+            <argument type="service" id="jose.jwkset_manager" />
+            <argument type="service" id="jose.algorithm_manager" />
+            <argument>%jose.server_name%</argument>
+            <argument type="service" id="jose.jot_manager" on-invalid="ignore" />
         </service>
     </services>
 </container>

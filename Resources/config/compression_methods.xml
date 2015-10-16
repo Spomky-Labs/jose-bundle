@@ -4,20 +4,14 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="spomky_jose.compression.deflate.class">SpomkyLabs\Jose\Compression\Deflate</parameter>
-        <parameter key="spomky_jose.compression.gzip.class">SpomkyLabs\Jose\Compression\GZip</parameter>
-        <parameter key="spomky_jose.compression.zlib.class">SpomkyLabs\Jose\Compression\ZLib</parameter>
-    </parameters>
-
     <services>
-        <service id="spomky_jose.compression.deflate" class="%spomky_jose.compression.deflate.class%">
+        <service id="jose.compression.deflate" class="SpomkyLabs\Jose\Compression\Deflate" public="false">
             <tag name="jose_compression" alias="DEF" />
         </service>
-        <service id="spomky_jose.compression.gzip" class="%spomky_jose.compression.gzip.class%">
+        <service id="jose.compression.gzip" class="SpomkyLabs\Jose\Compression\GZip" public="false">
             <tag name="jose_compression" alias="GZ" />
         </service>
-        <service id="spomky_jose.compression.zlib" class="%spomky_jose.compression.zlib.class%">
+        <service id="jose.compression.zlib" class="SpomkyLabs\Jose\Compression\ZLib" public="false">
             <tag name="jose_compression" alias="ZLIB" />
         </service>
     </services>

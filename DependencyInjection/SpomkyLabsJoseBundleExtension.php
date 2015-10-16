@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2015 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
 namespace SpomkyLabs\JoseBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class SpomkyLabsJoseBundleExtension extends Extension
 {
@@ -22,30 +31,42 @@ class SpomkyLabsJoseBundleExtension extends Extension
 
     public function load(array $configs, ContainerBuilder $container)
     {
-        $processor     = new Processor();
+        $processor = new Processor();
         $configuration = new Configuration($this->getAlias());
 
         $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        foreach (array('services', 'chain', 'controllers', 'signature_algorithms', 'encryption_algorithms', 'compression_methods') as $basename) {
+        $services = ['services', 'signature_algorithms', 'encryption_algorithms', 'compression_methods', 'checkers', 'payload_converters'];
+        if (true === $config['use_controller']) {
+            $services[] = 'jwkset_controller';
+        }
+        if (true === $config['storage']['enabled']) {
+            $services[] = 'storage';
+            $container->setParameter($this->getAlias().'.storage.class', $config['storage']['class']);
+            $container->setAlias($this->getAlias().'.jot_manager', $config['storage']['manager']);
+        }
+        foreach ($services as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
 
-        $container->setParameter($this->getAlias().'.jwt_class', $config['jwt_class']);
-        $container->setParameter($this->getAlias().'.jws_class', $config['jws_class']);
-        $container->setParameter($this->getAlias().'.jwe_class', $config['jwe_class']);
-        $container->setParameter($this->getAlias().'.jwk_class', $config['jwk_class']);
-        $container->setParameter($this->getAlias().'.jwkset_class', $config['jwkset_class']);
-        $container->setParameter($this->getAlias().'.algorithms', $config['algorithms']);
-        $container->setParameter($this->getAlias().'.compression_methods', $config['compression_methods']);
-        $container->setParameter($this->getAlias().'.server_name', $config['server_name']);
-        $container->setParameter($this->getAlias().'.serialization_mode', $config['serialization_mode']);
-        $container->setAlias($this->getAlias().'.jwa_manager', $config['jwa_manager']);
-        $container->setAlias($this->getAlias().'.jwt_manager', $config['jwt_manager']);
-        $container->setAlias($this->getAlias().'.jwk_manager', $config['jwk_manager']);
-        $container->setAlias($this->getAlias().'.jwkset_manager', $config['jwkset_manager']);
-        $container->setAlias($this->getAlias().'.compression_manager', $config['compression_manager']);
+        $parameters = [
+            'server_name',
+            'keys',
+            'algorithms',
+            'compression_methods',
+        ];
+        $aliases = [
+            'jwk_manager',
+            'jwkset_manager',
+        ];
+
+        foreach ($parameters as $parameter) {
+            $container->setParameter($this->getAlias().'.'.$parameter, $config[$parameter]);
+        }
+        foreach ($aliases as $alias) {
+            $container->setAlias($this->getAlias().'.'.$alias, $config[$alias]);
+        }
     }
 
     /**
