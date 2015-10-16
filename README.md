@@ -2,18 +2,17 @@ Jose Bundle
 ===========
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Spomky-Labs/jose-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Spomky-Labs/jose-bundle/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/Spomky-Labs/jose-bundle/badge.svg?branch=master&service=github)](https://coveralls.io/github/Spomky-Labs/jose-bundle?branch=master)
-
 [![Build Status](https://travis-ci.org/Spomky-Labs/jose-bundle.svg?branch=master)](https://travis-ci.org/Spomky-Labs/jose-bundle)
 [![HHVM Status](http://hhvm.h4cc.de/badge/Spomky-Labs/jose-bundle.png)](http://hhvm.h4cc.de/package/Spomky-Labs/jose-bundle)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/33c9c0b7-cc73-475e-8e83-e9526c539369/big.png)](https://insight.sensiolabs.com/projects/33c9c0b7-cc73-475e-8e83-e9526c539369)
 
-[![Latest Stable Version](https://poser.pugx.org/Spomky-Labs/jose-bundle/v/stable.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle) [![Total Downloads](https://poser.pugx.org/Spomky-Labs/jose-bundle/downloads.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle) [![Latest Unstable Version](https://poser.pugx.org/Spomky-Labs/jose-bundle/v/unstable.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle) [![License](https://poser.pugx.org/Spomky-Labs/jose-bundle/license.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
+[![Latest Stable Version](https://poser.pugx.org/Spomky-Labs/jose-bundle/v/stable.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
+[![Total Downloads](https://poser.pugx.org/Spomky-Labs/jose-bundle/downloads.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
+[![Latest Unstable Version](https://poser.pugx.org/Spomky-Labs/jose-bundle/v/unstable.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
+[![License](https://poser.pugx.org/Spomky-Labs/jose-bundle/license.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
 
-[![StyleCI](https://styleci.io/repos/30558405/shield)](https://styleci.io/repos/30558405)
-
-This project provides a Symfony2 bundle to create and load JWT.
+This Symfony2 bundle provides services create load and verify JWT.
 It uses [Spomky-Labs/jose](https://github.com/Spomky-Labs/jose) to ease encryption/decryption and signature/verification of JWS and JWE.
 
 # The Release Process
@@ -25,12 +24,13 @@ This library needs at least:
 * ![PHP 5.6+](https://img.shields.io/badge/PHP-5.6%2B-ff69b4.svg)
 * Symfony 2.7+
 
-Please consider the following optional requirements:
-* AES-GCM based algorithms (AxxxGCM and AxxxGCMKW): [PHP Crypto](https://github.com/bukka/php-crypto) Extension (not yet available on `PHP 7` and `HHVM`).
+Please consider the following optional third party libraries and extensions:
+* Enable AES-GCM based algorithms (AxxxGCM and AxxxGCMKW): [PHP Crypto](https://github.com/bukka/php-crypto) Extension (not yet available on `PHP 7` and `HHVM`).
+* Enable storage and `jti` header support: [doctrine/orm](https://packagist.org/packages/doctrine/orm) (should work with [doctrine/mongodb-odm](https://packagist.org/packages/doctrine/mongodb-odm) or other Doctrine storage).
 
 # Continuous Integration
 
-It has been successfully tested using `PHP 5.6` with all algorithms.
+It has been successfully tested using `PHP 5.6` with all algorithms under Symfony 2.7.
 
 Some tests on `PHP 7` and `HHVM` were skipped because [PHP Crypto](https://github.com/bukka/php-crypto) is not yet supported.
 At the moment, you will not be able to use GCM algorithms on these platforms.
