@@ -154,10 +154,20 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
                 $this->asymmetric_keyset->addKey($key);
                 break;
         }
-        if (true === $is_shared) {
+        if (true === $is_shared && $this->isKeyPublic($key)) {
             $this->shared_keyset->addKey($key);
         }
         return $this;
+    }
+
+    /**
+     * @param \Jose\JWKInterface $key
+     *
+     * @return bool
+     */
+    public function isKeyPublic(JWKInterface $key)
+    {
+        return ('EC' ===$key->getKeyType() || 'RSA' ===$key->getKeyType()) && null === $key->getValue('d');
     }
 
     /**
@@ -179,6 +189,8 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
      * @param array $private_values
      * @param bool  $is_shared
      * @param array $additional_data
+     *
+     * @return self
      */
     private function loadPrivateAndPublicKey(array $private_values, $is_shared, array $additional_data)
     {
@@ -195,6 +207,8 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
         $private_values = array_merge($private_values, $additional_data);
         $this->loadKeyFromValues($public_values, $is_shared);
         $this->loadKeyFromValues($private_values);
+
+        return $this;
     }
 
     /**

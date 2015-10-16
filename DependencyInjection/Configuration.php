@@ -72,6 +72,16 @@ class Configuration implements ConfigurationInterface
      */
     private function addKeySection(ArrayNodeDefinition $node)
     {
+        $supportedKeyOps = [
+            'sign',
+            'verify',
+            'encrypt',
+            'decrypt',
+            'wrapKey',
+            'unwrapKey',
+            'deriveKey',
+            'deriveBits',
+        ];
         $supportedUsages = ['sig', 'enc'];
         $supportedKeyTypes = ['file', 'jwk', 'jwkset'];
 
@@ -81,6 +91,10 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('keys')
                     ->useAttributeAsKey('name')
                     ->prototype('array')
+                    ->validate()
+                        ->ifTrue(function($v) { return 'file' !== $v['type'] && !empty($v['passphrase']); })
+                        ->thenInvalid('"passphrase" parameter is only available using type "file"')
+                    ->end()
                     ->children()
                         ->scalarNode('type')
                             ->isRequired()
@@ -89,7 +103,6 @@ class Configuration implements ConfigurationInterface
                                 ->thenInvalid('The supported key types are "%s" is not supported. Please choose one of '.json_encode($supportedKeyTypes))
                             ->end()
                         ->end()
-                        ->scalarNode('file')->defaultNull()->end()
                         ->scalarNode('value')->defaultNull()->end()
                         ->scalarNode('passphrase')->defaultNull()->end()
                         ->booleanNode('load_public_key')->defaultTrue()->end()
@@ -97,10 +110,10 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('key_ops')
                         ->prototype('scalar')->end()
                             ->treatNullLike([])
-                            /*->validate()
-                                ->ifNotInArray($supportedKeyOps)
-                                ->thenInvalid('The value "%s" is not a valid. Please choose one of null or '.json_encode($supportedKeyOps))
-                            ->end()*/
+                            ->validate()
+                                ->ifTrue(function($v) use ($supportedKeyOps) { return 0 !== count(array_diff($v, $supportedKeyOps)); })
+                                ->thenInvalid('Unsupported key operation. Please unset the configuration entry or set a list with the following possible values: '.json_encode($supportedKeyOps))
+                            ->end()
                         ->end()
                         ->scalarNode('alg')->defaultNull()->end()
                         ->scalarNode('use')

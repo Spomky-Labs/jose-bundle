@@ -36,7 +36,7 @@ class KeysCompilerPass implements CompilerPassInterface
                             $additional_data[$v] = $key[$k];
                         }
                     }
-                    $definition->addMethodCall('loadKeyFromFile', [$id, $key['file'], $key['passphrase'], $key['shared'], $key['load_public_key'], $additional_data]);
+                    $definition->addMethodCall('loadKeyFromFile', [$id, $key['value'], $key['passphrase'], $key['shared'], $key['load_public_key'], $additional_data]);
                     break;
                 case 'jwk':
                     $definition->addMethodCall('loadKeyFromJWK', [$key['value'], $key['shared']]);
