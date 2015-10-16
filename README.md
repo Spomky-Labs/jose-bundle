@@ -1,11 +1,11 @@
 Jose Bundle
 ===========
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Spomky-Labs/jose-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Spomky-Labs/jose-bundle/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/?branch=master)
 [![Build Status](https://travis-ci.org/Spomky-Labs/jose-bundle.svg?branch=master)](https://travis-ci.org/Spomky-Labs/jose-bundle)
 [![HHVM Status](http://hhvm.h4cc.de/badge/Spomky-Labs/jose-bundle.png)](http://hhvm.h4cc.de/package/Spomky-Labs/jose-bundle)
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/33c9c0b7-cc73-475e-8e83-e9526c539369/big.png)](https://insight.sensiolabs.com/projects/33c9c0b7-cc73-475e-8e83-e9526c539369)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05/big.png)](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05)
 
 [![Latest Stable Version](https://poser.pugx.org/Spomky-Labs/jose-bundle/v/stable.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
 [![Total Downloads](https://poser.pugx.org/Spomky-Labs/jose-bundle/downloads.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
@@ -30,16 +30,11 @@ Please consider the following optional third party libraries and extensions:
 
 # Continuous Integration
 
-It has been successfully tested using `PHP 5.6` with all algorithms under Symfony 2.7.
+It has been successfully tested using `PHP 5.6`, `PHP 7` and `HHVM` with all algorithms under Symfony 2.7.
 
-Some tests on `PHP 7` and `HHVM` were skipped because [PHP Crypto](https://github.com/bukka/php-crypto) is not yet supported.
-At the moment, you will not be able to use GCM algorithms on these platforms.
+We also track bugs and code quality using [Scrutinizer-CI](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/) and [Sensio Insight](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05).
 
-We also track bugs and code quality using [Scrutinizer-CI](https://scrutinizer-ci.com/g/Spomky-Labs/jose-bundle) and [Sensio Insight](https://insight.sensiolabs.com/projects/33c9c0b7-cc73-475e-8e83-e9526c539369).
-
-Coding Standards are verified by [StyleCI](https://styleci.io/repos/30558405).
-
-Code coverage is analyzed by [Coveralls.io](https://coveralls.io/github/Spomky-Labs/jose-bundle). 
+Coding Standards are verified by [StyleCI](https://styleci.io/repos/28856829).
 
 # Installation
 
