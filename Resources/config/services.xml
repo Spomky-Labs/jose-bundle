@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="jose.signer" class="SpomkyLabs\Jose\Signer" public="false">
+        <service id="jose.signer" class="SpomkyLabs\Jose\Signer">
             <call method="setJWAManager">
                 <argument type="service" id="jose.algorithm_manager" />
             </call>
@@ -17,7 +17,7 @@
             </call>
         </service>
 
-        <service id="jose.loader" class="SpomkyLabs\Jose\Loader" public="false">
+        <service id="jose.loader" class="SpomkyLabs\Jose\Loader">
             <call method="setJWAManager">
                 <argument type="service" id="jose.algorithm_manager" />
             </call>
@@ -41,7 +41,7 @@
             </call>
         </service>
 
-        <service id="jose.encrypter" class="SpomkyLabs\Jose\Encrypter" public="false">
+        <service id="jose.encrypter" class="SpomkyLabs\Jose\Encrypter">
             <call method="setJWAManager">
                 <argument type="service" id="jose.algorithm_manager" />
             </call>
@@ -56,11 +56,11 @@
             </call>
         </service>
 
-        <service id="jose.algorithm_manager" class="SpomkyLabs\Jose\JWAManager" public="false" />
+        <service id="jose.algorithm_manager" class="SpomkyLabs\Jose\JWAManager" />
 
         <service id="jose.jwk_manager.default" class="SpomkyLabs\Jose\JWKManager" />
 
-        <service id="jose.jwt_manager" class="SpomkyLabs\Jose\JWTManager" public="false" />
+        <service id="jose.jwt_manager" class="SpomkyLabs\Jose\JWTManager" />
 
         <service id="jose.jwkset_manager.default" class="SpomkyLabs\JoseBundle\Model\KeysetManager">
             <call method="setJWKManager">
@@ -68,13 +68,13 @@
             </call>
         </service>
 
-        <service id="jose.jwt_manager.default" class="SpomkyLabs\Jose\JWTManager" public="false" />
+        <service id="jose.jwt_manager.default" class="SpomkyLabs\Jose\JWTManager" />
 
-        <service id="jose.compression_manager" class="SpomkyLabs\Jose\Compression\CompressionManager" public="false" />
+        <service id="jose.compression_manager" class="SpomkyLabs\Jose\Compression\CompressionManager" />
 
-        <service id="jose.payload_converter_manager" class="SpomkyLabs\Jose\Payload\PayloadConverterManager" public="false" />
+        <service id="jose.payload_converter_manager" class="SpomkyLabs\Jose\Payload\PayloadConverterManager" />
 
-        <service id="jose.checker_manager" class="SpomkyLabs\Jose\Checker\CheckerManager" public="false" />
+        <service id="jose.checker_manager" class="SpomkyLabs\Jose\Checker\CheckerManager" />
 
         <service id="jose" class="SpomkyLabs\JoseBundle\Service\Jose">
             <argument type="service" id="jose.loader" />
