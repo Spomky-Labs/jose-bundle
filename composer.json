@@ -23,7 +23,8 @@
         "behat/mink": "*",
         "behat/mink-extension": "*",
         "behat/mink-browserkit-driver":  "*",
-        "doctrine/orm": "~2.2"
+        "doctrine/orm": "~2.2",
+        "symfony/finder": "~2.3"
     },
     "autoload": {
         "psr-4": {

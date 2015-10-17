@@ -6,7 +6,6 @@ framework:
     secret: test
     translator: ~
     default_locale:  "en"
-    form: ~
     csrf_protection: ~
     validation:
         enable_annotations: true
