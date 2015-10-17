@@ -121,7 +121,7 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
         foreach ($keysets as $name) {
             $keyset = $this->getKeyset($name);
             foreach ($keyset->getKeys() as $key) {
-                if ($key->getKeyID()) {
+                if ($id === $key->getKeyID()) {
                     return $key;
                 }
             }
