@@ -291,8 +291,10 @@ class Jose
 
         $instruction = new EncryptionInstruction();
         $instruction->setRecipientKey($recipient_key)
-            ->setSenderKey($sender_key)
             ->setRecipientUnprotectedHeader($recipient_unprotected_hearder);
+        if ($sender_key instanceof JWKInterface) {
+            $instruction->setSenderKey($sender_key);
+        }
 
         $encryption =  $this->encrypter->encrypt($input, [$instruction], $shared_protected_header, $shared_unprotected_header, $serialization, $aad);
 
