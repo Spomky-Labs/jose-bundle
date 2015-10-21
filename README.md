@@ -2,7 +2,7 @@ Jose Bundle
 ===========
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/?branch=master)
-[![Build Status](https://travis-ci.org/Spomky-Labs/jose-bundle.svg?branch=master)](https://travis-ci.org/Spomky-Labs/jose-bundle)
+[![Build Status](https://travis-ci.org/Spomky-Labs/JoseBundle.svg?branch=master)](https://travis-ci.org/Spomky-Labs/JoseBundle)
 [![HHVM Status](http://hhvm.h4cc.de/badge/Spomky-Labs/jose-bundle.png)](http://hhvm.h4cc.de/package/Spomky-Labs/jose-bundle)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05/big.png)](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05)
