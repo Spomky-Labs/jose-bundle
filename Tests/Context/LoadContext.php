@@ -33,6 +33,11 @@ trait LoadContext
     private $exception;
 
     /**
+     * @var null|string
+     */
+    private $loaded_detached_payload;
+
+    /**
      * @return \Jose\JWKSetInterface
      */
     abstract protected function getKeyset();
@@ -132,7 +137,6 @@ trait LoadContext
         }
     }
 
-
     /**
      * @return \SpomkyLabs\JoseBundle\Service\Jose
      */
@@ -146,7 +150,7 @@ trait LoadContext
      */
     public function iShouldReceiveAnException()
     {
-        if ($this->loaded_data instanceof \Exception) {
+        if (!$this->exception instanceof \Exception) {
             throw new \Exception(sprintf('The loaded data is not an exception. Its class is %s', get_class($this->loaded_data)));
         }
     }
@@ -157,7 +161,7 @@ trait LoadContext
     public function theExceptionMessageIs($message)
     {
         if ($message !== $this->exception->getMessage()) {
-            throw new \Exception(sprintf('The exception message is "%s"', $message));
+            throw new \Exception(sprintf('The exception message is "%s"', $this->exception->getMessage()));
         }
     }
 
@@ -186,6 +190,18 @@ trait LoadContext
         $value = 'header' === $position?$this->loaded_data->getHeaderValue($parameter):$this->loaded_data->getPayloadValue($parameter);
         if (null !== $value) {
             throw new \Exception(sprintf('The value is not null. Its value is "%s"', $value));
+        }
+    }
+
+    /**
+     * @When I want to verify the loaded data
+     */
+    public function iWantToVerifyTheLoadedData()
+    {
+        try {
+            $this->getLoader()->checkJWT($this->loaded_data, $this->getKeyset(), $this->loaded_detached_payload);
+        } catch (\Exception $e) {
+            $this->exception = $e;
         }
     }
 }

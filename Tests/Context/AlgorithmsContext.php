@@ -30,7 +30,7 @@ trait AlgorithmsContext
      */
     public function iListAlgorithms()
     {
-        $this->algorithm_list = $this->getAlgorithmManager()->getSupportedAlgorithms();
+        $this->algorithm_list = $this->getAlgorithmManager()->listAlgorithms();
     }
 
     /**
@@ -44,10 +44,10 @@ trait AlgorithmsContext
     }
 
     /**
-     * @return \SpomkyLabs\JoseBundle\Service\Jose
+     * @return \Jose\JWAManagerInterface
      */
     protected function getAlgorithmManager()
     {
-        return $this->getContainer()->get('jose');
+        return $this->getContainer()->get('jose.algorithm_manager');
     }
 }

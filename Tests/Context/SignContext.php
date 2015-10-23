@@ -136,7 +136,11 @@ trait SignContext
      */
     public function iTryToSignTheInput()
     {
-        $this->signed_data = $this->getSigner()->sign($this->input, $this->signature_key, $this->protected_header, $this->unprotected_header, $this->serialization_mode, $this->is_signature_detached, $this->detached_payload);
+        $instruction = new SignatureInstruction();
+        $instruction->setKey($this->signature_key)
+            ->setProtectedHeader($this->protected_header)
+            ->setUnprotectedHeader($this->unprotected_header);
+        $this->signed_data = $this->getSigner()->sign($this->input, [$instruction], $this->serialization_mode, $this->is_signature_detached, $this->detached_payload);
     }
 
     /**
