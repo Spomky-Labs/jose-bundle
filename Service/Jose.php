@@ -64,8 +64,7 @@ final class Jose implements JoseInterface
         EncrypterInterface $encrypter,
         $server_name,
         JotManagerInterface $jot_manager = null
-    )
-    {
+    ) {
         $this->loader = $loader;
         $this->signer = $signer;
         $this->encrypter = $encrypter;
@@ -184,7 +183,6 @@ final class Jose implements JoseInterface
      */
     public function sign($input, array $instructions, $serialization = JSONSerializationModes::JSON_COMPACT_SERIALIZATION, $detached_signature = false, &$detached_payload = null)
     {
-        $jot = null;
         if (null !== $this->getJotManager()) {
             $jot = $this->getJotManager()->createJot();
             $this->populateJti($input, $jot);
@@ -213,11 +211,11 @@ final class Jose implements JoseInterface
      */
     protected function populateJti(&$input, JotInterface $jot)
     {
-        if(is_array($input)) {
+        if (is_array($input)) {
             $input['jti'] = $jot->getJti();
         } elseif ($input instanceof JWTInterface) {
             $payload = $input->getPayload();
-            if(is_array($payload)) {
+            if (is_array($payload)) {
                 $payload['jti'] = $jot->getJti();
                 $input = $input->withPayload($payload);
             }
@@ -231,7 +229,7 @@ final class Jose implements JoseInterface
      */
     protected function populateData($input, JotInterface &$jot, $data)
     {
-        if(is_array($input) || ($input instanceof JWTInterface && is_array($input->getPayload()))) {
+        if (is_array($input) || ($input instanceof JWTInterface && is_array($input->getPayload()))) {
             $jot = $jot->withData($data);
             $this->jot_manager->saveJot($jot);
         }

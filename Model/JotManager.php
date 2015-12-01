@@ -36,8 +36,8 @@ class JotManager implements JotManagerInterface
     private $class;
 
     /**
-     * @param                                                             $class
-     * @param \Doctrine\Common\Persistence\ManagerRegistry                $manager_registry
+     * @param                                              $class
+     * @param \Doctrine\Common\Persistence\ManagerRegistry $manager_registry
      */
     public function __construct($class, ManagerRegistry $manager_registry)
     {
@@ -116,7 +116,7 @@ class JotManager implements JotManagerInterface
     {
         $class = $this->getClass();
 
-        return new $class;
+        return new $class();
     }
 
     /**
@@ -126,6 +126,7 @@ class JotManager implements JotManagerInterface
     {
         $this->getEntityManager()->persist($jot);
         $this->getEntityManager()->flush();
+
         return $this;
     }
 

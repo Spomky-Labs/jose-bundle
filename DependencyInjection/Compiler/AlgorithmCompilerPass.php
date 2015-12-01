@@ -128,7 +128,7 @@ final class AlgorithmCompilerPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds('jose_algorithm');
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                foreach(['alias', 'requirement', 'category'] as $attr) {
+                foreach (['alias', 'requirement', 'category'] as $attr) {
                     if (!array_key_exists($attr, $attributes)) {
                         throw new \InvalidArgumentException(sprintf("The algorithm '%s' does not have any '%s' attribute.", $id, $attr));
                     }

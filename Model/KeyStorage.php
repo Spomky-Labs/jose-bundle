@@ -51,7 +51,7 @@ class KeyStorage implements KeyStorageInterface
 
     public function __construct(array $keys)
     {
-        foreach($keys as $id=>$key) {
+        foreach ($keys as $id => $key) {
             $result = [];
             if (!empty($key['file'])) {
                 $result = $this->loadKeyFile(
@@ -80,7 +80,7 @@ class KeyStorage implements KeyStorageInterface
     private function addKey(array $values, array $additional_values, $load_public_key, $shared)
     {
         if (array_key_exists('keys', $values)) {
-            foreach($values['keys'] as $key) {
+            foreach ($values['keys'] as $key) {
                 $this->addKey($key, $additional_values, $load_public_key, $shared);
             }
         } else {
@@ -226,6 +226,7 @@ class KeyStorage implements KeyStorageInterface
         if (!is_array($jwkset) || !array_key_exists('keys', $jwkset)) {
             throw new \InvalidArgumentException('Not a valid JWKSet');
         }
+
         return $jwkset;
     }
 
@@ -242,6 +243,7 @@ class KeyStorage implements KeyStorageInterface
         if (!is_array($jwk)) {
             throw new \InvalidArgumentException('Not a valid JWK');
         }
+
         return $jwk;
     }
 }
