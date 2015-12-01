@@ -88,7 +88,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
             'compression_methods',
             'checkers',
             'finders',
-            'payload_converters'
+            'payload_converters',
         ];
     }
 }

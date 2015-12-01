@@ -50,7 +50,7 @@ final class KIDFinder implements JWKFinderInterface
 
         $keys = $this->getKeyStorage()->getKeys();
 
-        foreach($keys as $key) {
+        foreach ($keys as $key) {
             if (array_key_exists('kid', $key) && $header['kid'] === $key['kid']) {
                 $result['keys'][] = $key;
             }

@@ -70,7 +70,7 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
         if (!in_array($name, $this->getKeysetNames())) {
             throw new \InvalidArgumentException(sprintf('Unknown key set. Please use one of the following name: %s', json_encode($this->getKeysetNames())));
         }
-        $method = 'get'. ucfirst($name).'Keyset';
+        $method = 'get'.ucfirst($name).'Keyset';
         if (!in_array($name, $this->getKeysetNames())) {
             throw new \RuntimeException(sprintf('Unknown method "%s".', $method));
         }
@@ -157,6 +157,7 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
         if (true === $is_shared && $this->isKeyPublic($key)) {
             $this->shared_keyset->addKey($key);
         }
+
         return $this;
     }
 
@@ -167,7 +168,7 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
      */
     public function isKeyPublic(JWKInterface $key)
     {
-        return ('EC' ===$key->getKeyType() || 'RSA' ===$key->getKeyType()) && null === $key->getValue('d');
+        return ('EC' === $key->getKeyType() || 'RSA' === $key->getKeyType()) && null === $key->getValue('d');
     }
 
     /**
@@ -182,6 +183,7 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
             return $this->loadPrivateAndPublicKey($values, $is_shared, $additional_data);
         }
         $values = array_merge($values, $additional_data);
+
         return $this->loadKeyFromValues($values, $is_shared);
     }
 
@@ -226,6 +228,7 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
         foreach ($key_set->getKeys() as $key) {
             $this->addKey($key, $is_shared);
         }
+
         return $this;
     }
 
@@ -240,6 +243,7 @@ class KeysetManager extends JWKSetManager implements KeysetManagerInterface
         if (!is_array($jwk)) {
             throw new \InvalidArgumentException('Not a valid JWK');
         }
+
         return $this->loadKeyFromValues($jwk, $is_shared);
     }
 

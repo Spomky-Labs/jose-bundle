@@ -26,28 +26,28 @@ interface KeysetManagerInterface extends JWKSetManagerInterface
     public function getKeyset($keyset_name);
 
     /**
-     * This is a convenient method for `getKeyset(KeysetManagerInterface::KEYSET_PUBLIC)`
+     * This is a convenient method for `getKeyset(KeysetManagerInterface::KEYSET_PUBLIC)`.
      *
      * @return \Jose\JWKSetInterface
      */
     public function getPublicKeyset();
 
     /**
-     * This is a convenient method for `getKeyset(KeysetManagerInterface::KEYSET_PRIVATE)`
+     * This is a convenient method for `getKeyset(KeysetManagerInterface::KEYSET_PRIVATE)`.
      *
      * @return \Jose\JWKSetInterface
      */
     public function getPrivateKeyset();
 
     /**
-     * This is a convenient method for `getKeyset(KeysetManagerInterface::KEYSET_ASYMMETRIC)`
+     * This is a convenient method for `getKeyset(KeysetManagerInterface::KEYSET_ASYMMETRIC)`.
      *
      * @return \Jose\JWKSetInterface
      */
     public function getAsymmetricKeyset();
 
     /**
-     * Returns a key set that contains all shared keys
+     * Returns a key set that contains all shared keys.
      *
      * @return \Jose\JWKSetInterface
      *

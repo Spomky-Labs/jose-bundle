@@ -48,15 +48,15 @@ final class AlgorithmFinder implements JWKFinderInterface
             return;
         }
 
-        $result = ['keys'=>[]];
+        $result = ['keys' => []];
         $keys = $this->getKeyStorage()->getKeys();
 
-        foreach($keys as $key) {
+        foreach ($keys as $key) {
             if (array_key_exists('alg', $key) && $header['alg'] === $key['alg']) {
                 $result['keys'][] = $key;
             }
         }
 
-        return empty($result['keys'])?null:$result;
+        return empty($result['keys']) ? null : $result;
     }
 }

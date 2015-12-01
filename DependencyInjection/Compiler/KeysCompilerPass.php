@@ -26,12 +26,12 @@ final class KeysCompilerPass implements CompilerPassInterface
 
         $keys = $container->getParameter('jose.keys');
 
-        foreach ($keys as $id=>$key) {
+        foreach ($keys as $id => $key) {
             switch ($key['type']) {
                 case 'file':
                     $additional_data = [
                     ];
-                    foreach(['alg'=>'alg', 'use'=>'use', 'key_ops'=>'key_ops'] as  $k=>$v) {
+                    foreach (['alg' => 'alg', 'use' => 'use', 'key_ops' => 'key_ops'] as  $k => $v) {
                         if (!empty($key[$k])) {
                             $additional_data[$v] = $key[$k];
                         }
