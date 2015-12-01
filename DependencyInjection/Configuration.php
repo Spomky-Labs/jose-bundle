@@ -14,8 +14,9 @@ namespace SpomkyLabs\JoseBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 
-class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
     private $alias;
 
@@ -41,8 +42,6 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('use_controller')->defaultTrue()->end()
                 ->scalarNode('server_name')->cannotBeEmpty()->end()
-                ->scalarNode('jwk_manager')->defaultValue('jose.jwk_manager.default')->cannotBeEmpty()->end()
-                ->scalarNode('jwkset_manager')->defaultValue('jose.jwkset_manager.default')->cannotBeEmpty()->end()
                 ->arrayNode('algorithms')->prototype('scalar')->end()->treatNullLike([])->end()
                 ->arrayNode('compression_methods')->prototype('scalar')->end()->treatNullLike([])->end()
             ->end();
@@ -57,7 +56,7 @@ class Configuration implements ConfigurationInterface
     {
         $node
             ->children()
-                ->arrayNode('storage')
+                ->arrayNode('jot')
                     ->children()
                         ->booleanNode('enabled')->defaultFalse()->end()
                         ->scalarNode('manager')->defaultValue('jose.jot_manager.default')->cannotBeEmpty()->end()
@@ -83,7 +82,6 @@ class Configuration implements ConfigurationInterface
             'deriveBits',
         ];
         $supportedUsages = ['sig', 'enc'];
-        $supportedKeyTypes = ['file', 'jwk', 'jwkset'];
 
         $node
             ->treatNullLike([])
@@ -92,37 +90,31 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                     ->validate()
-                        ->ifTrue(function($v) { return 'file' !== $v['type'] && !empty($v['passphrase']); })
-                        ->thenInvalid('"passphrase" parameter is only available using type "file"')
+                        ->ifTrue(function($v) { return !array_key_exists('file',$v) && !empty($v['passphrase']); })
+                        ->thenInvalid('"passphrase" parameter is only available using a key/certificate from a file')
                     ->end()
                     ->children()
-                        ->scalarNode('type')
-                            ->isRequired()
-                            ->validate()
-                                ->ifNotInArray($supportedKeyTypes)
-                                ->thenInvalid('The supported key types are "%s" is not supported. Please choose one of '.json_encode($supportedKeyTypes))
+                        ->scalarNode('certificate')->defaultNull()->end()
+                        ->scalarNode('file')->defaultNull()->end()
+                        ->scalarNode('jwk')->defaultNull()->end()
+                        ->scalarNode('jwkset')->defaultNull()->end()
+                        ->arrayNode('values')
+                            ->useAttributeAsKey('key')
+                            ->prototype('variable')
+                                ->validate()
+                                ->always(function ($v) {
+                                    if (is_string($v) || is_array($v)) {
+                                        return $v;
+                                    }
+                                    throw new InvalidTypeException();
+                                })
+                                ->end()
                             ->end()
+                            ->treatNullLike([])
                         ->end()
-                        ->scalarNode('value')->defaultNull()->end()
                         ->scalarNode('passphrase')->defaultNull()->end()
                         ->booleanNode('load_public_key')->defaultTrue()->end()
                         ->booleanNode('shared')->defaultFalse()->end()
-                        ->arrayNode('key_ops')
-                        ->prototype('scalar')->end()
-                            ->treatNullLike([])
-                            ->validate()
-                                ->ifTrue(function($v) use ($supportedKeyOps) { return 0 !== count(array_diff($v, $supportedKeyOps)); })
-                                ->thenInvalid('Unsupported key operation. Please unset the configuration entry or set a list with the following possible values: '.json_encode($supportedKeyOps))
-                            ->end()
-                        ->end()
-                        ->scalarNode('alg')->defaultNull()->end()
-                        ->scalarNode('use')
-                            ->defaultNull()
-                            ->validate()
-                                ->ifNotInArray($supportedUsages)
-                                ->thenInvalid('The value "%s" is not a valid. Please choose one of null or '.json_encode($supportedUsages))
-                            ->end()
-                        ->end()
                     ->end()
                 ->end()
             ->end();

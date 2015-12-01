@@ -17,8 +17,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class SpomkyLabsJoseBundleExtension extends Extension
+final class SpomkyLabsJoseBundleExtension extends Extension
 {
+    /**
+     * @var string
+     */
     private $alias;
 
     /**
@@ -29,6 +32,9 @@ class SpomkyLabsJoseBundleExtension extends Extension
         $this->alias = $alias;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
@@ -37,14 +43,14 @@ class SpomkyLabsJoseBundleExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $services = ['services', 'signature_algorithms', 'encryption_algorithms', 'compression_methods', 'checkers', 'payload_converters'];
+        $services = $this->getXmlFileToLoad();
         if (true === $config['use_controller']) {
-            $services[] = 'jwkset_controller';
+            $services[] = 'key_controller';
         }
-        if (true === $config['storage']['enabled']) {
-            $services[] = 'storage';
-            $container->setParameter($this->getAlias().'.storage.class', $config['storage']['class']);
-            $container->setAlias($this->getAlias().'.jot_manager', $config['storage']['manager']);
+        if (true === $config['jot']['enabled']) {
+            $services[] = 'jot';
+            $container->setParameter($this->getAlias().'.jot.class', $config['jot']['class']);
+            $container->setAlias($this->getAlias().'.jot.manager', $config['jot']['manager']);
         }
         foreach ($services as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
@@ -56,24 +62,33 @@ class SpomkyLabsJoseBundleExtension extends Extension
             'algorithms',
             'compression_methods',
         ];
-        $aliases = [
-            'jwk_manager',
-            'jwkset_manager',
-        ];
 
         foreach ($parameters as $parameter) {
             $container->setParameter($this->getAlias().'.'.$parameter, $config[$parameter]);
         }
-        foreach ($aliases as $alias) {
-            $container->setAlias($this->getAlias().'.'.$alias, $config[$alias]);
-        }
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getAlias()
     {
         return $this->alias;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getXmlFileToLoad()
+    {
+        return [
+            'services',
+            'signature_algorithms',
+            'encryption_algorithms',
+            'compression_methods',
+            'checkers',
+            'finders',
+            'payload_converters'
+        ];
     }
 }

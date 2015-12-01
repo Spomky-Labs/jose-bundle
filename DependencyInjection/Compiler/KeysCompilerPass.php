@@ -14,7 +14,7 @@ namespace SpomkyLabs\JoseBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class KeysCompilerPass implements CompilerPassInterface
+final class KeysCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {

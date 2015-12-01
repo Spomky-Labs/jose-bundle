@@ -5,12 +5,10 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="jose.payload_converter.jwk" class="SpomkyLabs\Jose\Payload\JWKConverter" public="false">
-            <argument type="service" id="jose.jwk_manager" />
+        <service id="jose.payload_converter.jwk" class="Jose\Payload\JWKConverter" public="false">
             <tag name="jose_payload_converter" />
         </service>
-        <service id="jose.payload_converter.jwkset" class="SpomkyLabs\Jose\Payload\JWKSetConverter" public="false">
-            <argument type="service" id="jose.jwkset_manager" />
+        <service id="jose.payload_converter.jwkset" class="Jose\Payload\JWKSetConverter" public="false">
             <tag name="jose_payload_converter" />
         </service>
     </services>

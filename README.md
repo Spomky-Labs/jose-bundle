@@ -12,8 +12,8 @@ Jose Bundle
 [![Latest Unstable Version](https://poser.pugx.org/Spomky-Labs/jose-bundle/v/unstable.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
 [![License](https://poser.pugx.org/Spomky-Labs/jose-bundle/license.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
 
-This Symfony2 bundle provides services create load and verify JWT.
-It uses [Spomky-Labs/jose](https://github.com/Spomky-Labs/jose) to ease encryption/decryption and signature/verification of JWS and JWE.
+This Symfony bundle provides services create, load and verify JWT.
+It uses [spomky-Labs/jose](https://github.com/Spomky-Labs/jose) to ease encryption/decryption and signature/verification of JWS and JWE.
 
 # The Release Process
 The release process [is described here](doc/Release.md).
@@ -21,7 +21,7 @@ The release process [is described here](doc/Release.md).
 # Prerequisites
 
 This library needs at least:
-* ![PHP 5.6+](https://img.shields.io/badge/PHP-5.6%2B-ff69b4.svg)
+* ![PHP 5.5.9+](https://img.shields.io/badge/PHP-5.5.9%2B-ff69b4.svg)
 * Symfony 2.7+
 
 Please consider the following optional third party libraries and extensions:
@@ -30,7 +30,7 @@ Please consider the following optional third party libraries and extensions:
 
 # Continuous Integration
 
-It has been successfully tested using `PHP 5.6`, `PHP 7` and `HHVM` with all algorithms under Symfony 2.7.
+It has been successfully tested using `PHP 5.5.9`, `PHP 5.6`, `PHP 7` and `HHVM` with all algorithms under Symfony 2.7.
 Please note that it has not yet been tested on Symfony 3.0. 
 
 We also track bugs and code quality using [Scrutinizer-CI](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/) and [Sensio Insight](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05).
@@ -42,7 +42,7 @@ Coding Standards are verified by [StyleCI](https://styleci.io/repos/28856829).
 The preferred way to install this library is to rely on Composer:
 
 ```sh
-composer require spomky-labs/jose-bundle "dev-master"
+composer require spomky-labs/jose-bundle
 ```
 
 Then, add the bundle into your kernel:

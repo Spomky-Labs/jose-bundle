@@ -10,17 +10,20 @@
  */
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
+
 use Behat\Gherkin\Node\PyStringNode;
-use Jose\JWEInterface;
-use Jose\JWKInterface;
+use Jose\Behaviour\HasJWKManager;
+use Jose\Behaviour\HasJWKSetManager;
 use Jose\JWKSetInterface;
-use Jose\JWSInterface;
 
 /**
  * Behat context class.
  */
 trait KeysetContext
 {
+    use HasJWKManager;
+    use HasJWKSetManager;
+
     private $jwkset;
 
     /**
@@ -36,14 +39,14 @@ trait KeysetContext
     public function iHaveTheFollowingKeyInMyKeySet(PyStringNode $lines)
     {
         if (!$this->jwkset instanceof JWKSetInterface) {
-            $this->jwkset = $this->getKeysetManager()->createJWKSet();
+            $this->jwkset = $this->getJWKSetManager()->createJWKSet();
         }
         $data = [];
         foreach ($lines->getStrings() as $line) {
             list($key,$value) = explode(':', $line);
             $data[$key] = $value;
         }
-        $jwk = $this->getKeyManager()->createJWK($data);
+        $jwk = $this->getJWKManager()->createJWK($data);
         $this->jwkset->addKey($jwk);
     }
 
@@ -53,21 +56,5 @@ trait KeysetContext
     protected function getKeyset()
     {
         return $this->jwkset;
-    }
-
-    /**
-     * @return \Jose\JWKSetManagerInterface
-     */
-    protected function getKeysetManager()
-    {
-        return $this->getContainer()->get('jose.jwkset_manager');
-    }
-
-    /**
-     * @return \Jose\JWKManagerInterface
-     */
-    protected function getKeyManager()
-    {
-        return $this->getContainer()->get('jose.jwk_manager');
     }
 }

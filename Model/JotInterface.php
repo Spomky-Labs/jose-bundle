@@ -14,11 +14,9 @@ namespace SpomkyLabs\JoseBundle\Model;
 interface JotInterface
 {
     /**
-     * @param string $data
-     *
-     * @return $this
+     * @return string
      */
-    public function setData($data);
+    public function getJti();
 
     /**
      * @return string
@@ -26,14 +24,9 @@ interface JotInterface
     public function getData();
 
     /**
-     * @param string $jti
+     * @param string $data
      *
-     * @return $this
+     * @return \SpomkyLabs\JoseBundle\Model\JotInterface
      */
-    public function setJti($jti);
-
-    /**
-     * @return string
-     */
-    public function getJti();
+    public function withData($data);
 }

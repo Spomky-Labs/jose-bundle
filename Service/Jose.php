@@ -13,10 +13,8 @@ namespace SpomkyLabs\JoseBundle\Service;
 
 use Jose\EncrypterInterface;
 use Jose\JSONSerializationModes;
-use Jose\JWAManagerInterface;
 use Jose\JWEInterface;
 use Jose\JWKSetInterface;
-use Jose\JWKSetManagerInterface;
 use Jose\JWSInterface;
 use Jose\JWTInterface;
 use Jose\LoaderInterface;
@@ -24,7 +22,7 @@ use Jose\SignerInterface;
 use SpomkyLabs\JoseBundle\Model\JotInterface;
 use SpomkyLabs\JoseBundle\Model\JotManagerInterface;
 
-class Jose implements JoseInterface
+final class Jose implements JoseInterface
 {
     /**
      * @var \Jose\LoaderInterface
@@ -42,11 +40,6 @@ class Jose implements JoseInterface
     private $encrypter;
 
     /**
-     * @var \Jose\JWKSetManagerInterface
-     */
-    private $keyset_manager;
-
-    /**
      * @var null|\SpomkyLabs\JoseBundle\Model\JotManagerInterface
      */
     private $jot_manager;
@@ -57,15 +50,26 @@ class Jose implements JoseInterface
     private $server_name;
 
     /**
-     * @param \Jose\JWKSetManagerInterface                          $keyset_manager
+     * Jose constructor.
+     *
+     * @param \Jose\LoaderInterface                                 $loader
+     * @param \Jose\SignerInterface                                 $signer
+     * @param \Jose\EncrypterInterface                              $encrypter
      * @param string                                                $server_name
+     * @param null|\SpomkyLabs\JoseBundle\Model\JotManagerInterface $jot_manager
      */
     public function __construct(
-        JWKSetManagerInterface $keyset_manager,
-        $server_name
+        LoaderInterface $loader,
+        SignerInterface $signer,
+        EncrypterInterface $encrypter,
+        $server_name,
+        JotManagerInterface $jot_manager = null
     )
     {
-        $this->keyset_manager = $keyset_manager;
+        $this->loader = $loader;
+        $this->signer = $signer;
+        $this->encrypter = $encrypter;
+        $this->jot_manager = $jot_manager;
         $this->server_name = $server_name;
     }
 
@@ -80,29 +84,9 @@ class Jose implements JoseInterface
     /**
      * {@inheritdoc}
      */
-    public function setLoader(LoaderInterface $loader)
-    {
-        $this->loader = $loader;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getSigner()
     {
         return $this->signer;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setSigner(SignerInterface $signer)
-    {
-        $this->signer = $signer;
-
-        return $this;
     }
 
     /**
@@ -116,16 +100,6 @@ class Jose implements JoseInterface
     /**
      * {@inheritdoc}
      */
-    public function setEncrypter(EncrypterInterface $encrypter)
-    {
-        $this->encrypter = $encrypter;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getJotManager()
     {
         return $this->jot_manager;
@@ -134,14 +108,9 @@ class Jose implements JoseInterface
     /**
      * {@inheritdoc}
      */
-    public function setJotManager($jot_manager)
+    public function setJotManager(JotManagerInterface $jot_manager)
     {
-        if (null !== $jot_manager && !$jot_manager instanceof JotManagerInterface) {
-            throw new \InvalidArgumentException('Invalid argument: must be null or an instance of SpomkyLabs\JoseBundle\Model\JotManagerInterface');
-        }
         $this->jot_manager = $jot_manager;
-
-        return $this;
     }
 
     /**
@@ -250,7 +219,7 @@ class Jose implements JoseInterface
             $payload = $input->getPayload();
             if(is_array($payload)) {
                 $payload['jti'] = $jot->getJti();
-                $input->setPayload($payload);
+                $input = $input->withPayload($payload);
             }
         }
     }
@@ -263,7 +232,7 @@ class Jose implements JoseInterface
     protected function populateData($input, JotInterface &$jot, $data)
     {
         if(is_array($input) || ($input instanceof JWTInterface && is_array($input->getPayload()))) {
-            $jot->setData($data);
+            $jot = $jot->withData($data);
             $this->jot_manager->saveJot($jot);
         }
     }

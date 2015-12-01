@@ -50,7 +50,7 @@ class JotManager implements JotManagerInterface
      *
      * @return $this
      */
-    protected function setManagerRegistry(ManagerRegistry $manager_registry)
+    private function setManagerRegistry(ManagerRegistry $manager_registry)
     {
         $this->manager_registry = $manager_registry;
 
@@ -60,7 +60,7 @@ class JotManager implements JotManagerInterface
     /**
      * @return \Doctrine\Common\Persistence\ManagerRegistry
      */
-    protected function getManagerRegistry()
+    private function getManagerRegistry()
     {
         return $this->manager_registry;
     }
@@ -70,7 +70,7 @@ class JotManager implements JotManagerInterface
      *
      * @return self
      */
-    protected function setClass($class)
+    private function setClass($class)
     {
         $this->class = $class;
 
@@ -80,7 +80,7 @@ class JotManager implements JotManagerInterface
     /**
      * @return string
      */
-    protected function getClass()
+    private function getClass()
     {
         return $this->class;
     }
@@ -126,7 +126,6 @@ class JotManager implements JotManagerInterface
     {
         $this->getEntityManager()->persist($jot);
         $this->getEntityManager()->flush();
-
         return $this;
     }
 

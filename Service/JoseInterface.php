@@ -15,6 +15,7 @@ use Jose\EncrypterInterface;
 use Jose\JWKSetInterface;
 use Jose\LoaderInterface;
 use Jose\SignerInterface;
+use SpomkyLabs\JoseBundle\Model\JotManagerInterface;
 
 interface JoseInterface extends LoaderInterface, SignerInterface, EncrypterInterface
 {
@@ -24,23 +25,9 @@ interface JoseInterface extends LoaderInterface, SignerInterface, EncrypterInter
     public function getLoader();
 
     /**
-     * @param \Jose\LoaderInterface $loader
-     *
-     * @return self
-     */
-    public function setLoader(LoaderInterface $loader);
-
-    /**
      * @return \Jose\SignerInterface
      */
     public function getSigner();
-
-    /**
-     * @param \Jose\SignerInterface $signer
-     *
-     * @return self
-     */
-    public function setSigner(SignerInterface $signer);
 
     /**
      * @return \Jose\EncrypterInterface
@@ -48,23 +35,14 @@ interface JoseInterface extends LoaderInterface, SignerInterface, EncrypterInter
     public function getEncrypter();
 
     /**
-     * @param \Jose\EncrypterInterface $encrypter
-     *
-     * @return self
-     */
-    public function setEncrypter(EncrypterInterface $encrypter);
-
-    /**
      * @return null|\SpomkyLabs\JoseBundle\Model\JotManagerInterface
      */
     public function getJotManager();
 
     /**
-     * @param null|\SpomkyLabs\JoseBundle\Model\JotManagerInterface $jot_manager
-     *
-     * @return self
+     * @param \SpomkyLabs\JoseBundle\Model\JotManagerInterface $jot_manager
      */
-    public function setJotManager($jot_manager);
+    public function setJotManager(JotManagerInterface $jot_manager);
 
     /**
      * {@inheritdoc}

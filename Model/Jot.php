@@ -16,7 +16,7 @@ class Jot implements JotInterface
     /**
      * @var string
      */
-    protected $data;
+    protected $data = '';
 
     /**
      * @var string
@@ -25,17 +25,18 @@ class Jot implements JotInterface
 
     public function __construct()
     {
-        $this->setJti(base_convert(hash('sha512', uniqid(mt_rand(), true)), 16, 36));
+        $this->jti = base_convert(hash('sha512', uniqid(mt_rand(), true)), 16, 36);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setData($data)
+    public function withData($data)
     {
-        $this->data = $data;
+        $jot = clone $this;
+        $jot->data = $data;
 
-        return $this;
+        return $jot;
     }
 
     /**
@@ -44,16 +45,6 @@ class Jot implements JotInterface
     public function getData()
     {
         return $this->data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setJti($jti)
-    {
-        $this->jti = $jti;
-
-        return $this;
     }
 
     /**

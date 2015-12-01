@@ -5,8 +5,8 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="jose.jwkset_endpoint" class="SpomkyLabs\JoseBundle\Controller\JWKSetController">
-            <argument type="service" id="jose.jwkset_manager" />
+        <service id="jose.key_controller" class="SpomkyLabs\JoseBundle\Controller\KeyController">
+            <argument type="service" id="jose.key_storage" />
         </service>
     </services>
 </container>

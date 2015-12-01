@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AlgorithmCompilerPass implements CompilerPassInterface
+final class AlgorithmCompilerPass implements CompilerPassInterface
 {
     private function getSupportedKeywords()
     {
@@ -128,11 +128,10 @@ class AlgorithmCompilerPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds('jose_algorithm');
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                if (!array_key_exists('alias', $attributes)) {
-                    throw new \InvalidArgumentException(sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
-                }
-                if (!array_key_exists('requirement', $attributes) || empty($attributes['requirement'])) {
-                    throw new \InvalidArgumentException(sprintf("The algorithm '%s' does not have any 'requirement' attribute.", $id));
+                foreach(['alias', 'requirement', 'category'] as $attr) {
+                    if (!array_key_exists($attr, $attributes)) {
+                        throw new \InvalidArgumentException(sprintf("The algorithm '%s' does not have any '%s' attribute.", $id, $attr));
+                    }
                 }
                 $result[$attributes['requirement']][$attributes['alias']] = $id;
             }

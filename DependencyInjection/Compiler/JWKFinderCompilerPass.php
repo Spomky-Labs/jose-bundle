@@ -15,19 +15,19 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class CheckerCompilerPass implements CompilerPassInterface
+final class JWKFinderCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('jose.checker_manager')) {
+        if (!$container->hasDefinition('jose.jwk_finder_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition('jose.checker_manager');
+        $definition = $container->getDefinition('jose.jwk_finder_manager');
 
-        $taggedServices = $container->findTaggedServiceIds('jose_checker');
+        $taggedServices = $container->findTaggedServiceIds('jose_jwk_finder');
         foreach ($taggedServices as $id => $tags) {
-            $definition->addMethodCall('addChecker', [new Reference($id)]);
+            $definition->addMethodCall('addJWKFinder', [new Reference($id)]);
         }
     }
 }

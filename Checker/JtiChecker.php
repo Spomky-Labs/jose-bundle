@@ -11,11 +11,11 @@
 
 namespace SpomkyLabs\JoseBundle\Checker;
 
+use Jose\Checker\CheckerInterface;
 use Jose\JWTInterface;
-use SpomkyLabs\Jose\Checker\CheckerInterface;
 use SpomkyLabs\JoseBundle\Model\JotManagerInterface;
 
-class JtiChecker implements CheckerInterface
+final class JtiChecker implements CheckerInterface
 {
     private $jot_manager;
 

@@ -11,9 +11,8 @@
         }
     ],
     "require": {
-        "php": ">=5.6",
-        "spomky-labs/jose": "~0.2.0",
-        "symfony/framework-bundle": "~2.7",
+        "spomky-labs/jose": "~0.4.0",
+        "symfony/framework-bundle": "~2.7|~3.0",
         "doctrine/doctrine-bundle": "~1.0"
     },
     "require-dev": {
@@ -24,7 +23,8 @@
         "behat/mink-extension": "*",
         "behat/mink-browserkit-driver":  "*",
         "doctrine/orm": "~2.2",
-        "symfony/finder": "~2.7"
+        "symfony/finder": "~2.7",
+        "ext-curl": "*"
     },
     "autoload": {
         "psr-4": {

@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class PayloadConverterCompilerPass implements CompilerPassInterface
+final class PayloadConverterCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {

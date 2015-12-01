@@ -13,7 +13,7 @@ namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
 use Jose\JSONSerializationModes;
-use SpomkyLabs\Jose\SignatureInstruction;
+use Jose\SignatureInstruction;
 
 /**
  * Behat context class.
@@ -68,7 +68,7 @@ trait SignContext
     /**
      * @return \Jose\JWKManagerInterface
      */
-    abstract protected function getKeyManager();
+    abstract protected function getJWKManager();
 
     /**
      * Returns HttpKernel service container.
@@ -87,7 +87,7 @@ trait SignContext
             list($key,$value) = explode(':', $line);
             $data[$key] = $value;
         }
-        $jwk = $this->getKeyManager()->createJWK($data);
+        $jwk = $this->getJWKManager()->createJWK($data);
         $this->signature_key = $jwk;
     }
 
@@ -136,10 +136,11 @@ trait SignContext
      */
     public function iTryToSignTheInput()
     {
-        $instruction = new SignatureInstruction();
-        $instruction->setKey($this->signature_key)
-            ->setProtectedHeader($this->protected_header)
-            ->setUnprotectedHeader($this->unprotected_header);
+        $instruction = new SignatureInstruction(
+            $this->signature_key,
+            $this->protected_header,
+            $this->unprotected_header
+        );
         $this->signed_data = $this->getSigner()->sign($this->input, [$instruction], $this->serialization_mode, $this->is_signature_detached, $this->detached_payload);
     }
 

@@ -13,7 +13,7 @@ namespace SpomkyLabs\TestJoseBundle\Entity;
 
 use SpomkyLabs\JoseBundle\Entity\Jot as Base;
 
-class Jot extends Base
+final class Jot extends Base
 {
     private $id;
 

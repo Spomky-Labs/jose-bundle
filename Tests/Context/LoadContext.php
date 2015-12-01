@@ -10,12 +10,12 @@
  */
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
+
 use Behat\Gherkin\Node\PyStringNode;
 use Jose\JWEInterface;
 use Jose\JWKInterface;
 use Jose\JWKSetInterface;
 use Jose\JWSInterface;
-use Jose\JWTInterface;
 
 /**
  * Behat context class.
@@ -70,7 +70,7 @@ trait LoadContext
 
         foreach($lines->getStrings() as $data) {
             try {
-                $this->loaded_data = $this->getLoader()->load($data, $this->getKeyset());
+                $this->loaded_data = $this->getLoader()->load($data);
             } catch (\Exception $e) {
                 $this->exception = $e;
             }

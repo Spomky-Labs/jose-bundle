@@ -14,7 +14,7 @@ namespace SpomkyLabs\TestJoseBundle;
 use SpomkyLabs\TestJoseBundle\DependencyInjection\TestExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class TestJoseBundle extends Bundle
+final class TestJoseBundle extends Bundle
 {
     public function getContainerExtension()
     {
