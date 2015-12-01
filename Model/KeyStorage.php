@@ -22,32 +22,32 @@ class KeyStorage implements KeyStorageInterface
     /**
      * @var array[]
      */
-    protected $none_keys;
+    protected $none_keys = [];
 
     /**
      * @var array[]
      */
-    protected $private_keys;
+    protected $private_keys = [];
 
     /**
      * @var array[]
      */
-    protected $public_keys;
+    protected $public_keys = [];
 
     /**
      * @var array[]
      */
-    protected $direct_keys;
+    protected $direct_keys = [];
 
     /**
      * @var array[]
      */
-    protected $symmetric_keys;
+    protected $symmetric_keys = [];
 
     /**
      * @var array[]
      */
-    protected $shared_keys;
+    protected $shared_keys = [];
 
     public function __construct(array $keys)
     {

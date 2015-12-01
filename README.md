@@ -3,7 +3,9 @@ Jose Bundle
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/?branch=master)
 [![Build Status](https://travis-ci.org/Spomky-Labs/JoseBundle.svg?branch=master)](https://travis-ci.org/Spomky-Labs/JoseBundle)
+
 [![HHVM Status](http://hhvm.h4cc.de/badge/Spomky-Labs/jose-bundle.png)](http://hhvm.h4cc.de/package/Spomky-Labs/jose-bundle)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/Spomky-Labs/JoseBundle/badge.svg)](https://travis-ci.org/Spomky-Labs/JoseBundle)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05/big.png)](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05)
 
@@ -30,12 +32,14 @@ Please consider the following optional third party libraries and extensions:
 
 # Continuous Integration
 
-It has been successfully tested using `PHP 5.5.9`, `PHP 5.6`, `PHP 7` and `HHVM` with all algorithms under Symfony 2.7.
-Please note that it has not yet been tested on Symfony 3.0. 
+It has been successfully tested using `PHP 5.5.9`, `PHP 5.6`, `PHP 7` and `HHVM` with all algorithms except `AxxxGCM` and `AxxxGCMKW`.
 
 We also track bugs and code quality using [Scrutinizer-CI](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/) and [Sensio Insight](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05).
 
 Coding Standards are verified by [StyleCI](https://styleci.io/repos/28856829).
+
+Code coverage is not performed.
+We rely on tests performed on the library and we only have implemented `Behavior driven development` (BDD) to test this bundle. 
 
 # Installation
 
@@ -72,7 +76,6 @@ class AppKernel extends Kernel
 This bundle needs to be configured. Please [see this page](Resources/doc/Configuration.md) to know how to configure it.
 
 # Create your entities and managers
-
 
 
 # How to use

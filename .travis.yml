@@ -8,8 +8,8 @@ php:
 
 env:
     - SYMFONY_VERSION=2.7.*
-    - SYMFONY_VERSION=2.8.*@beta
-    - SYMFONY_VERSION=3.0.*@beta
+    - SYMFONY_VERSION=2.8.*
+    - SYMFONY_VERSION=3.0.*
 
 before_script:
     - composer require symfony/symfony:${SYMFONY_VERSION} --no-update

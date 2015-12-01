@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class KeyController
 {
     use HasJWKSetManager;
+
     /**
      * @var \SpomkyLabs\JoseBundle\Model\KeyStorageInterface
      */
