@@ -84,7 +84,7 @@ trait SignContext
     {
         $data = [];
         foreach ($lines->getStrings() as $line) {
-            list($key,$value) = explode(':', $line);
+            list($key, $value) = explode(':', $line);
             $data[$key] = $value;
         }
         $jwk = $this->getJWKManager()->createJWK($data);
@@ -106,6 +106,7 @@ trait SignContext
     {
         $this->unprotected_header[$key] = $value;
     }
+
     /**
      * @When I add the claim :claim with value :value
      */

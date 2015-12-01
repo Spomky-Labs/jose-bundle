@@ -90,7 +90,7 @@ final class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                     ->validate()
-                        ->ifTrue(function($v) { return !array_key_exists('file',$v) && !empty($v['passphrase']); })
+                        ->ifTrue(function ($v) { return !array_key_exists('file', $v) && !empty($v['passphrase']); })
                         ->thenInvalid('"passphrase" parameter is only available using a key/certificate from a file')
                     ->end()
                     ->children()

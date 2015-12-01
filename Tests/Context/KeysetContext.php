@@ -43,7 +43,7 @@ trait KeysetContext
         }
         $data = [];
         foreach ($lines->getStrings() as $line) {
-            list($key,$value) = explode(':', $line);
+            list($key, $value) = explode(':', $line);
             $data[$key] = $value;
         }
         $jwk = $this->getJWKManager()->createJWK($data);
