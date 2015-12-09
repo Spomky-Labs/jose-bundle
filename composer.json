@@ -23,7 +23,6 @@
         "behat/mink-extension": "*",
         "behat/mink-browserkit-driver":  "*",
         "doctrine/orm": "~2.2",
-        "symfony/finder": "~2.7",
         "ext-curl": "*"
     },
     "autoload": {
