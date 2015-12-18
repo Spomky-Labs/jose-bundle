@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "spomky-labs/jose": "~0.4.0",
+        "spomky-labs/jose": "1.0.*@alpha",
         "symfony/framework-bundle": "~2.7|~3.0",
         "doctrine/doctrine-bundle": "~1.0"
     },
@@ -38,7 +38,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.0.x-dev"
+            "dev-master": "1.0.x-dev"
         }
     }
 }

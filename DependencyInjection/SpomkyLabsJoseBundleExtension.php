@@ -44,9 +44,6 @@ final class SpomkyLabsJoseBundleExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $services = $this->getXmlFileToLoad();
-        if (true === $config['use_controller']) {
-            $services[] = 'key_controller';
-        }
         if (true === $config['jot']['enabled']) {
             $services[] = 'jot';
             $container->setParameter($this->getAlias().'.jot.class', $config['jot']['class']);
@@ -58,7 +55,6 @@ final class SpomkyLabsJoseBundleExtension extends Extension
 
         $parameters = [
             'server_name',
-            'keys',
             'algorithms',
             'compression_methods',
         ];
@@ -83,11 +79,8 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     {
         return [
             'services',
-            'signature_algorithms',
-            'encryption_algorithms',
             'compression_methods',
             'checkers',
-            'finders',
             'payload_converters',
         ];
     }

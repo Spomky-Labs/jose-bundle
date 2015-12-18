@@ -12,7 +12,7 @@
 namespace SpomkyLabs\JoseBundle\Checker;
 
 use Jose\Checker\CheckerInterface;
-use Jose\JWTInterface;
+use Jose\Object\JWTInterface;
 use SpomkyLabs\JoseBundle\Model\JotManagerInterface;
 
 final class JtiChecker implements CheckerInterface
@@ -32,9 +32,8 @@ final class JtiChecker implements CheckerInterface
      */
     public function checkJWT(JWTInterface $jwt)
     {
-        $jti = $jwt->getJWTID();
-        if (null !== $jti) {
-            $result = $this->jot_manager->getJotById($jti);
+        if ($jwt->hasHeader('jti')) {
+            $result = $this->jot_manager->getJotById($jwt->getHeader('jti'));
             if (null === $result) {
                 throw new \Exception('Bad ID');
             }

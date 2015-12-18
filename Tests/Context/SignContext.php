@@ -12,8 +12,8 @@
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
-use Jose\JSONSerializationModes;
-use Jose\SignatureInstruction;
+use Jose\Object\JWK;
+use Jose\Object\SignatureInstruction;
 
 /**
  * Behat context class.
@@ -21,32 +21,12 @@ use Jose\SignatureInstruction;
 trait SignContext
 {
     /**
-     * @var array
-     */
-    private $protected_header = [];
-
-    /**
-     * @var array
-     */
-    private $unprotected_header = [];
-
-    /**
-     * @var array
-     */
-    private $serialization_mode = JSONSerializationModes::JSON_COMPACT_SERIALIZATION;
-
-    /**
-     * @var null|string|array
-     */
-    private $input = null;
-
-    /**
      * @var string
      */
     private $signed_data = null;
 
     /**
-     * @var \Jose\JWKInterface
+     * @var \Jose\Object\JWKInterface
      */
     private $signature_key;
 
@@ -61,14 +41,9 @@ trait SignContext
     private $detached_payload;
 
     /**
-     * @return \Jose\JWKSetInterface
+     * @return \Jose\Object\JWKSetInterface
      */
     abstract protected function getKeyset();
-
-    /**
-     * @return \Jose\JWKManagerInterface
-     */
-    abstract protected function getJWKManager();
 
     /**
      * Returns HttpKernel service container.
@@ -87,7 +62,7 @@ trait SignContext
             list($key, $value) = explode(':', $line);
             $data[$key] = $value;
         }
-        $jwk = $this->getJWKManager()->createJWK($data);
+        $jwk = new JWK($data);
         $this->signature_key = $jwk;
     }
 
@@ -156,7 +131,7 @@ trait SignContext
     }
 
     /**
-     * @return \SpomkyLabs\JoseBundle\Service\Jose
+     * @return \Jose\SignerInterface
      */
     private function getSigner()
     {

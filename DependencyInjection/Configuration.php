@@ -36,12 +36,10 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($this->alias);
 
-        $this->addKeySection($rootNode);
         $this->addStorageSection($rootNode);
         $rootNode
             ->children()
-                ->booleanNode('use_controller')->defaultTrue()->end()
-                ->scalarNode('server_name')->cannotBeEmpty()->end()
+                ->scalarNode('server_name')->cannotBeEmpty()->defaultValue('OAuth2 Server')->end()
                 ->arrayNode('algorithms')->prototype('scalar')->end()->treatNullLike([])->end()
                 ->arrayNode('compression_methods')->prototype('scalar')->end()->treatNullLike([])->end()
             ->end();
@@ -61,60 +59,6 @@ final class Configuration implements ConfigurationInterface
                         ->booleanNode('enabled')->defaultFalse()->end()
                         ->scalarNode('manager')->defaultValue('jose.jot_manager.default')->cannotBeEmpty()->end()
                         ->scalarNode('class')->defaultNull()->end()
-                    ->end()
-                ->end()
-            ->end();
-    }
-
-    /**
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
-     */
-    private function addKeySection(ArrayNodeDefinition $node)
-    {
-        $supportedKeyOps = [
-            'sign',
-            'verify',
-            'encrypt',
-            'decrypt',
-            'wrapKey',
-            'unwrapKey',
-            'deriveKey',
-            'deriveBits',
-        ];
-        $supportedUsages = ['sig', 'enc'];
-
-        $node
-            ->treatNullLike([])
-            ->children()
-                ->arrayNode('keys')
-                    ->useAttributeAsKey('name')
-                    ->prototype('array')
-                    ->validate()
-                        ->ifTrue(function ($v) { return !array_key_exists('file', $v) && !empty($v['passphrase']); })
-                        ->thenInvalid('"passphrase" parameter is only available using a key/certificate from a file')
-                    ->end()
-                    ->children()
-                        ->scalarNode('certificate')->defaultNull()->end()
-                        ->scalarNode('file')->defaultNull()->end()
-                        ->scalarNode('jwk')->defaultNull()->end()
-                        ->scalarNode('jwkset')->defaultNull()->end()
-                        ->arrayNode('values')
-                            ->useAttributeAsKey('key')
-                            ->prototype('variable')
-                                ->validate()
-                                ->always(function ($v) {
-                                    if (is_string($v) || is_array($v)) {
-                                        return $v;
-                                    }
-                                    throw new InvalidTypeException();
-                                })
-                                ->end()
-                            ->end()
-                            ->treatNullLike([])
-                        ->end()
-                        ->scalarNode('passphrase')->defaultNull()->end()
-                        ->booleanNode('load_public_key')->defaultTrue()->end()
-                        ->booleanNode('shared')->defaultFalse()->end()
                     ->end()
                 ->end()
             ->end();

@@ -12,18 +12,15 @@
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
-use Jose\Behaviour\HasJWKManager;
-use Jose\Behaviour\HasJWKSetManager;
-use Jose\JWKSetInterface;
+use Jose\Object\JWK;
+use Jose\Object\JWKSet;
+use Jose\Object\JWKSetInterface;
 
 /**
  * Behat context class.
  */
 trait KeysetContext
 {
-    use HasJWKManager;
-    use HasJWKSetManager;
-
     private $jwkset;
 
     /**
@@ -39,19 +36,19 @@ trait KeysetContext
     public function iHaveTheFollowingKeyInMyKeySet(PyStringNode $lines)
     {
         if (!$this->jwkset instanceof JWKSetInterface) {
-            $this->jwkset = $this->getJWKSetManager()->createJWKSet();
+            $this->jwkset = new JWKSet();
         }
         $data = [];
         foreach ($lines->getStrings() as $line) {
             list($key, $value) = explode(':', $line);
             $data[$key] = $value;
         }
-        $jwk = $this->getJWKManager()->createJWK($data);
+        $jwk = new JWK($data);
         $this->jwkset->addKey($jwk);
     }
 
     /**
-     * @return \Jose\JWKSetInterface
+     * @return \Jose\Object\JWKSetInterface
      */
     protected function getKeyset()
     {

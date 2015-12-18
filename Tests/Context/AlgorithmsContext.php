@@ -44,7 +44,7 @@ trait AlgorithmsContext
     }
 
     /**
-     * @return \Jose\JWAManagerInterface
+     * @return \Jose\Algorithm\JWAManagerInterface
      */
     protected function getAlgorithmManager()
     {

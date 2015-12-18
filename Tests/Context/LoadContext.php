@@ -12,10 +12,10 @@
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
-use Jose\JWEInterface;
-use Jose\JWKInterface;
-use Jose\JWKSetInterface;
-use Jose\JWSInterface;
+use Jose\Object\JWEInterface;
+use Jose\Object\JWKInterface;
+use Jose\Object\JWKSetInterface;
+use Jose\Object\JWSInterface;
 
 /**
  * Behat context class.
@@ -23,7 +23,7 @@ use Jose\JWSInterface;
 trait LoadContext
 {
     /**
-     * @var null|mixed|array|\Jose\JWTInterface|\Jose\JWSInterface|\Jose\JWEInterface|\Jose\JWKInterface|\Jose\JWKSetInterface
+     * @var null|mixed|array|\Jose\Object\JWTInterface|\Jose\Object\JWSInterface|\Jose\Object\JWEInterface|\Jose\Object\JWKInterface|\Jose\Object\JWKSetInterface
      */
     private $loaded_data;
 
@@ -36,11 +36,6 @@ trait LoadContext
      * @var null|string
      */
     private $loaded_detached_payload;
-
-    /**
-     * @return \Jose\JWKSetInterface
-     */
-    abstract protected function getKeyset();
 
     /**
      * Returns Mink session.
@@ -68,11 +63,11 @@ trait LoadContext
         }
 
         foreach ($lines->getStrings() as $data) {
-            try {
+            //try {
                 $this->loaded_data = $this->getLoader()->load($data);
-            } catch (\Exception $e) {
-                $this->exception = $e;
-            }
+            //} catch (\Exception $e) {
+                //$this->exception = $e;
+            //}
         }
     }
 
@@ -131,17 +126,20 @@ trait LoadContext
      */
     public function theAlgorithmOfTheLoadedDataIs($alg)
     {
-        if ($alg !== $this->loaded_data->getAlgorithm()) {
-            throw new \Exception(sprintf('The algorithm is "%s"', $this->loaded_data->getAlgorithm()));
+        if (!$this->loaded_data->hasHeader('alg')) {
+            throw new \Exception(sprintf('There is no algorithm header'));
+        }
+        if ($alg !== $this->loaded_data->getHeader('alg')) {
+            throw new \Exception(sprintf('The algorithm is "%s"', $this->loaded_data->getHeader('alg')));
         }
     }
 
     /**
-     * @return \SpomkyLabs\JoseBundle\Service\Jose
+     * @return \Jose\LoaderInterface
      */
     private function getLoader()
     {
-        return $this->getContainer()->get('jose');
+        return $this->getContainer()->get('jose.loader');
     }
 
     /**
@@ -161,46 +159,6 @@ trait LoadContext
     {
         if ($message !== $this->exception->getMessage()) {
             throw new \Exception(sprintf('The exception message is "%s"', $this->exception->getMessage()));
-        }
-    }
-
-    /**
-     * @Then the JWT :position :parameter is not null
-     */
-    public function theJwtParameterIsNotNull($position, $parameter)
-    {
-        if (!in_array($position, ['header', 'payload'])) {
-            throw new \Exception(sprintf('Supported positions are "%s"', json_encode(['header', 'payload'])));
-        }
-        $value = 'header' === $position ? $this->loaded_data->getHeaderValue($parameter) : $this->loaded_data->getPayloadValue($parameter);
-        if (null === $value) {
-            throw new \Exception('The value is null');
-        }
-    }
-
-    /**
-     * @Then the JWT :position :parameter is null
-     */
-    public function theJwtParameterIsNull($position, $parameter)
-    {
-        if (!in_array($position, ['header', 'payload'])) {
-            throw new \Exception(sprintf('Supported positions are "%s"', json_encode(['header', 'payload'])));
-        }
-        $value = 'header' === $position ? $this->loaded_data->getHeaderValue($parameter) : $this->loaded_data->getPayloadValue($parameter);
-        if (null !== $value) {
-            throw new \Exception(sprintf('The value is not null. Its value is "%s"', $value));
-        }
-    }
-
-    /**
-     * @When I want to verify the loaded data
-     */
-    public function iWantToVerifyTheLoadedData()
-    {
-        try {
-            $this->getLoader()->checkJWT($this->loaded_data, $this->getKeyset(), $this->loaded_detached_payload);
-        } catch (\Exception $e) {
-            $this->exception = $e;
         }
     }
 }

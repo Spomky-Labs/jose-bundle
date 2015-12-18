@@ -11,7 +11,8 @@
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
-use Jose\JWKSetInterface;
+use Jose\Object\JWKSetInterface;
+use Jose\Object\JWKSet;
 
 /**
  * Behat context class.
@@ -35,11 +36,6 @@ trait ControllerContext
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
      */
     abstract protected function getContainer();
-
-    /**
-     * @return \Jose\JWKSetManagerInterface
-     */
-    abstract protected function getJWKSetManager();
 
     /**
      * @Then The content type is :content_type
@@ -69,7 +65,7 @@ trait ControllerContext
             throw new \Exception('The response is not an array');
         }
 
-        $this->controller_response = $this->getJWKSetManager()->createJWKSet($data);
+        $this->controller_response = new JWKSet($data);
         if (!$this->controller_response instanceof JWKSetInterface) {
             throw new \Exception('The response is not a valid JWKSet');
         }

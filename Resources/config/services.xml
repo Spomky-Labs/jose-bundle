@@ -5,38 +5,28 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="jose.jwk_finder_manager" class="Jose\JWKFinderManager" />
-        <service id="jose.algorithm_manager" class="Jose\JWAManager" />
         <service id="jose.compression_manager" class="Jose\Compression\CompressionManager" public="false" />
         <service id="jose.payload_converter_manager" class="Jose\Payload\PayloadConverterManager" public="false" />
         <service id="jose.checker_manager" class="Jose\Checker\CheckerManager" public="false" />
-        <service id="jose.signer" class="Jose\Signer" public="false">
-            <argument type="service" id="jose.algorithm_manager" />
+        <service id="jose.factory.key" class="SpomkyLabs\JoseBundle\Factory\KeyFactory" />
+        <service id="jose.factory.algorithm_manager" class="SpomkyLabs\JoseBundle\Factory\JWAFactory" />
+        <service id="jose.loader" class="Jose\Loader">
             <argument type="service" id="jose.payload_converter_manager" />
         </service>
-        <service id="jose.loader" class="Jose\Loader" public="false">
-            <argument type="service" id="jose.algorithm_manager" />
-            <argument type="service" id="jose.jwk_finder_manager" />
+        <service id="jose.factory.signer" class="SpomkyLabs\JoseBundle\Factory\SignerFactory">
+            <argument type="service" id="jose.payload_converter_manager" />
+        </service>
+        <service id="jose.factory.verifier" class="SpomkyLabs\JoseBundle\Factory\VerifierFactory">
+            <argument type="service" id="jose.checker_manager" />
+        </service>
+        <service id="jose.factory.encrypter" class="SpomkyLabs\JoseBundle\Factory\EncrypterFactory">
+            <argument type="service" id="jose.payload_converter_manager" />
+            <argument type="service" id="jose.compression_manager" />
+        </service>
+        <service id="jose.factory.decrypter" class="SpomkyLabs\JoseBundle\Factory\DecrypterFactory">
             <argument type="service" id="jose.payload_converter_manager" />
             <argument type="service" id="jose.compression_manager" />
             <argument type="service" id="jose.checker_manager" />
-        </service>
-        <service id="jose.encrypter" class="Jose\Encrypter" public="false">
-            <argument type="service" id="jose.algorithm_manager" />
-            <argument type="service" id="jose.payload_converter_manager" />
-            <argument type="service" id="jose.compression_manager" />
-        </service>
-
-        <service id="jose.key_storage" class="SpomkyLabs\JoseBundle\Model\KeyStorage">
-            <argument>%jose.keys%</argument>
-        </service>
-
-        <service id="jose" class="SpomkyLabs\JoseBundle\Service\Jose">
-            <argument type="service" id="jose.loader" />
-            <argument type="service" id="jose.signer" />
-            <argument type="service" id="jose.encrypter" />
-            <argument>%jose.server_name%</argument>
-            <argument type="service" id="jose.jot_manager" on-invalid="ignore" />
         </service>
     </services>
 </container>
