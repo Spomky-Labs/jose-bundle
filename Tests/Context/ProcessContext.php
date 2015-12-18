@@ -11,9 +11,7 @@
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
-use Behat\Gherkin\Node\PyStringNode;
 use Jose\JSONSerializationModes;
-use Jose\SignatureInstruction;
 
 /**
  * Behat context class.
