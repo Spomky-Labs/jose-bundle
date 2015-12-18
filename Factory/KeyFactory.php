@@ -11,7 +11,6 @@
 
 namespace SpomkyLabs\JoseBundle\Factory;
 
-
 use Jose\KeyConverter\KeyConverter;
 use Jose\Object\JWK;
 use Jose\Object\JWKSet;
@@ -19,7 +18,7 @@ use Jose\Object\JWKSet;
 final class KeyFactory
 {
     /**
-     * @param array  $values
+     * @param array $values
      *
      * @return \Jose\Object\JWKInterface|\Jose\Object\JWKSetInterface
      */
@@ -28,6 +27,7 @@ final class KeyFactory
         if (array_key_exists('keys', $values)) {
             return new JWKSet($values);
         }
+
         return new JWK($values);
     }
 
@@ -164,6 +164,7 @@ final class KeyFactory
         if (null === $last_issuer || json_encode($last_issuer) !== json_encode($last_subject)) {
             throw new \InvalidArgumentException('Invalid certificate chain.');
         }
+
         return $this->createFromCertificate($certificate);
     }
 

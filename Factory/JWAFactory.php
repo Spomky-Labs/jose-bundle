@@ -11,7 +11,6 @@
 
 namespace SpomkyLabs\JoseBundle\Factory;
 
-
 use Jose\Algorithm\JWAManager;
 
 final class JWAFactory
@@ -25,7 +24,7 @@ final class JWAFactory
     {
         $jwa_manager = new JWAManager();
 
-        foreach($algorithms as $algorithm) {
+        foreach ($algorithms as $algorithm) {
             $class = $this->getAlgorithmClass($algorithm);
             $jwa_manager->addAlgorithm(new $class());
         }
