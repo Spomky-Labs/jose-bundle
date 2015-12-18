@@ -12,7 +12,6 @@
 namespace SpomkyLabs\JoseBundle\Factory;
 
 
-use Jose\Algorithm\JWAManagerInterface;
 use Jose\Payload\PayloadConverterManagerInterface;
 use Jose\Signer;
 
@@ -24,22 +23,32 @@ final class SignerFactory
     private $payload_converter;
 
     /**
-     * DecrypterFactory constructor.
+     * @var \SpomkyLabs\JoseBundle\Factory\JWAFactory
+     */
+    private $jwa_factory;
+
+    /**
+     * SignerFactory constructor.
      *
      * @param \Jose\Payload\PayloadConverterManagerInterface $payload_converter
+     * @param \SpomkyLabs\JoseBundle\Factory\JWAFactory      $jwa_factory
      */
-    public function __construct(PayloadConverterManagerInterface $payload_converter)
+    public function __construct(PayloadConverterManagerInterface $payload_converter,
+                                JWAFactory $jwa_factory
+    )
     {
         $this->payload_converter = $payload_converter;
+        $this->jwa_factory = $jwa_factory;
     }
 
     /**
-     * @param \Jose\Algorithm\JWAManagerInterface $jwa_manager
+     * @param string[] $algorithms
      *
      * @return \Jose\Signer
      */
-    public function createSigner(JWAManagerInterface $jwa_manager)
+    public function createSigner(array $algorithms)
     {
+        $jwa_manager = $this->jwa_factory->createAlgorithmManager($algorithms);
         return new Signer($jwa_manager, $this->payload_converter);
     }
 }

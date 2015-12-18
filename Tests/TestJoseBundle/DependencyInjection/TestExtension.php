@@ -34,10 +34,10 @@ final class TestExtension extends Extension
         $processor = new Processor();
         $configuration = new Configuration($this->getAlias());
 
-        $config = $processor->processConfiguration($configuration, $configs);
+        /*$config = */$processor->processConfiguration($configuration, $configs);
 
-        //$loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        //$loader->load('service.xml');
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.xml');
     }
 
     /**

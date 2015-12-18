@@ -15,18 +15,22 @@
         </service>
         <service id="jose.factory.signer" class="SpomkyLabs\JoseBundle\Factory\SignerFactory">
             <argument type="service" id="jose.payload_converter_manager" />
+            <argument type="service" id="jose.factory.algorithm_manager" />
         </service>
         <service id="jose.factory.verifier" class="SpomkyLabs\JoseBundle\Factory\VerifierFactory">
             <argument type="service" id="jose.checker_manager" />
+            <argument type="service" id="jose.factory.algorithm_manager" />
         </service>
         <service id="jose.factory.encrypter" class="SpomkyLabs\JoseBundle\Factory\EncrypterFactory">
             <argument type="service" id="jose.payload_converter_manager" />
             <argument type="service" id="jose.compression_manager" />
+            <argument type="service" id="jose.factory.algorithm_manager" />
         </service>
         <service id="jose.factory.decrypter" class="SpomkyLabs\JoseBundle\Factory\DecrypterFactory">
             <argument type="service" id="jose.payload_converter_manager" />
             <argument type="service" id="jose.compression_manager" />
             <argument type="service" id="jose.checker_manager" />
+            <argument type="service" id="jose.factory.algorithm_manager" />
         </service>
     </services>
 </container>

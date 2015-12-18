@@ -12,7 +12,6 @@
 namespace SpomkyLabs\JoseBundle\Factory;
 
 
-use Jose\Algorithm\JWAManagerInterface;
 use Jose\Checker\CheckerManagerInterface;
 use Jose\Compression\CompressionManagerInterface;
 use Jose\Decrypter;
@@ -36,28 +35,38 @@ final class DecrypterFactory
     private $checker_manager;
 
     /**
+     * @var \SpomkyLabs\JoseBundle\Factory\JWAFactory
+     */
+    private $jwa_factory;
+
+    /**
      * DecrypterFactory constructor.
      *
      * @param \Jose\Payload\PayloadConverterManagerInterface $payload_converter
      * @param \Jose\Compression\CompressionManagerInterface  $compression_manager
      * @param \Jose\Checker\CheckerManagerInterface          $checker_manager
+     * @param \SpomkyLabs\JoseBundle\Factory\JWAFactory      $jwa_factory
      */
     public function __construct(PayloadConverterManagerInterface $payload_converter,
                                 CompressionManagerInterface $compression_manager,
-                                CheckerManagerInterface $checker_manager)
+                                CheckerManagerInterface $checker_manager,
+                                JWAFactory $jwa_factory
+    )
     {
         $this->checker_manager = $checker_manager;
         $this->compression_manager = $compression_manager;
         $this->payload_converter = $payload_converter;
+        $this->jwa_factory = $jwa_factory;
     }
 
     /**
-     * @param \Jose\Algorithm\JWAManagerInterface $jwa_manager
+     * @param string[] $algorithms
      *
      * @return \Jose\Decrypter
      */
-    public function createDecrypter(JWAManagerInterface $jwa_manager)
+    public function createDecrypter(array $algorithms)
     {
+        $jwa_manager = $this->jwa_factory->createAlgorithmManager($algorithms);
         return new Decrypter($jwa_manager, $this->payload_converter, $this->compression_manager, $this->checker_manager);
     }
 }

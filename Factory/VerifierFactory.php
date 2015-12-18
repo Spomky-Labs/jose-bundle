@@ -24,21 +24,32 @@ final class VerifierFactory
     private $checker_manager;
 
     /**
-     * DecrypterFactory constructor.
-     *
-     * @param \Jose\Checker\CheckerManagerInterface          $checker_manager
+     * @var \SpomkyLabs\JoseBundle\Factory\JWAFactory
      */
-    public function __construct(CheckerManagerInterface $checker_manager)
+    private $jwa_factory;
+
+    /**
+     * VerifierFactory constructor.
+     *
+     * @param \Jose\Checker\CheckerManagerInterface     $checker_manager
+     * @param \SpomkyLabs\JoseBundle\Factory\JWAFactory $jwa_factory
+     */
+    public function __construct(CheckerManagerInterface $checker_manager,
+                                JWAFactory $jwa_factory
+    )
     {
         $this->checker_manager = $checker_manager;
+        $this->jwa_factory = $jwa_factory;
     }
+
     /**
-     * @param \Jose\Algorithm\JWAManagerInterface $jwa_manager
+     * @param string[] $algorithms
      *
      * @return \Jose\Verifier
      */
-    public function createVerifier(JWAManagerInterface $jwa_manager)
+    public function createVerifier(array $algorithms)
     {
+        $jwa_manager = $this->jwa_factory->createAlgorithmManager($algorithms);
         return new Verifier($jwa_manager, $this->checker_manager);
     }
 }
