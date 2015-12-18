@@ -11,7 +11,6 @@
 
 namespace SpomkyLabs\JoseBundle\Factory;
 
-
 use Jose\Compression\CompressionManagerInterface;
 use Jose\Encrypter;
 use Jose\Payload\PayloadConverterManagerInterface;

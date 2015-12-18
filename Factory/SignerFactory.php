@@ -11,7 +11,6 @@
 
 namespace SpomkyLabs\JoseBundle\Factory;
 
-
 use Jose\Payload\PayloadConverterManagerInterface;
 use Jose\Signer;
 

@@ -11,8 +11,6 @@
 
 namespace SpomkyLabs\JoseBundle\Factory;
 
-
-use Jose\Algorithm\JWAManagerInterface;
 use Jose\Checker\CheckerManagerInterface;
 use Jose\Verifier;
 
