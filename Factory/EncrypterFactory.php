@@ -42,8 +42,7 @@ final class EncrypterFactory
     public function __construct(PayloadConverterManagerInterface $payload_converter,
                                 CompressionManagerInterface $compression_manager,
                                 JWAFactory $jwa_factory
-    )
-    {
+    ) {
         $this->compression_manager = $compression_manager;
         $this->payload_converter = $payload_converter;
         $this->jwa_factory = $jwa_factory;
@@ -57,6 +56,7 @@ final class EncrypterFactory
     public function createEncrypter(array $algorithms)
     {
         $jwa_manager = $this->jwa_factory->createAlgorithmManager($algorithms);
+
         return new Encrypter($jwa_manager, $this->payload_converter, $this->compression_manager);
     }
 }

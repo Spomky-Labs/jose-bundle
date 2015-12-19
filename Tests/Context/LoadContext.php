@@ -12,12 +12,10 @@
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
-use Jose\JSONSerializationModes;
 use Jose\Object\JWEInterface;
 use Jose\Object\JWKInterface;
 use Jose\Object\JWKSetInterface;
 use Jose\Object\JWSInterface;
-use Jose\Object\SignatureInstruction;
 
 /**
  * Behat context class.

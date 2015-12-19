@@ -50,8 +50,7 @@ final class DecrypterFactory
                                 CompressionManagerInterface $compression_manager,
                                 CheckerManagerInterface $checker_manager,
                                 JWAFactory $jwa_factory
-    )
-    {
+    ) {
         $this->checker_manager = $checker_manager;
         $this->compression_manager = $compression_manager;
         $this->payload_converter = $payload_converter;
@@ -66,6 +65,7 @@ final class DecrypterFactory
     public function createDecrypter(array $algorithms)
     {
         $jwa_manager = $this->jwa_factory->createAlgorithmManager($algorithms);
+
         return new Decrypter($jwa_manager, $this->payload_converter, $this->compression_manager, $this->checker_manager);
     }
 }

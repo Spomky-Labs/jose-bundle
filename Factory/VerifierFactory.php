@@ -34,8 +34,7 @@ final class VerifierFactory
      */
     public function __construct(CheckerManagerInterface $checker_manager,
                                 JWAFactory $jwa_factory
-    )
-    {
+    ) {
         $this->checker_manager = $checker_manager;
         $this->jwa_factory = $jwa_factory;
     }
@@ -48,6 +47,7 @@ final class VerifierFactory
     public function createVerifier(array $algorithms)
     {
         $jwa_manager = $this->jwa_factory->createAlgorithmManager($algorithms);
+
         return new Verifier($jwa_manager, $this->checker_manager);
     }
 }

@@ -34,8 +34,7 @@ final class SignerFactory
      */
     public function __construct(PayloadConverterManagerInterface $payload_converter,
                                 JWAFactory $jwa_factory
-    )
-    {
+    ) {
         $this->payload_converter = $payload_converter;
         $this->jwa_factory = $jwa_factory;
     }
@@ -48,6 +47,7 @@ final class SignerFactory
     public function createSigner(array $algorithms)
     {
         $jwa_manager = $this->jwa_factory->createAlgorithmManager($algorithms);
+
         return new Signer($jwa_manager, $this->payload_converter);
     }
 }
