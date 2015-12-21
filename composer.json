@@ -20,7 +20,7 @@
         "vipsoft/doctrine-data-fixtures-extension": "~3.0",
         "behat/behat": "~3.0",
         "behat/mink": "*",
-        "behat/mink-extension": "*",
+        "behat/mink-extension": "2.1.*@dev",
         "behat/mink-browserkit-driver":  "*",
         "doctrine/orm": "~2.2",
         "ext-curl": "*"
