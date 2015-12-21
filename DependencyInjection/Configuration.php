@@ -35,24 +35,11 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($this->alias);
 
-        $this->addStorageSection($rootNode);
         $rootNode
             ->children()
                 ->scalarNode('server_name')->cannotBeEmpty()->defaultValue('OAuth2 Server')->end()
                 ->arrayNode('algorithms')->prototype('scalar')->end()->treatNullLike([])->end()
                 ->arrayNode('compression_methods')->prototype('scalar')->end()->treatNullLike([])->end()
-            ->end();
-
-        return $treeBuilder;
-    }
-
-    /**
-     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
-     */
-    private function addStorageSection(ArrayNodeDefinition $node)
-    {
-        $node
-            ->children()
                 ->arrayNode('jot')
                     ->children()
                         ->booleanNode('enabled')->defaultFalse()->end()
@@ -61,5 +48,7 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+
+        return $treeBuilder;
     }
 }
