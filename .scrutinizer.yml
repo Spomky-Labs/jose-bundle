@@ -14,7 +14,7 @@ tools:
     php_code_sniffer: true
     php_analyzer: true
     php_code_coverage: false
-    php_cpd: true
+    php_cpd: false
     php_pdepend:
         excluded_dirs: [vendor/*, Tests/*]
 filter:
