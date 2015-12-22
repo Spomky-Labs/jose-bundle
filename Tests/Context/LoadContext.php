@@ -13,6 +13,7 @@ namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
 use Jose\Object\JWEInterface;
+use Jose\Object\JWK;
 use Jose\Object\JWKInterface;
 use Jose\Object\JWKSetInterface;
 use Jose\Object\JWSInterface;
@@ -52,7 +53,6 @@ trait LoadContext
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
      */
     abstract protected function getContainer();
-
     /**
      * @When I try to load the following data
      */
