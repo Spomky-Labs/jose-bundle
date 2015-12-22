@@ -40,6 +40,7 @@ final class Configuration implements ConfigurationInterface
                 ->arrayNode('algorithms')->prototype('scalar')->end()->treatNullLike([])->end()
                 ->arrayNode('compression_methods')->prototype('scalar')->end()->treatNullLike([])->end()
                 ->arrayNode('jot')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultFalse()->end()
                         ->scalarNode('manager')->defaultValue('jose.jot_manager.default')->cannotBeEmpty()->end()
