@@ -12,17 +12,17 @@
     ],
     "require": {
         "spomky-labs/jose": "1.0.*@alpha",
-        "symfony/framework-bundle": "^2.7.0|^3.0.0",
+        "symfony/http-kernel": "^2.7.0|^3.0.0",
+        "symfony/finder": "^2.7.0|^3.0.0",
         "doctrine/doctrine-bundle": "^1.0.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^2.7.0|^3.0.0",
-        "doctrine/doctrine-fixtures-bundle": "^2.2.0",
-        "vipsoft/doctrine-data-fixtures-extension": "^3.0.0",
         "behat/behat": "^3.0.0",
         "behat/mink": "*",
         "behat/mink-extension": "^2.1.0",
         "behat/mink-browserkit-driver":  "*",
+        "behat/symfony2-extension":  "^2.1.0",
         "doctrine/orm": "^2.2.0",
         "ext-curl": "*"
     },
