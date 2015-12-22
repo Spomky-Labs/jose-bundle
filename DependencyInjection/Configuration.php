@@ -37,7 +37,6 @@ final class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('server_name')->cannotBeEmpty()->defaultValue('OAuth2 Server')->end()
-                ->arrayNode('algorithms')->prototype('scalar')->end()->treatNullLike([])->end()
                 ->arrayNode('compression_methods')->prototype('scalar')->end()->treatNullLike([])->end()
                 ->arrayNode('jot')
                     ->addDefaultsIfNotSet()

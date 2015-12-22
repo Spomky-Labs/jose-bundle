@@ -55,7 +55,6 @@ final class SpomkyLabsJoseBundleExtension extends Extension
 
         $parameters = [
             'server_name',
-            'algorithms',
             'compression_methods',
         ];
 
