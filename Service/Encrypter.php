@@ -61,7 +61,7 @@ final class Encrypter implements EncrypterInterface
 
         if (1 < count($instructions) && $serialization !== JSONSerializationModes::JSON_SERIALIZATION) {
             $result = [];
-            foreach($instructions as $instruction) {
+            foreach ($instructions as $instruction) {
                 $result[] = $this->encryptData($input, [$instruction], $serialization, $shared_protected_header, $shared_unprotected_header, $aad);
             }
 

@@ -11,19 +11,12 @@
 
 namespace SpomkyLabs\JoseBundle\Service;
 
-use Base64Url\Base64Url;
 use Jose\Algorithm\JWAManagerInterface;
-use Jose\Algorithm\Signature\SignatureInterface;
-use Jose\Behaviour\HasJWAManager;
-use Jose\Behaviour\HasKeyChecker;
-use Jose\Behaviour\HasPayloadConverter;
 use Jose\JSONSerializationModes;
 use Jose\Object\JWKInterface;
 use Jose\Object\SignatureInstruction;
-use Jose\Object\SignatureInstructionInterface;
 use Jose\Payload\PayloadConverterManagerInterface;
 use Jose\SignerInterface;
-use Jose\Util\Converter;
 use SpomkyLabs\JoseBundle\Model\JotInterface;
 use SpomkyLabs\JoseBundle\Model\JotManagerInterface;
 
@@ -67,7 +60,7 @@ final class Signer implements SignerInterface
 
         if (1 < count($instructions) && $serialization !== JSONSerializationModes::JSON_SERIALIZATION) {
             $result = [];
-            foreach($instructions as $instruction) {
+            foreach ($instructions as $instruction) {
                 $result[] = $this->signData($input, [$instruction], $serialization, $detached_signature, $detached_payload);
             }
 
@@ -105,14 +98,14 @@ final class Signer implements SignerInterface
 
     /**
      * @param \Jose\Object\SignatureInstructionInterface[] $instructions A list of instructions used to sign the input
-     * @param \SpomkyLabs\JoseBundle\Model\JotInterface $jot
-
+     * @param \SpomkyLabs\JoseBundle\Model\JotInterface    $jot
+     
      * @return \Jose\Object\SignatureInstructionInterface[]
      */
     private function getNewInstructions(array $instructions, JotInterface $jot)
     {
         $new_instructions = [];
-        foreach($instructions as $instruction) {
+        foreach ($instructions as $instruction) {
             $protected_header = $instruction->getProtectedHeader();
             $protected_header['jti'] = $jot->getJti();
 
