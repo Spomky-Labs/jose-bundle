@@ -12,7 +12,6 @@
 namespace SpomkyLabs\JoseBundle\Factory;
 
 use Jose\Payload\PayloadConverterManagerInterface;
-use SpomkyLabs\JoseBundle\Model\JotManager;
 use SpomkyLabs\JoseBundle\Model\JotManagerInterface;
 use SpomkyLabs\JoseBundle\Service\Signer;
 
