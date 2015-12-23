@@ -92,7 +92,7 @@ trait ProcessContext
     public function iTryToSignThePayload()
     {
         /**
-         * @var $signer \Jose\SignerInterface
+         * @var \Jose\SignerInterface
          */
         $signer = $this->getContainer()->get('jose.factory.signer')->createSigner(['RS256']);
         $instruction = new SignatureInstruction($this->signature_key, $this->protected_header, $this->unprotected_header);
@@ -108,5 +108,4 @@ trait ProcessContext
             throw new \Exception(sprintf('The signed data is not the same as expected. I got "%s"', $this->signed_data));
         }
     }
-
 }
