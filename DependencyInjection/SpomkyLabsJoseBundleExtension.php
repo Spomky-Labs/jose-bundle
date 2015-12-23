@@ -44,13 +44,15 @@ final class SpomkyLabsJoseBundleExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $services = $this->getXmlFileToLoad();
-        if (true === $config['jot']['enabled']) {
+        if (true === $config['storage']['enabled']) {
             $services[] = 'jot';
-            $container->setParameter($this->getAlias().'.jot.class', $config['jot']['class']);
-            $container->setAlias($this->getAlias().'.jot.manager', $config['jot']['manager']);
         }
         foreach ($services as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
+        }
+        if (true === $config['storage']['enabled']) {
+            $container->setParameter($this->getAlias().'.jot.class', $config['storage']['class']);
+            $container->setAlias($this->getAlias().'.jot.manager', $config['storage']['manager']);
         }
 
         $parameters = [

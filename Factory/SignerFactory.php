@@ -12,7 +12,9 @@
 namespace SpomkyLabs\JoseBundle\Factory;
 
 use Jose\Payload\PayloadConverterManagerInterface;
-use Jose\Signer;
+use SpomkyLabs\JoseBundle\Model\JotManager;
+use SpomkyLabs\JoseBundle\Model\JotManagerInterface;
+use SpomkyLabs\JoseBundle\Service\Signer;
 
 final class SignerFactory
 {
@@ -27,16 +29,24 @@ final class SignerFactory
     private $jwa_factory;
 
     /**
+     * @var null|\SpomkyLabs\JoseBundle\Model\JotManagerInterface
+     */
+    private $jot_manager;
+
+    /**
      * SignerFactory constructor.
      *
-     * @param \Jose\Payload\PayloadConverterManagerInterface $payload_converter
-     * @param \SpomkyLabs\JoseBundle\Factory\JWAFactory      $jwa_factory
+     * @param \Jose\Payload\PayloadConverterManagerInterface        $payload_converter
+     * @param \SpomkyLabs\JoseBundle\Factory\JWAFactory             $jwa_factory
+     * @param \SpomkyLabs\JoseBundle\Model\JotManagerInterface|null $jot_manager
      */
     public function __construct(PayloadConverterManagerInterface $payload_converter,
-                                JWAFactory $jwa_factory
+                                JWAFactory $jwa_factory,
+                                JotManagerInterface $jot_manager = null
     ) {
         $this->payload_converter = $payload_converter;
         $this->jwa_factory = $jwa_factory;
+        $this->jot_manager = $jot_manager;
     }
 
     /**
@@ -48,6 +58,6 @@ final class SignerFactory
     {
         $jwa_manager = $this->jwa_factory->createAlgorithmManager($algorithms);
 
-        return new Signer($jwa_manager, $this->payload_converter);
+        return new Signer($jwa_manager, $this->payload_converter, $this->jot_manager);
     }
 }

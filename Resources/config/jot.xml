@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="jose.jot.manager.default" class="SpomkyLabs\JoseBundle\Model\JotManager">
+        <service id="jose.jot_manager.default" class="SpomkyLabs\JoseBundle\Model\JotManager">
             <argument>%jose.jot.class%</argument>
             <argument type="service" id="doctrine" />
         </service>

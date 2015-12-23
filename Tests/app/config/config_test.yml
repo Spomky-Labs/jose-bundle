@@ -36,8 +36,8 @@ doctrine:
 
 jose:
     server_name: My Server #Audience for all input loaded
-    jot:
-        enabled: false # If enabled, tokens will be able to have an ID and will be stored (e.g. in a database).
+    storage:
+        enabled: true # If enabled, tokens will be able to have an ID and will be stored (e.g. in a database).
                       # This also means that your JWS/JWE can be revoked
 #        manager: jose.jot_manager.default
         class: SpomkyLabs\TestJoseBundle\Entity\Jot

@@ -12,8 +12,9 @@
 namespace SpomkyLabs\JoseBundle\Factory;
 
 use Jose\Compression\CompressionManagerInterface;
-use Jose\Encrypter;
 use Jose\Payload\PayloadConverterManagerInterface;
+use SpomkyLabs\JoseBundle\Model\JotManagerInterface;
+use SpomkyLabs\JoseBundle\Service\Encrypter;
 
 final class EncrypterFactory
 {
@@ -33,19 +34,27 @@ final class EncrypterFactory
     private $jwa_factory;
 
     /**
-     * DecrypterFactory constructor.
+     * @var null|\SpomkyLabs\JoseBundle\Model\JotManagerInterface
+     */
+    private $jot_manager;
+
+    /**
+     * EncrypterFactory constructor.
      *
-     * @param \Jose\Payload\PayloadConverterManagerInterface $payload_converter
-     * @param \Jose\Compression\CompressionManagerInterface  $compression_manager
-     * @param \SpomkyLabs\JoseBundle\Factory\JWAFactory      $jwa_factory
+     * @param \Jose\Payload\PayloadConverterManagerInterface        $payload_converter
+     * @param \Jose\Compression\CompressionManagerInterface         $compression_manager
+     * @param \SpomkyLabs\JoseBundle\Factory\JWAFactory             $jwa_factory
+     * @param \SpomkyLabs\JoseBundle\Model\JotManagerInterface|null $jot_manager
      */
     public function __construct(PayloadConverterManagerInterface $payload_converter,
                                 CompressionManagerInterface $compression_manager,
-                                JWAFactory $jwa_factory
+                                JWAFactory $jwa_factory,
+                                JotManagerInterface $jot_manager = null
     ) {
         $this->compression_manager = $compression_manager;
         $this->payload_converter = $payload_converter;
         $this->jwa_factory = $jwa_factory;
+        $this->jot_manager = $jot_manager;
     }
 
     /**
@@ -57,6 +66,6 @@ final class EncrypterFactory
     {
         $jwa_manager = $this->jwa_factory->createAlgorithmManager($algorithms);
 
-        return new Encrypter($jwa_manager, $this->payload_converter, $this->compression_manager);
+        return new Encrypter($jwa_manager, $this->payload_converter, $this->compression_manager, $this->jot_manager);
     }
 }
