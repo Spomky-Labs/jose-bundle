@@ -23,4 +23,5 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     use KernelDictionary;
     use LoadContext;
     use ProcessContext;
+    use SignContext;
 }

@@ -43,13 +43,20 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $services = $this->getXmlFileToLoad();
-        if (true === $config['storage']['enabled']) {
-            $services[] = 'jot';
-        }
+        $services = $this->getXmlFileToLoad($config);
         foreach ($services as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
+
+        $this->initConfiguration($container, $config);
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param array                                                   $config
+     */
+    private function initConfiguration(ContainerBuilder $container, array $config)
+    {
         if (true === $config['storage']['enabled']) {
             $container->setParameter($this->getAlias().'.jot.class', $config['storage']['class']);
             $container->setAlias($this->getAlias().'.jot.manager', $config['storage']['manager']);
@@ -74,15 +81,23 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     }
 
     /**
+     * @param array $config
+     *
      * @return string[]
      */
-    private function getXmlFileToLoad()
+    private function getXmlFileToLoad(array $config)
     {
-        return [
+        $services = [
             'services',
             'compression_methods',
             'checkers',
             'payload_converters',
         ];
+
+        if (true === $config['storage']['enabled']) {
+            $services[] = 'jot';
+        }
+
+        return $services;
     }
 }

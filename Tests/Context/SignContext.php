@@ -41,11 +41,6 @@ trait SignContext
     private $detached_payload;
 
     /**
-     * @return \Jose\Object\JWKSetInterface
-     */
-    abstract protected function getKeyset();
-
-    /**
      * Returns HttpKernel service container.
      *
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
@@ -181,6 +176,16 @@ trait SignContext
     {
         if (null !== $this->detached_payload) {
             throw new \Exception(sprintf('The detached payload is not null. Its value is "%s"', $this->detached_payload));
+        }
+    }
+
+    /**
+     * @Then the signed data contains :pattern
+     */
+    public function theSignedDataContains($pattern)
+    {
+        if (1 !== preg_match($pattern, $this->signed_data)) {
+            throw new \Exception(sprintf('The signed data does not contain the expected pattern. Its value is "%s".', $this->signed_data));
         }
     }
 }
