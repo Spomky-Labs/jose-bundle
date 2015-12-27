@@ -14,27 +14,28 @@ Jose Bundle
 [![Latest Unstable Version](https://poser.pugx.org/Spomky-Labs/jose-bundle/v/unstable.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
 [![License](https://poser.pugx.org/Spomky-Labs/jose-bundle/license.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
 
-This Symfony bundle provides services create, load and verify JWT.
+This Symfony bundle provides services to create, load, verify or decrypt JWT.
 It uses [spomky-Labs/jose](https://github.com/Spomky-Labs/jose) to ease encryption/decryption and signature/verification of JWS and JWE.
 
 > Note 1: this bundle is still in development. The first stable release will be tagged as v1.0.x. All tags v0.x.y must be considered as unstable.
 
 # The Release Process
+
 The release process [is described here](doc/Release.md).
 
 # Prerequisites
 
 This library needs at least:
 * ![PHP 5.5.9+](https://img.shields.io/badge/PHP-5.5.9%2B-ff69b4.svg)
-* Symfony 2.7+
+* Symfony 2.7+ of Symfony 3.0+
 
 Please consider the following optional third party libraries and extensions:
-* Enable AES-GCM based algorithms (AxxxGCM and AxxxGCMKW): [PHP Crypto](https://github.com/bukka/php-crypto) Extension (not yet available on `PHP 7` and `HHVM`).
-* Enable storage and `jti` header support: [doctrine/orm](https://packagist.org/packages/doctrine/orm) (should work with [doctrine/mongodb-odm](https://packagist.org/packages/doctrine/mongodb-odm) or other Doctrine storage).
+* [PHP Crypto Extension](https://github.com/bukka/php-crypto) if you want to use Enable AES-GCM based algorithms (AxxxGCM and AxxxGCMKW).
+* [doctrine/orm](https://packagist.org/packages/doctrine/orm) or [doctrine/mongodb-odm](https://packagist.org/packages/doctrine/mongodb-odm) if you want to use the storage.
 
 # Continuous Integration
 
-It has been successfully tested using `PHP 5.5.9`, `PHP 5.6`, `PHP 7` and `HHVM` with all algorithms except `AxxxGCM` and `AxxxGCMKW`.
+It has been successfully tested using `PHP 5.5.9`, `PHP 5.6`, `PHP 7` and `HHVM`.
 
 We also track bugs and code quality using [Scrutinizer-CI](https://scrutinizer-ci.com/g/Spomky-Labs/JoseBundle/) and [Sensio Insight](https://insight.sensiolabs.com/projects/5398e4ca-1a48-4186-9410-f44f3f850a05).
 
@@ -79,6 +80,7 @@ This bundle needs to be configured. Please [see this page](Resources/doc/Configu
 
 # Create your entities and managers
 
+*To be written*
 
 # How to use
 
