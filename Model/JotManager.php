@@ -148,4 +148,19 @@ class JotManager implements JotManagerInterface
     {
         return $this->getEntityRepository()->findOneBy(['jti' => $jti]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteExpired()
+    {
+        $qb = $this->getEntityRepository()->createQueryBuilder('t');
+        $qb
+            ->delete()
+            ->where('t.expires_at < :now')
+            ->andWhere('t.expires_at IS NOT NULL')
+            ->setParameters(['now' => time()]);
+
+        return $qb->getQuery()->execute();
+    }
 }

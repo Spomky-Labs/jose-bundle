@@ -13,7 +13,6 @@ namespace SpomkyLabs\JoseBundle\Service;
 
 use Jose\Algorithm\JWAManagerInterface;
 use Jose\JSONSerializationModes;
-use Jose\Object\JWKInterface;
 use Jose\Object\SignatureInstruction;
 use Jose\Payload\PayloadConverterManagerInterface;
 use Jose\SignerInterface;
@@ -90,7 +89,10 @@ final class Signer implements SignerInterface
 
         $jws = $this->signer->sign($input, $instructions, $serialization, $detached_signature, $detached_payload);
 
-        $jot = $jot->withData($jws);
+        $expires_at = is_array($input) && array_key_exists('exp', $input)?$input['exp']:null;
+
+        $jot->setData($jws);
+        $jot->setExpiresAt($expires_at);
         $this->jot_manager->saveJot($jot);
 
         return $jws;

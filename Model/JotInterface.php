@@ -19,14 +19,22 @@ interface JotInterface
     public function getJti();
 
     /**
+     * @return int
+     */
+    public function getExpiresAt();
+
+    /**
+     * @param int $expires_at
+     */
+    public function setExpiresAt($expires_at);
+
+    /**
      * @return string
      */
     public function getData();
 
     /**
      * @param string $data
-     *
-     * @return \SpomkyLabs\JoseBundle\Model\JotInterface
      */
-    public function withData($data);
+    public function setData($data);
 }

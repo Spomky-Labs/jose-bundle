@@ -95,7 +95,10 @@ final class Encrypter implements EncrypterInterface
 
         $jwe = $this->encrypter->encrypt($input, $instructions, $serialization, $shared_protected_header, $shared_unprotected_header, $aad);
 
-        $jot = $jot->withData($jwe);
+        $expires_at = is_array($input) && array_key_exists('exp', $input)?$input['exp']:null;
+
+        $jot->setData($jwe);
+        $jot->setExpiresAt($expires_at);
         $this->jot_manager->saveJot($jot);
 
         return $jwe;

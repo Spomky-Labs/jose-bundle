@@ -19,6 +19,11 @@ class Jot implements JotInterface
     protected $data = '';
 
     /**
+     * @var int
+     */
+    protected $expires_at;
+
+    /**
      * @var string
      */
     protected $jti;
@@ -31,12 +36,9 @@ class Jot implements JotInterface
     /**
      * {@inheritdoc}
      */
-    public function withData($data)
+    public function setData($data)
     {
-        $jot = clone $this;
-        $jot->data = $data;
-
-        return $jot;
+        $this->data = $data;
     }
 
     /**
@@ -53,5 +55,15 @@ class Jot implements JotInterface
     public function getJti()
     {
         return $this->jti;
+    }
+
+    public function getExpiresAt()
+    {
+        return $this->expires_at;
+    }
+
+    public function setExpiresAt($expires_at)
+    {
+        $this->expires_at = $expires_at;
     }
 }
