@@ -48,4 +48,9 @@ interface JotManagerInterface
      * @return \SpomkyLabs\JoseBundle\Model\JotInterface|null
      */
     public function getJotById($jti);
+
+    /**
+     * @return int
+     */
+    public function deleteExpired();
 }
