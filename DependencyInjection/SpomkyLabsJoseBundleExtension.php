@@ -38,9 +38,11 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
-        $configuration = new Configuration($this->getAlias());
 
-        $config = $processor->processConfiguration($configuration, $configs);
+        $config = $processor->processConfiguration(
+            $this->getConfiguration($configs, $container),
+            $configs
+        );
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $services = $this->getXmlFileToLoad($config);
@@ -49,6 +51,22 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         }
 
         $this->initConfiguration($container, $config);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfiguration(array $config, ContainerBuilder $container)
+    {
+        return new Configuration($this->getAlias());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAlias()
+    {
+        return $this->alias;
     }
 
     /**
@@ -70,14 +88,6 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         foreach ($parameters as $parameter) {
             $container->setParameter($this->getAlias().'.'.$parameter, $config[$parameter]);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return $this->alias;
     }
 
     /**
