@@ -89,7 +89,7 @@ final class Signer implements SignerInterface
 
         $jws = $this->signer->sign($input, $instructions, $serialization, $detached_signature, $detached_payload);
 
-        $expires_at = is_array($input) && array_key_exists('exp', $input)?$input['exp']:null;
+        $expires_at = is_array($input) && array_key_exists('exp', $input) ? $input['exp'] : null;
 
         $jot->setData($jws);
         $jot->setExpiresAt($expires_at);
