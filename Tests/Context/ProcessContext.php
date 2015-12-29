@@ -13,6 +13,7 @@ namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
 use Jose\JSONSerializationModes;
+use Jose\Object\EncryptionInstruction;
 use Jose\Object\JWK;
 use Jose\Object\SignatureInstruction;
 
@@ -49,6 +50,41 @@ trait ProcessContext
      * @var mixed
      */
     private $input = null;
+
+    /**
+     * @var bool
+     */
+    private $is_signature_detached = false;
+
+    /**
+     * @var null|string
+     */
+    private $detached_payload;
+
+    /**
+     * @var string
+     */
+    private $encrypted_data = null;
+
+    /**
+     * @var \Jose\Object\JWKInterface
+     */
+    private $recipient_public_key;
+
+    /**
+     * @var null|\Jose\Object\JWKInterface
+     */
+    private $sender_private_key = null;
+
+    /**
+     * @var array
+     */
+    private $recipient_unprotected_header = [];
+
+    /**
+     * @var null|string
+     */
+    private $aad = null;
 
     /**
      * Returns HttpKernel service container.
@@ -106,6 +142,124 @@ trait ProcessContext
     {
         if ($this->signed_data !== $data) {
             throw new \Exception(sprintf('The signed data is not the same as expected. I got "%s"', $this->signed_data));
+        }
+    }
+
+    /**
+     * @Given the signature is detached
+     */
+    public function theSignatureIsDetached()
+    {
+        $this->is_signature_detached = true;
+    }
+
+    /**
+     * @Given the signature is attached
+     */
+    public function theSignatureIsAttached()
+    {
+        $this->is_signature_detached = false;
+    }
+
+    /**
+     * @Then the result is a signed JWT
+     */
+    public function theResultIsASignedJwt()
+    {
+        if (!is_string($this->signed_data)) {
+            throw new \Exception('The result is not a string');
+        }
+    }
+
+    /**
+     * @Then the detached payload is not null
+     */
+    public function theDetachedPayloadIsNotNull()
+    {
+        if (null === $this->detached_payload) {
+            throw new \Exception('The detached payload is null');
+        }
+    }
+
+    /**
+     * @Then the detached payload is null
+     */
+    public function theDetachedPayloadIsNull()
+    {
+        if (null !== $this->detached_payload) {
+            throw new \Exception(sprintf('The detached payload is not null. Its value is "%s"', $this->detached_payload));
+        }
+    }
+
+    /**
+     * @Then the signed data contains :pattern
+     */
+    public function theSignedDataContains($pattern)
+    {
+        if (1 !== preg_match($pattern, $this->signed_data)) {
+            throw new \Exception(sprintf('The signed data does not contain the expected pattern. Its value is "%s".', $this->signed_data));
+        }
+    }
+
+    /**
+     * @Given I want to use the following key to encrypt a message
+     */
+    public function iWantToUseTheFollowingKeyToEncryptAMessage(PyStringNode $lines)
+    {
+        $data = [];
+        foreach ($lines->getStrings() as $line) {
+            list($key, $value) = explode(':', $line);
+            $data[$key] = $value;
+        }
+        $jwk = new JWK($data);
+        $this->recipient_public_key = $jwk;
+    }
+
+    /**
+     * @When I try to encrypt the input
+     */
+    public function iTryToEncryptTheInput()
+    {
+        $instruction = new EncryptionInstruction(
+            $this->recipient_public_key,
+            $this->sender_private_key,
+            $this->recipient_unprotected_header
+        );
+        $this->encrypted_data = $this->getEncrypter()->encrypt(
+            $this->input,
+            [$instruction],
+            $this->protected_header,
+            $this->unprotected_header,
+            $this->serialization_mode,
+            $this->aad
+        );
+    }
+
+    /**
+     * @Then the encrypted message is :result
+     */
+    public function theEncryptedMessageIs($result)
+    {
+        if ($result !== $this->encrypted_data) {
+            throw new \Exception(sprintf('The current result did not matched the expected result. Got "%s"', $this->encrypted_data));
+        }
+    }
+
+    /**
+     * @return \Jose\EncrypterInterface
+     */
+    private function getEncrypter()
+    {
+        return $this->getContainer()->get('jose');
+    }
+
+    /**
+     * @Then the result is an encrypted JWT
+     */
+    public function theResultIsAnEncryptedJwt()
+    {
+        if (!is_string($this->encrypted_data)) {
+            throw new \Exception('The result is not a string');
         }
     }
 }
