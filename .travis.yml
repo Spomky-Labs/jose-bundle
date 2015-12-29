@@ -17,7 +17,9 @@ env:
     - SYMFONY_VERSION=3.0.*
 
 before_script:
-    - composer require symfony/symfony:${SYMFONY_VERSION} --no-update
+    - composer require symfony/http-kernel:${SYMFONY_VERSION} --no-update
+    - composer require symfony/finder:${SYMFONY_VERSION} --no-update
+    - composer require symfony/var-dumper:${SYMFONY_VERSION} --no-update
     - composer update --no-interaction
 
 script:
