@@ -127,7 +127,7 @@ trait ProcessContext
      */
     public function iTryToSignThePayload()
     {
-        /**
+        /*
          * @var \Jose\SignerInterface
          */
         $signer = $this->getContainer()->get('jose.factory.signer')->createSigner(['RS256']);
