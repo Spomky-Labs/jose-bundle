@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Spomky-Labs
+ * Copyright (c) 2014-2016 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class KeyFile implements JWKSourceInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(ContainerBuilder $container, $id, array $config)
     {
@@ -28,19 +28,19 @@ class KeyFile implements JWKSourceInterface
         $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
-            'createFromKeyFile'
+            'createFromKeyFile',
         ]);
         $definition->setArguments([
             $config['path'],
             $config['password'],
-            $config['additional_values']
+            $config['additional_values'],
         ]);
 
         $container->setDefinition($service_id, $definition);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getKey()
     {
@@ -48,7 +48,7 @@ class KeyFile implements JWKSourceInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addConfiguration(NodeDefinition $node)
     {
@@ -61,7 +61,6 @@ class KeyFile implements JWKSourceInterface
                     ->useAttributeAsKey('key')
                     ->prototype('variable')->end()
                 ->end()
-            ->end()
-        ;
+            ->end();
     }
 }

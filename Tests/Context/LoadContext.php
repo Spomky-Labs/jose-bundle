@@ -127,6 +127,7 @@ trait LoadContext
     private function getLoader()
     {
         var_dump(json_encode($this->getContainer()->get('jose.key_set.private')));
+
         return $this->getContainer()->get('jose.loader');
     }
 
