@@ -9,10 +9,5 @@
             <argument>%jose.jot.class%</argument>
             <argument type="service" id="doctrine" />
         </service>
-
-        <service id="jose.checker.jti" class="SpomkyLabs\JoseBundle\Checker\JtiChecker" public="false">
-            <argument type="service" id="jose.jot.manager" />
-            <tag name="jose_checker" />
-        </service>
     </services>
 </container>

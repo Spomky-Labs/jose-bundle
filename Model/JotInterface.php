@@ -19,6 +19,11 @@ interface JotInterface
     public function getJti();
 
     /**
+     * @return bool
+     */
+    public function isExpired();
+
+    /**
      * @return int
      */
     public function getExpiresAt();

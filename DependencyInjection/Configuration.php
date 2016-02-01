@@ -11,19 +11,32 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
+    /**
+     * @var \SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\JWKSourceInterface[]
+     */
+    private $jwk_sources;
+
+    /**
+     * @var string
+     */
     private $alias;
 
     /**
-     * @param string $alias
+     * Configuration constructor.
+     *
+     * @param string                                                                    $alias
+     * @param \SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\JWKSourceInterface[] $jwk_sources
      */
-    public function __construct($alias)
+    public function __construct($alias, array $jwk_sources)
     {
         $this->alias = $alias;
+        $this->jwk_sources = $jwk_sources;
     }
 
     /**
@@ -34,18 +47,23 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($this->alias);
 
+        $this->addJWKSourcesSection($rootNode, $this->jwk_sources);
+
         $rootNode
             ->children()
-                ->scalarNode('server_name')
-                    ->info('The audience claim ("aud")')
-                    ->cannotBeEmpty()
-                    ->defaultNull()
-                ->end()
                 ->arrayNode('compression_methods')
                     ->info('A list of enabled compression methods. Supported methods are: "DEF" (recommended), "GZ" and "ZLIB".')
                     ->prototype('scalar')
                     ->end()
                     ->treatNullLike([])
+                ->end()
+                ->arrayNode('key_sets')
+                    ->defaultValue([])
+                    ->useAttributeAsKey('key')
+                    ->prototype('array')
+                        ->prototype('scalar')
+                        ->end()
+                    ->end()
                 ->end()
                 ->arrayNode('storage')
                     ->addDefaultsIfNotSet()
@@ -74,5 +92,26 @@ final class Configuration implements ConfigurationInterface
             ->end();
 
         return $treeBuilder;
+    }
+
+    /**
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition          $node
+     * @param \SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\JWKSourceInterface[] $jwk_sources
+     */
+    private function addJWKSourcesSection(ArrayNodeDefinition $node, array $jwk_sources)
+    {
+        $sourceNodeBuilder = $node
+            ->fixXmlConfig('source')
+            ->children()
+            ->arrayNode('keys')
+            ->useAttributeAsKey('name')
+            ->prototype('array')
+            ->performNoDeepMerging()
+            ->children()
+        ;
+        foreach ($jwk_sources as $name => $source) {
+            $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
+            $source->addConfiguration($sourceNode);
+        }
     }
 }

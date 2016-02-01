@@ -36,7 +36,7 @@ class JotManager implements JotManagerInterface
     private $class;
 
     /**
-     * @param                                              $class
+     * @param string                                       $class
      * @param \Doctrine\Common\Persistence\ManagerRegistry $manager_registry
      */
     public function __construct($class, ManagerRegistry $manager_registry)

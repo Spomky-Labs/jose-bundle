@@ -13,7 +13,6 @@ namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
 use Jose\Object\JWEInterface;
-use Jose\Object\JWK;
 use Jose\Object\JWKInterface;
 use Jose\Object\JWKSetInterface;
 use Jose\Object\JWSInterface;
@@ -123,23 +122,11 @@ trait LoadContext
     }
 
     /**
-     * @Then the algorithm of the loaded data is :alg
-     */
-    public function theAlgorithmOfTheLoadedDataIs($alg)
-    {
-        if (!$this->loaded_data->hasHeader('alg')) {
-            throw new \Exception(sprintf('There is no algorithm header'));
-        }
-        if ($alg !== $this->loaded_data->getHeader('alg')) {
-            throw new \Exception(sprintf('The algorithm is "%s"', $this->loaded_data->getHeader('alg')));
-        }
-    }
-
-    /**
      * @return \Jose\LoaderInterface
      */
     private function getLoader()
     {
+        var_dump(json_encode($this->getContainer()->get('jose.key_set.private')));
         return $this->getContainer()->get('jose.loader');
     }
 

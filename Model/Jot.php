@@ -28,6 +28,9 @@ class Jot implements JotInterface
      */
     protected $jti;
 
+    /**
+     * Jot constructor.
+     */
     public function __construct()
     {
         $this->jti = base_convert(hash('sha512', uniqid(mt_rand(), true)), 16, 36);
@@ -57,11 +60,25 @@ class Jot implements JotInterface
         return $this->jti;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function isExpired()
+    {
+        return $this->expires_at < time();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getExpiresAt()
     {
         return $this->expires_at;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setExpiresAt($expires_at)
     {
         $this->expires_at = $expires_at;

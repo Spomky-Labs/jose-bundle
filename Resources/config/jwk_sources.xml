@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="jose.jwk_source.file" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\KeyFile">
+            <tag name="jose.jwk_source" />
+        </service>
+
+        <service id="jose.jwk_source.certificate" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\CertificateFile">
+            <tag name="jose.jwk_source" />
+        </service>
+
+        <service id="jose.jwk_source.values" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\Values">
+            <tag name="jose.jwk_source" />
+        </service>
+
+        <service id="jose.jwk_source.jwk" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\JWK">
+            <tag name="jose.jwk_source" />
+        </service>
+    </services>
+</container>

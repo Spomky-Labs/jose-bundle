@@ -13,7 +13,6 @@ namespace SpomkyLabs\JoseBundle;
 
 use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\CheckerCompilerPass;
 use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\CompressionCompilerPass;
-use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\PayloadConverterCompilerPass;
 use SpomkyLabs\JoseBundle\DependencyInjection\SpomkyLabsJoseBundleExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -31,6 +30,5 @@ final class SpomkyLabsJoseBundle extends Bundle
 
         $container->addCompilerPass(new CompressionCompilerPass());
         $container->addCompilerPass(new CheckerCompilerPass());
-        $container->addCompilerPass(new PayloadConverterCompilerPass());
     }
 }

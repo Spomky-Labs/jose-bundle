@@ -12,10 +12,7 @@
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
-use Jose\JSONSerializationModes;
-use Jose\Object\EncryptionInstruction;
 use Jose\Object\JWK;
-use Jose\Object\SignatureInstruction;
 
 /**
  * Behat context class.
@@ -40,11 +37,6 @@ trait ProcessContext
      * @var array
      */
     private $unprotected_header = [];
-
-    /**
-     * @var array
-     */
-    private $serialization_mode = JSONSerializationModes::JSON_COMPACT_SERIALIZATION;
 
     /**
      * @var mixed
@@ -130,9 +122,9 @@ trait ProcessContext
         /**
          * @var \Jose\SignerInterface
          */
-        $signer = $this->getContainer()->get('jose.factory.signer')->createSigner(['RS256']);
+        /*$signer = $this->getContainer()->get('jose.factory.signer')->createSigner(['RS256']);
         $instruction = new SignatureInstruction($this->signature_key, $this->protected_header, $this->unprotected_header);
-        $this->signed_data = $signer->sign($this->input, [$instruction], JSONSerializationModes::JSON_COMPACT_SERIALIZATION);
+        $this->signed_data = $signer->sign($this->input, [$instruction], JSONSerializationModes::JSON_COMPACT_SERIALIZATION);*/
     }
 
     /**
@@ -220,7 +212,7 @@ trait ProcessContext
      */
     public function iTryToEncryptTheInput()
     {
-        $instruction = new EncryptionInstruction(
+        /*$instruction = new EncryptionInstruction(
             $this->recipient_public_key,
             $this->sender_private_key,
             $this->recipient_unprotected_header
@@ -232,7 +224,7 @@ trait ProcessContext
             $this->unprotected_header,
             $this->serialization_mode,
             $this->aad
-        );
+        );*/
     }
 
     /**

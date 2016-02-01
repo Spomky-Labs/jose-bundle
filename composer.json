@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "spomky-labs/jose": "1.0.*@alpha",
+        "spomky-labs/jose": "2.0.*@alpha",
         "symfony/http-kernel": "^2.7.0|^3.0.0",
         "symfony/finder": "^2.7.0|^3.0.0",
         "doctrine/doctrine-bundle": "^1.0.0"
@@ -26,6 +26,7 @@
         "behat/mink-browserkit-driver":  "*",
         "behat/symfony2-extension":  "^2.1.0",
         "doctrine/orm": "^2.2.0",
+        "mdanter/ecc": "0.3",
         "ext-curl": "*"
     },
     "autoload": {

@@ -6,30 +6,34 @@
 
     <services>
         <service id="jose.compression_manager" class="Jose\Compression\CompressionManager" public="false" />
-        <service id="jose.payload_converter_manager" class="Jose\Payload\PayloadConverterManager" public="false" />
+
         <service id="jose.checker_manager" class="Jose\Checker\CheckerManager" public="false" />
-        <service id="jose.factory.key" class="SpomkyLabs\JoseBundle\Factory\KeyFactory" />
+
+        <service id="jose.factory.jwk" class="Jose\Factory\JWKFactory" />
+        <service id="jose.factory.jwk_set" class="SpomkyLabs\JoseBundle\Service\JWKSetFactory" />
+
         <service id="jose.factory.algorithm_manager" class="SpomkyLabs\JoseBundle\Factory\JWAFactory" />
+
         <service id="jose.loader" class="Jose\Loader">
-            <argument type="service" id="jose.payload_converter_manager" />
         </service>
-        <service id="jose.factory.signer" class="SpomkyLabs\JoseBundle\Factory\SignerFactory">
-            <argument type="service" id="jose.payload_converter_manager" />
+
+        <service id="jose.factory.signer" class="Jose\Factory\SignerFactory">
             <argument type="service" id="jose.factory.algorithm_manager" />
             <argument type="service" id="jose.jot.manager" on-invalid="ignore" />
         </service>
-        <service id="jose.factory.verifier" class="SpomkyLabs\JoseBundle\Factory\VerifierFactory">
+
+        <service id="jose.factory.verifier" class="Jose\Factory\VerifierFactory">
             <argument type="service" id="jose.checker_manager" />
             <argument type="service" id="jose.factory.algorithm_manager" />
         </service>
-        <service id="jose.factory.encrypter" class="SpomkyLabs\JoseBundle\Factory\EncrypterFactory">
-            <argument type="service" id="jose.payload_converter_manager" />
+
+        <service id="jose.factory.encrypter" class="Jose\Factory\EncrypterFactory">
             <argument type="service" id="jose.compression_manager" />
             <argument type="service" id="jose.factory.algorithm_manager" />
             <argument type="service" id="jose.jot.manager" on-invalid="ignore" />
         </service>
-        <service id="jose.factory.decrypter" class="SpomkyLabs\JoseBundle\Factory\DecrypterFactory">
-            <argument type="service" id="jose.payload_converter_manager" />
+
+        <service id="jose.factory.decrypter" class="Jose\Factory\DecrypterFactory">
             <argument type="service" id="jose.compression_manager" />
             <argument type="service" id="jose.checker_manager" />
             <argument type="service" id="jose.factory.algorithm_manager" />
