@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Spomky-Labs
+ * Copyright (c) 2014-2016 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -15,14 +15,14 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Factory configuration for the Gaufrette DIC extension
+ * Factory configuration for the Gaufrette DIC extension.
  *
  * @author Antoine Hérault <antoine.herault@gmail.com>
  */
 class SourceConfiguration implements ConfigurationInterface
 {
     /**
-     * Generates the configuration tree builder
+     * Generates the configuration tree builder.
      *
      * @return TreeBuilder
      */
@@ -39,8 +39,7 @@ class SourceConfiguration implements ConfigurationInterface
                         ->prototype('variable')->end()
                     ->end()
                 ->end()
-            ->end()
-        ;
+            ->end();
 
         return $treeBuilder;
     }

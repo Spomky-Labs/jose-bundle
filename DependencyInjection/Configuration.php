@@ -107,8 +107,7 @@ final class Configuration implements ConfigurationInterface
             ->useAttributeAsKey('name')
             ->prototype('array')
             ->performNoDeepMerging()
-            ->children()
-        ;
+            ->children();
         foreach ($jwk_sources as $name => $source) {
             $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
             $source->addConfiguration($sourceNode);

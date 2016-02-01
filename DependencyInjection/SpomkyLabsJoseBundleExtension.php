@@ -11,7 +11,6 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection;
 
-use Jose\Object\JWKSet;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -52,7 +51,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
             $configs
         );
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $services = $this->getXmlFileToLoad($config);
         foreach ($services as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
@@ -61,13 +60,12 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         $this->initConfiguration($container, $config);
     }
 
-
     /**
      * {@inheritdoc}
      */
     public function getConfiguration(array $configs, ContainerBuilder $container)
     {
-        $jwk_sources  = $this->createJWKSources();
+        $jwk_sources = $this->createJWKSources();
 
         return new Configuration($this->getAlias(), $jwk_sources);
     }
@@ -87,8 +85,8 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     private function initConfiguration(ContainerBuilder $container, array $config)
     {
         if (true === $config['storage']['enabled']) {
-            $container->setParameter($this->getAlias() . '.jot.class', $config['storage']['class']);
-            $container->setAlias($this->getAlias() . '.jot.manager', $config['storage']['manager']);
+            $container->setParameter($this->getAlias().'.jot.class', $config['storage']['class']);
+            $container->setAlias($this->getAlias().'.jot.manager', $config['storage']['manager']);
         }
 
         $parameters = [
@@ -96,7 +94,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         ];
 
         foreach ($parameters as $parameter) {
-            $container->setParameter($this->getAlias() . '.' . $parameter, $config[$parameter]);
+            $container->setParameter($this->getAlias().'.'.$parameter, $config[$parameter]);
         }
 
         foreach ($config['keys'] as $name => $key) {
@@ -109,9 +107,9 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     }
 
     /**
-     * @param string                                                                    $name
-     * @param array                                                                     $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder                   $container
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
     private function createJWKSet($name, array $config, ContainerBuilder $container)
     {
@@ -126,7 +124,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         $definition = new Definition('Jose\Object\JWKSet');
         $definition->setFactory([
             new Reference('jose.factory.jwk_set'),
-            'createFromKey'
+            'createFromKey',
         ]);
         $definition->setArguments([
             $keys,
@@ -181,11 +179,11 @@ final class SpomkyLabsJoseBundleExtension extends Extension
 
         // load bundled adapter factories
         $tempContainer = new ContainerBuilder();
-        $loader = new XmlFileLoader($tempContainer, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new XmlFileLoader($tempContainer, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('jwk_sources.xml');
 
         $services = $tempContainer->findTaggedServiceIds('jose.jwk_source');
-        $jwk_sources = array();
+        $jwk_sources = [];
         foreach (array_keys($services) as $id) {
             $factory = $tempContainer->get($id);
             $jwk_sources[str_replace('-', '_', $factory->getKey())] = $factory;

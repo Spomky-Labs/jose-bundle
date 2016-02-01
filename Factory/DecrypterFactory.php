@@ -35,9 +35,9 @@ final class DecrypterFactory
     /**
      * DecrypterFactory constructor.
      *
-     * @param \Jose\Compression\CompressionManagerInterface  $compression_manager
-     * @param \Jose\Checker\CheckerManagerInterface          $checker_manager
-     * @param \SpomkyLabs\JoseBundle\Factory\JWAFactory      $jwa_factory
+     * @param \Jose\Compression\CompressionManagerInterface $compression_manager
+     * @param \Jose\Checker\CheckerManagerInterface         $checker_manager
+     * @param \SpomkyLabs\JoseBundle\Factory\JWAFactory     $jwa_factory
      */
     public function __construct(CompressionManagerInterface $compression_manager,
                                 CheckerManagerInterface $checker_manager,

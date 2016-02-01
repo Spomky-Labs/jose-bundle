@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2015 Spomky-Labs
+ * Copyright (c) 2014-2016 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class JWK implements JWKSourceInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(ContainerBuilder $container, $id, array $config)
     {
@@ -28,17 +28,17 @@ class JWK implements JWKSourceInterface
         $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
-            'createFromValues'
+            'createFromValues',
         ]);
         $definition->setArguments([
-            json_decode($config['value'], true)
+            json_decode($config['value'], true),
         ]);
 
         $container->setDefinition($service_id, $definition);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getKey()
     {
@@ -46,7 +46,7 @@ class JWK implements JWKSourceInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addConfiguration(NodeDefinition $node)
     {
@@ -55,7 +55,6 @@ class JWK implements JWKSourceInterface
                 ->scalarNode('value')
                     ->isRequired()
                 ->end()
-            ->end()
-        ;
+            ->end();
     }
 }
