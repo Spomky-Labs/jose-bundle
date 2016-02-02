@@ -143,7 +143,8 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     {
         foreach ($config as $key => $adapter) {
             if (array_key_exists($key, $jwk_sources)) {
-                $jwk_sources[$key]->create($container, $name, $adapter);
+                $service_id = sprintf('jose.key.%s', $name);
+                $jwk_sources[$key]->create($container, $service_id, $adapter);
 
                 return;
             }

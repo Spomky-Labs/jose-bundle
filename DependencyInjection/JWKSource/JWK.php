@@ -23,8 +23,6 @@ class JWK implements JWKSourceInterface
      */
     public function create(ContainerBuilder $container, $id, array $config)
     {
-        $service_id = sprintf('jose.key.%s', $id);
-
         $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
@@ -34,7 +32,7 @@ class JWK implements JWKSourceInterface
             json_decode($config['value'], true),
         ]);
 
-        $container->setDefinition($service_id, $definition);
+        $container->setDefinition($id, $definition);
     }
 
     /**

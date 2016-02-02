@@ -23,8 +23,6 @@ class KeyFile implements JWKSourceInterface
      */
     public function create(ContainerBuilder $container, $id, array $config)
     {
-        $service_id = sprintf('jose.key.%s', $id);
-
         $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
@@ -36,7 +34,7 @@ class KeyFile implements JWKSourceInterface
             $config['additional_values'],
         ]);
 
-        $container->setDefinition($service_id, $definition);
+        $container->setDefinition($id, $definition);
     }
 
     /**
