@@ -23,6 +23,11 @@ final class Configuration implements ConfigurationInterface
     private $jwk_sources;
 
     /**
+     * @var \SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\JWKSetSourceInterface[]
+     */
+    private $jwk_set_sources;
+
+    /**
      * @var string
      */
     private $alias;
@@ -30,13 +35,15 @@ final class Configuration implements ConfigurationInterface
     /**
      * Configuration constructor.
      *
-     * @param string                                                                    $alias
-     * @param \SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\JWKSourceInterface[] $jwk_sources
+     * @param string                                                                          $alias
+     * @param \SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\JWKSourceInterface[]       $jwk_sources
+     * @param \SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\JWKSetSourceInterface[] $jwk_set_sources
      */
-    public function __construct($alias, array $jwk_sources)
+    public function __construct($alias, array $jwk_sources, array $jwk_set_sources)
     {
         $this->alias = $alias;
         $this->jwk_sources = $jwk_sources;
+        $this->jwk_set_sources = $jwk_set_sources;
     }
 
     /**
@@ -48,6 +55,7 @@ final class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root($this->alias);
 
         $this->addJWKSourcesSection($rootNode, $this->jwk_sources);
+        $this->addJWKSetSourcesSection($rootNode, $this->jwk_set_sources);
 
         $rootNode
             ->children()
@@ -57,37 +65,6 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                     ->treatNullLike([])
                 ->end()
-                ->arrayNode('key_sets')
-                    ->defaultValue([])
-                    ->useAttributeAsKey('key')
-                    ->prototype('array')
-                        ->prototype('scalar')
-                        ->end()
-                    ->end()
-                ->end()
-                ->arrayNode('storage')
-                    ->addDefaultsIfNotSet()
-                    ->validate()
-                        ->ifTrue(function ($value) {
-                            return true === $value['enabled'] && null !== $value['class'] && !class_exists($value['class']);
-                        })
-                        ->thenInvalid('The class does not exist')
-                    ->end()
-                    ->children()
-                        ->booleanNode('enabled')
-                            ->info('If true, the storage is used and "jti" header parameter is added.')
-                            ->defaultFalse()
-                        ->end()
-                        ->scalarNode('manager')
-                            ->info('The "jot" manager.')
-                            ->defaultValue('jose.jot_manager.default')
-                            ->cannotBeEmpty()
-                        ->end()
-                        ->scalarNode('class')
-                            ->info('The "jot" class.')
-                            ->defaultNull()
-                        ->end()
-                    ->end()
                 ->end()
             ->end();
 
@@ -109,6 +86,26 @@ final class Configuration implements ConfigurationInterface
             ->performNoDeepMerging()
             ->children();
         foreach ($jwk_sources as $name => $source) {
+            $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
+            $source->addConfiguration($sourceNode);
+        }
+    }
+
+    /**
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition                $node
+     * @param \SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\JWKSetSourceInterface[] $jwk_set_sources
+     */
+    private function addJWKSetSourcesSection(ArrayNodeDefinition $node, array $jwk_set_sources)
+    {
+        $sourceNodeBuilder = $node
+            ->fixXmlConfig('source')
+            ->children()
+            ->arrayNode('key_sets')
+            ->useAttributeAsKey('name')
+            ->prototype('array')
+            ->performNoDeepMerging()
+            ->children();
+        foreach ($jwk_set_sources as $name => $source) {
             $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
             $source->addConfiguration($sourceNode);
         }

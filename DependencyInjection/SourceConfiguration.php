@@ -39,6 +39,12 @@ class SourceConfiguration implements ConfigurationInterface
                         ->prototype('variable')->end()
                     ->end()
                 ->end()
+                ->fixXmlConfig('key_set', 'key_sets')
+                    ->children()
+                        ->arrayNode('key_sets')
+                        ->prototype('variable')->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

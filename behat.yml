@@ -8,9 +8,6 @@ default:
                 debug: true
                 path: Tests/app/AppKernel.php
                 bootstrap: Tests/app/autoload.php
-        VIPSoft\DoctrineDataFixturesExtension\Extension:
-            lifetime:    feature
-            autoload:    true
         Behat\MinkExtension:
             base_url: "https://www.example.com/"
             sessions:

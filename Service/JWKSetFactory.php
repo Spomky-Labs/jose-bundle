@@ -11,6 +11,7 @@
 
 namespace SpomkyLabs\JoseBundle\Service;
 
+use Jose\Factory\JWKFactory;
 use Jose\Object\JWKSet;
 
 final class JWKSetFactory
@@ -20,7 +21,7 @@ final class JWKSetFactory
      *
      * @return \Jose\Object\JWKSetInterface
      */
-    public static function createFromKey(array $keys)
+    public static function createFromKeys(array $keys)
     {
         $jwk_set = new JWKSet();
         foreach ($keys as $key) {
@@ -28,5 +29,26 @@ final class JWKSetFactory
         }
 
         return $jwk_set;
+    }
+
+    /**
+     * @param string $url
+     * @param bool   $allow_unsecured_connection
+     *
+     * @return \Jose\Object\JWKSetInterface
+     */
+    public static function createFromJKU($url, $allow_unsecured_connection = false)
+    {
+        return JWKFactory::createFromJKU($url, $allow_unsecured_connection);
+    }
+
+    /**
+     * @param array $values
+     *
+     * @return \Jose\Object\JWKSetInterface
+     */
+    public static function createFromValues(array $values)
+    {
+        return new JWKSet($values);
     }
 }

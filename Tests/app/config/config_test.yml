@@ -21,28 +21,21 @@ framework:
     fragments:       ~
     http_method_override: true
 
-doctrine:
-    dbal:
-        driver:   pdo_sqlite
-        host:     localhost
-        port:
-        path:     "%kernel.cache_dir%/project.db"
-        user:     root
-        password:
-        charset:  UTF8
-    orm:
-        auto_generate_proxy_classes: true
-        auto_mapping: true
-
 jose:
-    storage:
-        enabled: true # If enabled, tokens will be able to have an ID and will be stored (e.g. in a database).
-                      # This also means that your JWS/JWE can be revoked
-#        manager: jose.jot_manager.default
-        class: SpomkyLabs\TestJoseBundle\Entity\Jot
     compression_methods: [DEF,GZ,ZLIB]
     key_sets:
-        private: [key1, key2, key3]
+        jwkset1:
+            jwkset:
+                value: '{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}'
+        jwkset2:
+            keys:
+                id:
+                    - key1
+                    - key2
+                    - key3
+        jwkset3:
+            jku:
+                url: "https://www.googleapis.com/oauth2/v2/certs"
     keys:
         key1:
             file:

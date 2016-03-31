@@ -21,6 +21,5 @@ use Behat\Symfony2Extension\Context\KernelDictionary;
 class FeatureContext extends MinkContext implements SnippetAcceptingContext
 {
     use KernelDictionary;
-    use LoadContext;
-    use ProcessContext;
+    use KeysAndKeySetsContext;
 }
