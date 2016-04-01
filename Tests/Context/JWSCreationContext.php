@@ -59,11 +59,24 @@ trait JWSCreationContext
     public function iTryToCreateAJwsInJsonCompactSerializationModeWithSignatureKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {
         /**
-         * @var \Jose\Factory\JWSFactory
+         * @var $jws_creator \Jose\Factory\JWSFactory
          */
         $jws_creator = $this->getContainer()->get('jose.factory.jws');
         $key = $this->getContainer()->get($key_service);
         $this->$variable = $jws_creator->createJWSToCompactJSON($this->payload, $key, $this->header);
+    }
+
+    /**
+     * @When I try to create a JWS in JSON Flattened Serialization Mode with signature key :key_service and I store the result in the variable :variable
+     */
+    public function iTryToCreateAJwsInJsonFlattenedSerializationModeWithSignatureKeyAndIStoreTheResultInTheVariable($key_service, $variable)
+    {
+        /**
+         * @var $jws_creator \Jose\Factory\JWSFactory
+         */
+        $jws_creator = $this->getContainer()->get('jose.factory.jws');
+        $key = $this->getContainer()->get($key_service);
+        $this->$variable = $jws_creator->createJWSToFlattenedJSON($this->payload, $key, $this->header);
     }
 
     /**
@@ -75,7 +88,7 @@ trait JWSCreationContext
             throw new \Exception(sprintf(
                 'The value of the variable "%s" is "%s"',
                 $variable,
-                $value
+                $this->$variable
             ));
         }
     }
