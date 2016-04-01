@@ -7,10 +7,6 @@ php:
     - hhvm
     - nightly
 
-matrix:
-    allow_failures:
-        - php: nightly
-
 env:
     - SYMFONY_VERSION=2.7.*
     - SYMFONY_VERSION=2.8.*
