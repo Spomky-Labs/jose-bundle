@@ -14,5 +14,8 @@
         <service id="jose.jwk_set_source.jku" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\JKU">
             <tag name="jose.jwk_set_source" />
         </service>
+        <service id="jose.jwk_set_source.x5u" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\X5U">
+            <tag name="jose.jwk_set_source" />
+        </service>
     </services>
 </container>

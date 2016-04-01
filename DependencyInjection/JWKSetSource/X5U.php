@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class JKU implements JWKSetSourceInterface
+class X5U implements JWKSetSourceInterface
 {
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class JKU implements JWKSetSourceInterface
         $definition = new Definition('Jose\Object\JWKSet');
         $definition->setFactory([
             new Reference('jose.factory.jwkset'),
-            'createFromJKU',
+            'createFromX5U',
         ]);
         $definition->setArguments([
             $config['url'],
@@ -41,7 +41,7 @@ class JKU implements JWKSetSourceInterface
      */
     public function getKeySet()
     {
-        return 'jku';
+        return 'x5u';
     }
 
     /**

@@ -22,7 +22,6 @@ framework:
     http_method_override: true
 
 jose:
-    compression_methods: [DEF,GZ,ZLIB]
     key_sets:
         jwkset1:
             jwkset:
@@ -36,6 +35,11 @@ jose:
         jwkset3:
             jku:
                 url: "https://www.googleapis.com/oauth2/v2/certs"
+                is_secured: true
+        jwkset4:
+            x5u:
+                url: "https://www.googleapis.com/oauth2/v1/certs"
+                is_secured: true
     keys:
         key1:
             file:

@@ -88,14 +88,6 @@ final class SpomkyLabsJoseBundleExtension extends Extension
      */
     private function initConfiguration(ContainerBuilder $container, array $config)
     {
-        $parameters = [
-            'compression_methods',
-        ];
-
-        foreach ($parameters as $parameter) {
-            $container->setParameter($this->getAlias().'.'.$parameter, $config[$parameter]);
-        }
-
         foreach ($config['keys'] as $name => $key) {
             $this->createJWK($name, $key, $container, $this->jwk_sources);
         }

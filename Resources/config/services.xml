@@ -18,25 +18,15 @@
         </service>
 
         <service id="jose.factory.signer" class="Jose\Factory\SignerFactory">
-            <argument type="service" id="jose.factory.algorithm_manager" />
-            <argument type="service" id="jose.jot.manager" on-invalid="ignore" />
         </service>
 
         <service id="jose.factory.verifier" class="Jose\Factory\VerifierFactory">
-            <argument type="service" id="jose.checker_manager" />
-            <argument type="service" id="jose.factory.algorithm_manager" />
         </service>
 
         <service id="jose.factory.encrypter" class="Jose\Factory\EncrypterFactory">
-            <argument type="service" id="jose.compression_manager" />
-            <argument type="service" id="jose.factory.algorithm_manager" />
-            <argument type="service" id="jose.jot.manager" on-invalid="ignore" />
         </service>
 
         <service id="jose.factory.decrypter" class="Jose\Factory\DecrypterFactory">
-            <argument type="service" id="jose.compression_manager" />
-            <argument type="service" id="jose.checker_manager" />
-            <argument type="service" id="jose.factory.algorithm_manager" />
         </service>
     </services>
 </container>

@@ -57,17 +57,6 @@ final class Configuration implements ConfigurationInterface
         $this->addJWKSourcesSection($rootNode, $this->jwk_sources);
         $this->addJWKSetSourcesSection($rootNode, $this->jwk_set_sources);
 
-        $rootNode
-            ->children()
-                ->arrayNode('compression_methods')
-                    ->info('A list of enabled compression methods. Supported methods are: "DEF" (recommended), "GZ" and "ZLIB".')
-                    ->prototype('scalar')
-                    ->end()
-                    ->treatNullLike([])
-                ->end()
-                ->end()
-            ->end();
-
         return $treeBuilder;
     }
 

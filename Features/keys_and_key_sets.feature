@@ -10,6 +10,6 @@ Feature: This bundle is able to use keys and key sets
     Then the variable "signing_key_set" should be an object that implements "\Jose\Object\JWKSetInterface"
 
   Scenario: A Key Set is available through a service and loaded from an URL
-    When I try to get the key "jose.key_set.jwkset3" and store it in the variable "google_key_set"
+    When I try to get the key "jose.key_set.jwkset4" and store it in the variable "google_key_set"
     Then the variable "google_key_set" should be an object that implements "\Jose\Object\JWKSetInterface"
 

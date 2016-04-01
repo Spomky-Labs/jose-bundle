@@ -43,6 +43,17 @@ final class JWKSetFactory
     }
 
     /**
+     * @param string $url
+     * @param bool   $allow_unsecured_connection
+     *
+     * @return \Jose\Object\JWKSetInterface
+     */
+    public static function createFromX5U($url, $allow_unsecured_connection = false)
+    {
+        return JWKFactory::createFromX5U($url, $allow_unsecured_connection);
+    }
+
+    /**
      * @param array $values
      *
      * @return \Jose\Object\JWKSetInterface
