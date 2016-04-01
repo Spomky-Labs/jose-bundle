@@ -10,6 +10,7 @@
  */
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
+
 use Behat\Gherkin\Node\PyStringNode;
 use Jose\Object\JWEInterface;
 use Jose\Object\JWSInterface;

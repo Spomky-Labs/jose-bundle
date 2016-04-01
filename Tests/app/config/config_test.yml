@@ -41,6 +41,13 @@ jose:
                 url: "https://www.googleapis.com/oauth2/v1/certs"
                 is_secured: true
     keys:
+        key0:
+            values:
+                values:
+                    kty: oct
+                    kid: 018c0ae5-4d9b-471b-bfd6-eef314bc7037
+                    use: sig
+                    k: hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg
         key1:
             file:
                 path: "%kernel.root_dir%/Keys/EC/private.es256.encrypted.key"

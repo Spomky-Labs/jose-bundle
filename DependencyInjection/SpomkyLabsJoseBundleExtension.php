@@ -144,6 +144,9 @@ final class SpomkyLabsJoseBundleExtension extends Extension
             'services',
             'compression_methods',
             'checkers',
+            'signature_algorithms',
+            'encryption_algorithms',
+            'checkers',
         ];
 
         return $services;
