@@ -11,6 +11,7 @@
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
+use Jose\Object\JWKSetInterface;
 
 /**
  * Behat context trait.
@@ -28,6 +29,7 @@ trait KeysAndKeySetsContext
      * @param string $service
      * @param string $variable
      * @When I try to get the key :service and store it in the variable :variable
+     * @When I try to get the keyset :service and store it in the variable :variable
      */
     public function iTryToGetTheKeyAndStoreItInTheVariable($service, $variable)
     {
@@ -35,21 +37,42 @@ trait KeysAndKeySetsContext
     }
 
     /**
-     * @param string $variable
+     * @param string $service
+     * @param int    $number
+     *
+     * @throws \Exception
+     *
+     * @Then the keyset in the service :service contains :number key
+     * @Then the keyset in the service :service contains :number keys
+     */
+    public function theKeysetInTheServiceContainsKeys($service, $number)
+    {
+        $this->theServiceShouldBeAnObjectThatImplements($service, JWKSetInterface::class);
+        if ((int)$number !== count($this->getContainer()->get($service))) {
+            throw new \Exception(sprintf(
+                'The service "%s" contains %d key(s).',
+                $service,
+                count($this->getContainer()->get($service))
+            ));
+        }
+    }
+
+    /**
+     * @param string $service
      * @param string $interface
      *
      * @throws \Exception
      *
-     * @Then the variable :variable should be an object that implements :interface
+     * @Then the service :service should be an object that implements :interface
      */
-    public function theVariableShouldBeAnObjectThatImplements($variable, $interface)
+    public function theServiceShouldBeAnObjectThatImplements($service, $interface)
     {
-        if (!$this->$variable instanceof $interface) {
+        if (!$this->getContainer()->get($service) instanceof $interface) {
             throw new \Exception(sprintf(
-                'The variable "%s" is not an instance of "%s". Its class is "%s".',
-                $variable,
+                'The service "%s" is not an instance of "%s". Its class is "%s".',
+                $this->getContainer()->get($service),
                 $interface,
-                get_class($$variable)
+                get_class($this->getContainer()->get($service))
             ));
         }
     }
