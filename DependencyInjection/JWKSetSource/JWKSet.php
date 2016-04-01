@@ -25,7 +25,7 @@ class JWKSet implements JWKSetSourceInterface
     {
         $definition = new Definition('Jose\Object\JWKSet');
         $definition->setFactory([
-            new Reference('jose.factory.jwkset'),
+            new Reference('jose.factory.jwk'),
             'createFromValues',
         ]);
         $definition->setArguments([

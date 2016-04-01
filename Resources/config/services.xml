@@ -10,7 +10,6 @@
         <service id="jose.checker_manager" class="Jose\Checker\CheckerManager" public="false" />
 
         <service id="jose.factory.jwk" class="Jose\Factory\JWKFactory" />
-        <service id="jose.factory.jwk_set" class="SpomkyLabs\JoseBundle\Service\JWKSetFactory" />
 
         <service id="jose.factory.algorithm_manager" class="SpomkyLabs\JoseBundle\Factory\JWAFactory" />
 

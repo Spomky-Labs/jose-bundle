@@ -20,5 +20,9 @@
         <service id="jose.jwk_source.jwk" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\JWK">
             <tag name="jose.jwk_source" />
         </service>
+
+        <service id="jose.jwk_source.x5c" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\X5C">
+            <tag name="jose.jwk_source" />
+        </service>
     </services>
 </container>

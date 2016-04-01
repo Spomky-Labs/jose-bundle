@@ -24,14 +24,10 @@ class Keys implements JWKSetSourceInterface
     public function create(ContainerBuilder $container, $id, array $config)
     {
         $definition = new Definition('Jose\Object\JWKSet');
-        $definition->setFactory([
-            new Reference('jose.factory.jwkset'),
-            'createFromKeys',
-        ]);
-        $definition->setArguments([
-            $this->fromKeysToReferences($config['id']),
-        ]);
-
+        foreach ($config['id'] as $key_id) {
+            $ref = new Reference(sprintf('jose.key.%s', $key_id));
+            $definition->addMethodCall('addKey', [$ref]);
+        }
         $container->setDefinition($id, $definition);
     }
 
@@ -56,20 +52,5 @@ class Keys implements JWKSetSourceInterface
                     ->isRequired()
                 ->end()
             ->end();
-    }
-
-    /**
-     * @param string[] $keys
-     *
-     * @return \Symfony\Component\DependencyInjection\Reference[]
-     */
-    private function fromKeysToReferences(array $keys)
-    {
-        $result = [];
-        foreach ($keys as $key) {
-            $result[] = new Reference(sprintf('jose.key.%s', $key));
-        }
-
-        return $result;
     }
 }
