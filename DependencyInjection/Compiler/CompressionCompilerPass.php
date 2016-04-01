@@ -24,14 +24,12 @@ final class CompressionCompilerPass implements CompilerPassInterface
             return;
         }
 
-        $loaded = [];
         $definition = $container->getDefinition('jose.compression_manager');
 
         $taggedServices = $container->findTaggedServiceIds('jose_compression');
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
                 Assertion::keyExists($attributes, 'alias', sprintf("The compression method '%s' does not have any 'alias' attribute.", $id));
-                $loaded[] = $attributes['alias'];
                 $definition->addMethodCall('addCompressionAlgorithm', [new Reference($id)]);
             }
         }

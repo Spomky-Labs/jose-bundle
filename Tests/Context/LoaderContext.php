@@ -83,12 +83,4 @@ trait LoaderContext
             ));
         }
     }
-
-    /**
-     * @Then I unset the variable :variable
-     */
-    public function iUnsetTheVariable($variable)
-    {
-        unset($this->$variable);
-    }
 }

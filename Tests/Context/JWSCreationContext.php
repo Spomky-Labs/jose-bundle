@@ -12,8 +12,6 @@
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
-use Jose\Object\JWEInterface;
-use Jose\Object\JWSInterface;
 
 /**
  * Behat context trait.
@@ -23,12 +21,12 @@ trait JWSCreationContext
     /**
      * @var array
      */
-    private $header;
-
+    private $signature_protected_header = [];
+    
     /**
-     * @var mixed
+     * @var array
      */
-    private $payload;
+    private $signature_header = [];
 
     /**
      * Returns HttpKernel service container.
@@ -38,19 +36,24 @@ trait JWSCreationContext
     abstract protected function getContainer();
 
     /**
-     * @Given I have the following values in the header
+     * @return mixed
      */
-    public function iHaveTheFollowingValuesInTheHeader(PyStringNode $string)
+    abstract protected function getPayload();
+
+    /**
+     * @Given I have the following values in the signature protected header
+     */
+    public function iHaveTheFollowingValuesInTheSignatureProtectedHeader(PyStringNode $string)
     {
-        $this->header = json_decode($string->getRaw(), true);
+        $this->signature_protected_header = json_decode($string->getRaw(), true);
     }
 
     /**
-     * @Given I have the following payload
+     * @Given I have the following values in the signature header
      */
-    public function iHaveTheFollowingPayload(PyStringNode $string)
+    public function iHaveTheFollowingValuesInTheSignatureHeader(PyStringNode $string)
     {
-        $this->payload = $string->getRaw();
+        $this->signature_header = json_decode($string->getRaw(), true);
     }
 
     /**
@@ -62,8 +65,9 @@ trait JWSCreationContext
          * @var $jws_creator \Jose\Factory\JWSFactory
          */
         $jws_creator = $this->getContainer()->get('jose.factory.jws');
+        $logger = $this->getContainer()->get('logger');
         $key = $this->getContainer()->get($key_service);
-        $this->$variable = $jws_creator->createJWSToCompactJSON($this->payload, $key, $this->header);
+        $this->$variable = $jws_creator->createJWSToCompactJSON($this->getPayload(), $key, $this->signature_protected_header, $logger);
     }
 
     /**
@@ -75,21 +79,8 @@ trait JWSCreationContext
          * @var $jws_creator \Jose\Factory\JWSFactory
          */
         $jws_creator = $this->getContainer()->get('jose.factory.jws');
+        $logger = $this->getContainer()->get('logger');
         $key = $this->getContainer()->get($key_service);
-        $this->$variable = $jws_creator->createJWSToFlattenedJSON($this->payload, $key, $this->header);
-    }
-
-    /**
-     * @Then the variable :variable should be a string with value :value
-     */
-    public function theVariableShouldBeAStringWithValue($variable, $value)
-    {
-        if ($value !== $this->$variable) {
-            throw new \Exception(sprintf(
-                'The value of the variable "%s" is "%s"',
-                $variable,
-                $this->$variable
-            ));
-        }
+        $this->$variable = $jws_creator->createJWSToFlattenedJSON($this->getPayload(), $key, $this->signature_protected_header, $this->signature_header, $logger);
     }
 }

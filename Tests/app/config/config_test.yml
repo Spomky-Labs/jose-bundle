@@ -1,6 +1,3 @@
-#imports:
-#    - { resource: security.yml }
-
 framework:
     test: ~
     secret: test
@@ -14,12 +11,20 @@ framework:
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
-#    templating:
-#        engines: ['twig']
     trusted_hosts:   ~
     trusted_proxies: ~
     fragments:       ~
     http_method_override: true
+
+monolog:
+    handlers:
+        main:
+            type:  rotating_file
+            path:  '%kernel.logs_dir%/%kernel.environment%.log'
+            level: debug
+            # max number of log files to keep
+            # defaults to zero, which means infinite files
+            max_files: 10
 
 jose:
     key_sets:
@@ -44,10 +49,9 @@ jose:
         key0:
             values:
                 values:
-                    kty: oct
-                    kid: 018c0ae5-4d9b-471b-bfd6-eef314bc7037
-                    use: sig
-                    k: hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg
+                    kty: "oct"
+                    kid: "018c0ae5-4d9b-471b-bfd6-eef314bc7037"
+                    k: "hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg"
         key1:
             file:
                 path: "%kernel.root_dir%/Keys/EC/private.es256.encrypted.key"
