@@ -11,6 +11,7 @@
 
 namespace SpomkyLabs\JoseBundle;
 
+use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\AlgorithmCompilerPass;
 use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\CheckerCompilerPass;
 use SpomkyLabs\JoseBundle\DependencyInjection\Compiler\CompressionCompilerPass;
 use SpomkyLabs\JoseBundle\DependencyInjection\SpomkyLabsJoseBundleExtension;
@@ -28,6 +29,7 @@ final class SpomkyLabsJoseBundle extends Bundle
     {
         parent::build($container);
 
+        $container->addCompilerPass(new AlgorithmCompilerPass());
         $container->addCompilerPass(new CompressionCompilerPass());
         $container->addCompilerPass(new CheckerCompilerPass());
     }

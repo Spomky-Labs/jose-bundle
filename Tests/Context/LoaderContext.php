@@ -83,4 +83,52 @@ trait LoaderContext
             ));
         }
     }
+
+    /**
+     * @Then the signature :number of the JWS in the variable :variable should be verified using the verifier :verifier and key :key
+     */
+    public function theSignatureOfTheJwsInTheVariableShouldBeVerifiedUsingTheVerifierAndKey($variable, $verifier, $key, $number)
+    {
+        /**
+         * @var $verifier_service \Jose\VerifierInterface
+         */
+        $verifier_service = $this->getContainer()->get($verifier);
+        /**
+         * @var $key_service \Jose\Object\JWKInterface
+         */
+        $key_service = $this->getContainer()->get($key);
+
+        $verifier_service->verifyWithKey($this->$variable, $key_service, null, $index);
+
+        if ((int)$number !== $index) {
+            throw new \Exception(sprintf(
+                'The verified signature is at index %d.',
+                $index
+            ));
+        }
+    }
+
+    /**
+     * @Then the signature :number of the JWS in the variable :variable should be verified using the verifier :verifier and keyset :keyset
+     */
+    public function theSignatureOfTheJwsInTheVariableShouldBeVerifiedUsingTheVerifierAndKeyset($variable, $verifier, $keyset, $number)
+    {
+        /**
+         * @var $verifier_service \Jose\VerifierInterface
+         */
+        $verifier_service = $this->getContainer()->get($verifier);
+        /**
+         * @var $keyset_service \Jose\Object\JWKSetInterface
+         */
+        $keyset_service = $this->getContainer()->get($keyset);
+
+        $verifier_service->verifyWithKeySet($this->$variable, $keyset_service, null, $index);
+
+        if ((int)$number !== $index) {
+            throw new \Exception(sprintf(
+                'The verified signature is at index %d.',
+                $index
+            ));
+        }
+    }
 }

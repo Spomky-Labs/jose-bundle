@@ -27,6 +27,36 @@ monolog:
             max_files: 10
 
 jose:
+    encrypters:
+        all:
+            algorithms:
+                - A128GCM
+                - A128GCMKW
+            create_decrypter: true
+    signers:
+        hmac:
+            algorithms:
+                - HS256
+                - HS384
+                - HS512
+            create_verifier: true
+        rsa:
+            algorithms:
+                - RS256
+                - RS384
+                - RS512
+                - PS256
+                - PS384
+                - PS512
+            create_verifier: true
+    checkers:
+        all:
+            claims:
+                - exp
+                - iat
+                - nbf
+            headers:
+                - crit
     key_sets:
         jwkset1:
             jwkset:

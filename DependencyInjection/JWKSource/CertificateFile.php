@@ -23,7 +23,6 @@ class CertificateFile implements JWKSourceInterface
      */
     public function create(ContainerBuilder $container, $id, array $config)
     {
-
         $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),

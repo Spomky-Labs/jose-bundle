@@ -15,5 +15,12 @@
         <service id="jose.factory.signer" class="Jose\Factory\SignerFactory" />
         <service id="jose.factory.verifier" class="Jose\Factory\VerifierFactory" />
         <service id="jose.loader" class="Jose\Loader" />
+
+        <service id="jose.compression_manager" class="SpomkyLabs\JoseBundle\Service\CompressionManager" />
+        <service id="jose.algorithm_manager" class="SpomkyLabs\JoseBundle\Service\AlgorithmManager" />
+        <service id="jose.factory.service" class="SpomkyLabs\JoseBundle\Service\ServiceFactory">
+            <argument type="service" id="jose.algorithm_manager" />
+            <argument type="service" id="jose.compression_manager" />
+        </service>
     </services>
 </container>
