@@ -18,9 +18,11 @@
 
         <service id="jose.compression_manager" class="SpomkyLabs\JoseBundle\Service\CompressionManager" />
         <service id="jose.algorithm_manager" class="SpomkyLabs\JoseBundle\Service\AlgorithmManager" />
+        <service id="jose.checker_manager" class="SpomkyLabs\JoseBundle\Service\CheckerManager" />
         <service id="jose.factory.service" class="SpomkyLabs\JoseBundle\Service\ServiceFactory">
             <argument type="service" id="jose.algorithm_manager" />
             <argument type="service" id="jose.compression_manager" />
+            <argument type="service" id="jose.checker_manager" />
         </service>
     </services>
 </container>

@@ -8,6 +8,7 @@ Feature: This bundle provides a service able to load JWT (JWS or JWE)
     Then the variable "loaded" should be an object that implements "\Jose\Object\JWSInterface"
     And the JWS in the variable "loaded" should contains 1 signature
     And the signature 0 of the JWS in the variable "loaded" should be verified using the verifier "jose.verifier.hmac" and key "jose.key.key0"
+    And the signature 0 of the JWS in the variable "loaded" should be checked using the checker "jose.checker.main"
     And I unset the variable "loaded"
 
   Scenario: A JWS in JSON Flattened Serialization Mode can be loaded
@@ -17,6 +18,8 @@ Feature: This bundle provides a service able to load JWT (JWS or JWE)
     """
     Then the variable "loaded" should be an object that implements "\Jose\Object\JWSInterface"
     And the JWS in the variable "loaded" should contains 1 signature
+    And the signature 0 of the JWS in the variable "loaded" should be verified using the verifier "jose.verifier.hmac" and key "jose.key.key0"
+    And the signature 0 of the JWS in the variable "loaded" should be checked using the checker "jose.checker.main"
     And I unset the variable "loaded"
 
   Scenario: A JWS in JSON Serialization Mode can be loaded
@@ -26,6 +29,8 @@ Feature: This bundle provides a service able to load JWT (JWS or JWE)
     """
     Then the variable "loaded" should be an object that implements "\Jose\Object\JWSInterface"
     And the JWS in the variable "loaded" should contains 1 signature
+    And the signature 0 of the JWS in the variable "loaded" should be verified using the verifier "jose.verifier.hmac" and key "jose.key.key0"
+    And the signature 0 of the JWS in the variable "loaded" should be checked using the checker "jose.checker.main"
     And I unset the variable "loaded"
 
   Scenario: A JWE in JSON Compact Serialization Mode can be loaded
@@ -35,7 +40,7 @@ Feature: This bundle provides a service able to load JWT (JWS or JWE)
     """
     Then the variable "loaded" should be an object that implements "\Jose\Object\JWEInterface"
     And the JWE in the variable "loaded" should contains 1 recipient
-    And I unset the variable "loaded"
+    And the recipient 0 of the JWE in the variable "loaded" should be decrypted using the decrypter "jose.decrypter.main" and key "jose.key.key4"
     And I unset the variable "loaded"
 
   Scenario: A JWE in JSON Flattened Serialization Mode can be loaded
@@ -45,6 +50,7 @@ Feature: This bundle provides a service able to load JWT (JWS or JWE)
     """
     Then the variable "loaded" should be an object that implements "\Jose\Object\JWEInterface"
     And the JWE in the variable "loaded" should contains 1 recipient
+    And the recipient 0 of the JWE in the variable "loaded" should be decrypted using the decrypter "jose.decrypter.main" and key "jose.key.key4"
     And I unset the variable "loaded"
 
   Scenario: A JWE in JSON Serialization Mode can be loaded
@@ -54,4 +60,5 @@ Feature: This bundle provides a service able to load JWT (JWS or JWE)
     """
     Then the variable "loaded" should be an object that implements "\Jose\Object\JWEInterface"
     And the JWE in the variable "loaded" should contains 1 recipient
+    And the recipient 0 of the JWE in the variable "loaded" should be decrypted using the decrypter "jose.decrypter.main" and key "jose.key.key4"
     And I unset the variable "loaded"

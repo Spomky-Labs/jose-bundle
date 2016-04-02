@@ -21,6 +21,9 @@ final class CompressionManager
      */
     private $compression_methods = [];
 
+    /**
+     * @param \Jose\Compression\CompressionInterface $compression_method
+     */
     public function addCompressionMethod(CompressionInterface $compression_method)
     {
         $name = $compression_method->getMethodName();

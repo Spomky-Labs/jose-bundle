@@ -113,6 +113,10 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         foreach ($config['verifiers'] as $name => $verifier) {
             $this->createVerifier($name, $verifier, $container);
         }
+
+        foreach ($config['checkers'] as $name => $checker) {
+            $this->createChecker($name, $checker, $container);
+        }
     }
 
     /**
@@ -244,6 +248,28 @@ final class SpomkyLabsJoseBundleExtension extends Extension
             null === $config['logger'] ? null : new Reference($config['logger']),
         ]);
         
+        $container->setDefinition($service_id, $definition);
+    }
+
+    /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function createChecker($name, array $config, ContainerBuilder $container)
+    {
+        $service_id = sprintf('jose.checker.%s', $name);
+        $definition = new Definition('Jose\Checker\CheckerManager');
+        $definition->setFactory([
+            new Reference('jose.factory.service'),
+            'createChecker',
+        ]);
+        $definition->setArguments([
+            $config['claims'],
+            $config['headers'],
+            null === $config['logger'] ? null : new Reference($config['logger']),
+        ]);
+
         $container->setDefinition($service_id, $definition);
     }
 

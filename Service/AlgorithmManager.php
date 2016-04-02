@@ -21,6 +21,9 @@ final class AlgorithmManager
      */
     private $algorithms = [];
 
+    /**
+     * @param \Jose\Algorithm\JWAInterface $algorithm
+     */
     public function addAlgorithm(JWAInterface $algorithm)
     {
         $name = $algorithm->getAlgorithmName();

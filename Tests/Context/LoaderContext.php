@@ -131,4 +131,64 @@ trait LoaderContext
             ));
         }
     }
+
+    /**
+     * @Then the signature :number of the JWS in the variable :variable should be checked using the checker :checker
+     */
+    public function theSignatureOfTheJwsInTheVariableShouldBeCheckedUsingTheChecker($variable, $checker, $number)
+    {
+        /**
+         * @var $checker_service \Jose\Checker\CheckerManagerInterface
+         */
+        $checker_service = $this->getContainer()->get($checker);
+        $checker_service->checkJWS($this->$variable, (int)$number);
+    }
+
+    /**
+     * @Then the recipient :recipient of the JWE in the variable :variable should be decrypted using the decrypter :decrypter and key :key
+     */
+    public function theRecipientOfTheJweInTheVariableShouldBeDecryptedUsingTheDecrypterAndKey($variable, $decrypter, $key, $recipient)
+    {
+        /**
+         * @var $decrypter_service \Jose\DecrypterInterface
+         */
+        $decrypter_service = $this->getContainer()->get($decrypter);
+        /**
+         * @var $key_service \Jose\Object\JWKInterface
+         */
+        $key_service = $this->getContainer()->get($key);
+
+        $decrypter_service->decryptUsingKey($this->$variable, $key_service, $index);
+
+        if ((int)$recipient !== $index) {
+            throw new \Exception(sprintf(
+                'The decrypted recipient is at index %d.',
+                $index
+            ));
+        }
+    }
+
+    /**
+     * @Then the recipient :recipient of the JWE in the variable :variable should be decrypted using the decrypter :decrypter and keyset :keyset
+     */
+    public function theRecipientOfTheJweInTheVariableShouldBeDecryptedUsingTheDecrypterAndKeyset($variable, $decrypter, $keyset, $recipient)
+    {
+        /**
+         * @var $decrypter_service \Jose\DecrypterInterface
+         */
+        $decrypter_service = $this->getContainer()->get($decrypter);
+        /**
+         * @var $keyset_service \Jose\Object\JWKSetInterface
+         */
+        $keyset_service = $this->getContainer()->get($keyset);
+
+        $decrypter_service->decryptUsingKeySet($this->$variable, $keyset_service, $index);
+
+        if ((int)$recipient !== $index) {
+            throw new \Exception(sprintf(
+                'The decrypted recipient is at index %d.',
+                $index
+            ));
+        }
+    }
 }
