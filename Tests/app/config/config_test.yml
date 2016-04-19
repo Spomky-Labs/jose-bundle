@@ -27,36 +27,37 @@ monolog:
             max_files: 10
 
 jose:
+    jwt_creators:
+        main:
+            signer: 'jose.signer.hmac'
+            encrypter: 'jose.encrypter.main'
+    jwt_loaders:
+        main:
+            verifier: 'jose.verifier.hmac'
+            checker: 'jose.checker.main'
+            decrypter: 'jose.decrypter.main'
     encrypters:
         main:
-            algorithms:
-                - RSA-OAEP
-                - A256GCM
+            key_encryption_algorithms:
+                - 'RSA-OAEP'
+            content_encryption_algorithms:
+                - 'A256GCM'
             create_decrypter: true
     signers:
         hmac:
             algorithms:
-                - HS256
-                - HS384
-                - HS512
-            create_verifier: true
-        rsa:
-            algorithms:
-                - RS256
-                - RS384
-                - RS512
-                - PS256
-                - PS384
-                - PS512
+                - 'HS256'
+                - 'HS384'
+                - 'HS512'
             create_verifier: true
     checkers:
         main:
             claims:
-                - exp
-                - iat
-                - nbf
+                - 'exp'
+                - 'iat'
+                - 'nbf'
             headers:
-                - crit
+                - 'crit'
     key_sets:
         jwkset1:
             jwkset:
@@ -64,9 +65,9 @@ jose:
         jwkset2:
             keys:
                 id:
-                    - key1
-                    - key2
-                    - key3
+                    - 'jose.key.key1'
+                    - 'jose.key.key2'
+                    - 'jose.key.key3'
         jwkset3:
             jku:
                 url: "https://www.googleapis.com/oauth2/v2/certs"

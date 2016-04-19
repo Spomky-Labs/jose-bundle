@@ -37,7 +37,7 @@ Feature: This bundle provides a service able to create JWE
         "A":"B"
     }
     """
-    And I have the following values as AAD
+    And I have the following value as AAD
     """
     A,B,C
     """

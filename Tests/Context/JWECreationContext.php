@@ -75,9 +75,9 @@ trait JWECreationContext
     }
 
     /**
-     * @Given I have the following values as AAD
+     * @Given I have the following value as AAD
      */
-    public function iHaveTheFollowingValuesAsAad(PyStringNode $string)
+    public function iHaveTheFollowingValueAsAad(PyStringNode $string)
     {
         $this->jwe_aad = $string->getRaw();
     }

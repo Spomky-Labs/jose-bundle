@@ -25,7 +25,7 @@ class Keys implements JWKSetSourceInterface
     {
         $definition = new Definition('Jose\Object\JWKSet');
         foreach ($config['id'] as $key_id) {
-            $ref = new Reference(sprintf('jose.key.%s', $key_id));
+            $ref = new Reference($key_id);
             $definition->addMethodCall('addKey', [$ref]);
         }
         $container->setDefinition($id, $definition);

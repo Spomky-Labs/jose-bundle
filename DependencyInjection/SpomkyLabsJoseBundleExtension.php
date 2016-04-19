@@ -117,6 +117,14 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         foreach ($config['checkers'] as $name => $checker) {
             $this->createChecker($name, $checker, $container);
         }
+
+        foreach ($config['jwt_loaders'] as $name => $loader) {
+            $this->createJWTLoader($name, $loader, $container);
+        }
+
+        foreach ($config['jwt_creators'] as $name => $creator) {
+            $this->createJWTCreator($name, $creator, $container);
+        }
     }
 
     /**
@@ -171,7 +179,8 @@ final class SpomkyLabsJoseBundleExtension extends Extension
             'createEncrypter',
         ]);
         $definition->setArguments([
-            $config['algorithms'],
+            $config['key_encryption_algorithms'],
+            $config['content_encryption_algorithms'],
             $config['compression_methods'],
             null === $config['logger'] ? null : new Reference($config['logger']),
         ]);
@@ -197,7 +206,8 @@ final class SpomkyLabsJoseBundleExtension extends Extension
             'createDecrypter',
         ]);
         $definition->setArguments([
-            $config['algorithms'],
+            $config['key_encryption_algorithms'],
+            $config['content_encryption_algorithms'],
             $config['compression_methods'],
             null === $config['logger'] ? null : new Reference($config['logger']),
         ]);
@@ -267,7 +277,50 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         $definition->setArguments([
             $config['claims'],
             $config['headers'],
+        ]);
+
+        $container->setDefinition($service_id, $definition);
+    }
+
+    /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function createJWTLoader($name, array $config, ContainerBuilder $container)
+    {
+        $service_id = sprintf('jose.jwt_loader.%s', $name);
+        $definition = new Definition('Jose\JWTLoader');
+        $definition->setFactory([
+            new Reference('jose.factory.service'),
+            'createJWTLoader',
+        ]);
+        $definition->setArguments([
+            new Reference($config['checker']),
+            new Reference($config['verifier']),
+            null === $config['decrypter'] ? null : new Reference($config['decrypter']),
             null === $config['logger'] ? null : new Reference($config['logger']),
+        ]);
+
+        $container->setDefinition($service_id, $definition);
+    }
+
+    /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function createJWTCreator($name, array $config, ContainerBuilder $container)
+    {
+        $service_id = sprintf('jose.jwt_creator.%s', $name);
+        $definition = new Definition('Jose\JWTCreator');
+        $definition->setFactory([
+            new Reference('jose.factory.service'),
+            'createJWTCreator',
+        ]);
+        $definition->setArguments([
+            new Reference($config['signer']),
+            null === $config['encrypter'] ? null : new Reference($config['encrypter']),
         ]);
 
         $container->setDefinition($service_id, $definition);
