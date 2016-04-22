@@ -3,9 +3,6 @@ Keys and Key Sets
 
 # Load Your Keys
 
-Signature/Verification and Encryption/Decryption need keys to be performed.
-The first step is to configure your keys in the configuration file.
-
 This bundle allows you to load keys from various sources: a certificate, a public or private key (may be encrypted), values...
 Your keys are identified by an ID and, when loaded, are available as a service container so that you can inject or get them easily.
 
