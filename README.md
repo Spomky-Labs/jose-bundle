@@ -74,18 +74,9 @@ class AppKernel extends Kernel
 }
 ```
 
-# Configuration
-
-This bundle needs to be configured. Please [see this page](Resources/doc/Configuration.md) to know how to configure it.
-
-# Create your entities and managers
-
-*To be written*
-
 # How to use
 
-Now that your bundle is enabled and configured, you are ready to create or load your first JWT.
-Have a look at [this page](Resources/doc/Use.md) and lets do the magic.
+Have a look at [this page](Resources/doc/Use.md) to know hot to configure and use this bundle.
 
 # Contributing
 
