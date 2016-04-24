@@ -11,7 +11,6 @@
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
-
 /**
  * Behat context trait.
  */

@@ -70,7 +70,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     {
         $jwk_sources = $this->createJWKSources();
         $jwk_set_sources = $this->createJWKSetSources();
-        
+
         return new Configuration($this->getAlias(), $jwk_sources, $jwk_set_sources);
     }
 
@@ -98,9 +98,9 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     }
 
     /**
-     * @param string                                                                       $name
-     * @param array                                                                        $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder                      $container
+     * @param string                                                                          $name
+     * @param array                                                                           $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder                         $container
      * @param \SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\JWKSetSourceInterface[] $jwk_set_sources
      */
     private function createJWKSet($name, array $config, ContainerBuilder $container, array $jwk_set_sources)
