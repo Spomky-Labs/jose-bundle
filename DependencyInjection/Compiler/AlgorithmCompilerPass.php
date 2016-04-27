@@ -15,19 +15,19 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class CompressionCompilerPass implements CompilerPassInterface
+final class AlgorithmCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('jose.compression_manager')) {
+        if (!$container->hasDefinition('jose.algorithm_manager')) {
             return;
         }
 
-        $definition = $container->getDefinition('jose.compression_manager');
+        $definition = $container->getDefinition('jose.algorithm_manager');
 
-        $taggedServices = $container->findTaggedServiceIds('jose.compression');
+        $taggedServices = $container->findTaggedServiceIds('jose.algorithm');
         foreach ($taggedServices as $id => $tags) {
-            $definition->addMethodCall('addCompressionMethod', [new Reference($id)]);
+            $definition->addMethodCall('addAlgorithm', [new Reference($id)]);
         }
     }
 }

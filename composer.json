@@ -11,10 +11,12 @@
         }
     ],
     "require": {
-        "spomky-labs/jose": "^3.0@alpha",
+        "spomky-labs/jose": "^3.0@beta",
         "symfony/http-kernel": "^2.7|^3.0",
-        "symfony/finder": "^2.7|^3.0",
-        "fgrosse/phpasn1": "dev-compat/php5-5 as v1.3.1"
+        "symfony/dependency-injection": "^2.7|^3.0",
+        "symfony/config": "^2.7|^3.0",
+        "fgrosse/phpasn1": "dev-compat/php5-5 as v1.3.1",
+        "mdanter/ecc": "0.3"
     },
     "require-dev": {
         "symfony/var-dumper": "^2.7|^3.0",
@@ -23,7 +25,7 @@
         "behat/mink-extension": "^2.1",
         "behat/mink-browserkit-driver":  "*",
         "behat/symfony2-extension":  "^2.1",
-        "doctrine/orm": "^2.2",
+        "symfony/monolog-bundle": "^2.10",
         "ext-curl": "*"
     },
     "autoload": {

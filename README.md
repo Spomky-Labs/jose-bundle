@@ -27,11 +27,7 @@ The release process [is described here](doc/Release.md).
 
 This library needs at least:
 * ![PHP 5.5.9+](https://img.shields.io/badge/PHP-5.5.9%2B-ff69b4.svg)
-* Symfony 2.7+ of Symfony 3.0+
-
-Please consider the following optional third party libraries and extensions:
-* [PHP Crypto Extension](https://github.com/bukka/php-crypto) if you want to use Enable AES-GCM based algorithms (AxxxGCM and AxxxGCMKW).
-* [doctrine/orm](https://packagist.org/packages/doctrine/orm) or [doctrine/mongodb-odm](https://packagist.org/packages/doctrine/mongodb-odm) if you want to use the storage.
+* Symfony 2.7+ or Symfony 3.0+
 
 # Continuous Integration
 
@@ -73,6 +69,10 @@ class AppKernel extends Kernel
     }
 }
 ```
+
+# Configuration
+
+This bundle needs to be configured. Please [see this page](Resources/doc/Configuration.md) to know how to configure it.
 
 # How to use
 

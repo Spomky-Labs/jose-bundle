@@ -14,7 +14,9 @@ namespace SpomkyLabs\JoseBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 final class SpomkyLabsJoseBundleExtension extends Extension
@@ -95,6 +97,34 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         foreach ($config['key_sets'] as $name => $key_set) {
             $this->createJWKSet($name, $key_set, $container, $this->jwk_set_sources);
         }
+
+        foreach ($config['encrypters'] as $name => $encrypter) {
+            $this->createEncrypter($name, $encrypter, $container);
+        }
+
+        foreach ($config['decrypters'] as $name => $decrypter) {
+            $this->createDecrypter($name, $decrypter, $container);
+        }
+
+        foreach ($config['signers'] as $name => $signer) {
+            $this->createSigner($name, $signer, $container);
+        }
+
+        foreach ($config['verifiers'] as $name => $verifier) {
+            $this->createVerifier($name, $verifier, $container);
+        }
+
+        foreach ($config['checkers'] as $name => $checker) {
+            $this->createChecker($name, $checker, $container);
+        }
+
+        foreach ($config['jwt_loaders'] as $name => $loader) {
+            $this->createJWTLoader($name, $loader, $container);
+        }
+
+        foreach ($config['jwt_creators'] as $name => $creator) {
+            $this->createJWTCreator($name, $creator, $container);
+        }
     }
 
     /**
@@ -136,6 +166,167 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     }
 
     /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function createEncrypter($name, array $config, ContainerBuilder $container)
+    {
+        $service_id = sprintf('jose.encrypter.%s', $name);
+        $definition = new Definition('Jose\Encrypter');
+        $definition->setFactory([
+            new Reference('jose.factory.service'),
+            'createEncrypter',
+        ]);
+        $definition->setArguments([
+            $config['key_encryption_algorithms'],
+            $config['content_encryption_algorithms'],
+            $config['compression_methods'],
+            null === $config['logger'] ? null : new Reference($config['logger']),
+        ]);
+
+        $container->setDefinition($service_id, $definition);
+        
+        if (true === $config['create_decrypter']) {
+            $this->createDecrypter($name, $config, $container);
+        }
+    }
+
+    /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function createDecrypter($name, array $config, ContainerBuilder $container)
+    {
+        $service_id = sprintf('jose.decrypter.%s', $name);
+        $definition = new Definition('Jose\Decrypter');
+        $definition->setFactory([
+            new Reference('jose.factory.service'),
+            'createDecrypter',
+        ]);
+        $definition->setArguments([
+            $config['key_encryption_algorithms'],
+            $config['content_encryption_algorithms'],
+            $config['compression_methods'],
+            null === $config['logger'] ? null : new Reference($config['logger']),
+        ]);
+        
+        $container->setDefinition($service_id, $definition);
+    }
+
+    /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function createSigner($name, array $config, ContainerBuilder $container)
+    {
+        $service_id = sprintf('jose.signer.%s', $name);
+        $definition = new Definition('Jose\Signer');
+        $definition->setFactory([
+            new Reference('jose.factory.service'),
+            'createSigner',
+        ]);
+        $definition->setArguments([
+            $config['algorithms'],
+            null === $config['logger'] ? null : new Reference($config['logger']),
+        ]);
+
+        $container->setDefinition($service_id, $definition);
+        
+        if (true === $config['create_verifier']) {
+            $this->createVerifier($name, $config, $container);
+        }
+    }
+
+    /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function createVerifier($name, array $config, ContainerBuilder $container)
+    {
+        $service_id = sprintf('jose.verifier.%s', $name);
+        $definition = new Definition('Jose\Verifier');
+        $definition->setFactory([
+            new Reference('jose.factory.service'),
+            'createVerifier',
+        ]);
+        $definition->setArguments([
+            $config['algorithms'],
+            null === $config['logger'] ? null : new Reference($config['logger']),
+        ]);
+        
+        $container->setDefinition($service_id, $definition);
+    }
+
+    /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function createChecker($name, array $config, ContainerBuilder $container)
+    {
+        $service_id = sprintf('jose.checker.%s', $name);
+        $definition = new Definition('Jose\Checker\CheckerManager');
+        $definition->setFactory([
+            new Reference('jose.factory.service'),
+            'createChecker',
+        ]);
+        $definition->setArguments([
+            $config['claims'],
+            $config['headers'],
+        ]);
+
+        $container->setDefinition($service_id, $definition);
+    }
+
+    /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function createJWTLoader($name, array $config, ContainerBuilder $container)
+    {
+        $service_id = sprintf('jose.jwt_loader.%s', $name);
+        $definition = new Definition('Jose\JWTLoader');
+        $definition->setFactory([
+            new Reference('jose.factory.service'),
+            'createJWTLoader',
+        ]);
+        $definition->setArguments([
+            new Reference($config['checker']),
+            new Reference($config['verifier']),
+            null === $config['decrypter'] ? null : new Reference($config['decrypter']),
+            null === $config['logger'] ? null : new Reference($config['logger']),
+        ]);
+
+        $container->setDefinition($service_id, $definition);
+    }
+
+    /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function createJWTCreator($name, array $config, ContainerBuilder $container)
+    {
+        $service_id = sprintf('jose.jwt_creator.%s', $name);
+        $definition = new Definition('Jose\JWTCreator');
+        $definition->setFactory([
+            new Reference('jose.factory.service'),
+            'createJWTCreator',
+        ]);
+        $definition->setArguments([
+            new Reference($config['signer']),
+            null === $config['encrypter'] ? null : new Reference($config['encrypter']),
+        ]);
+
+        $container->setDefinition($service_id, $definition);
+    }
+
+    /**
      * @return string[]
      */
     private function getXmlFileToLoad()
@@ -143,6 +334,9 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         $services = [
             'services',
             'compression_methods',
+            'checkers',
+            'signature_algorithms',
+            'encryption_algorithms',
             'checkers',
         ];
 
