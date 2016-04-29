@@ -33,7 +33,7 @@ trait LoaderContext
     public function iTryToLoadTheFollowingJwtAndIStoreTheResultInTheVariable($variable, PyStringNode $string)
     {
         /**
-         * @var $loader \Jose\LoaderInterface
+         * @var \Jose\LoaderInterface
          */
         $loader = $this->getContainer()->get('jose.loader');
         $this->$variable = $loader->load($string->getRaw());
@@ -61,7 +61,7 @@ trait LoaderContext
     public function theJwsInTheVariableShouldContainsSignature($variable, $number)
     {
         $this->theVariableShouldBeAnObjectThatImplements($variable, JWSInterface::class);
-        if ((int)$number !== $this->$variable->countSignatures()) {
+        if ((int) $number !== $this->$variable->countSignatures()) {
             throw new \Exception(sprintf(
                 'The JWS contains %d signature(s).',
                 $this->$variable->countSignatures()
@@ -76,7 +76,7 @@ trait LoaderContext
     public function theJweInTheVariableShouldContainsRecipient($variable, $number)
     {
         $this->theVariableShouldBeAnObjectThatImplements($variable, JWEInterface::class);
-        if ((int)$number !== $this->$variable->countRecipients()) {
+        if ((int) $number !== $this->$variable->countRecipients()) {
             throw new \Exception(sprintf(
                 'The JWS contains %d recipient(s).',
                 $this->$variable->countRecipients()
@@ -90,17 +90,17 @@ trait LoaderContext
     public function theSignatureOfTheJwsInTheVariableShouldBeVerifiedUsingTheVerifierAndKey($variable, $verifier, $key, $number)
     {
         /**
-         * @var $verifier_service \Jose\VerifierInterface
+         * @var \Jose\VerifierInterface
          */
         $verifier_service = $this->getContainer()->get($verifier);
         /**
-         * @var $key_service \Jose\Object\JWKInterface
+         * @var \Jose\Object\JWKInterface
          */
         $key_service = $this->getContainer()->get($key);
 
         $verifier_service->verifyWithKey($this->$variable, $key_service, null, $index);
 
-        if ((int)$number !== $index) {
+        if ((int) $number !== $index) {
             throw new \Exception(sprintf(
                 'The verified signature is at index %d.',
                 $index
@@ -114,17 +114,17 @@ trait LoaderContext
     public function theSignatureOfTheJwsInTheVariableShouldBeVerifiedUsingTheVerifierAndKeyset($variable, $verifier, $keyset, $number)
     {
         /**
-         * @var $verifier_service \Jose\VerifierInterface
+         * @var \Jose\VerifierInterface
          */
         $verifier_service = $this->getContainer()->get($verifier);
         /**
-         * @var $keyset_service \Jose\Object\JWKSetInterface
+         * @var \Jose\Object\JWKSetInterface
          */
         $keyset_service = $this->getContainer()->get($keyset);
 
         $verifier_service->verifyWithKeySet($this->$variable, $keyset_service, null, $index);
 
-        if ((int)$number !== $index) {
+        if ((int) $number !== $index) {
             throw new \Exception(sprintf(
                 'The verified signature is at index %d.',
                 $index
@@ -138,10 +138,10 @@ trait LoaderContext
     public function theSignatureOfTheJwsInTheVariableShouldBeCheckedUsingTheChecker($variable, $checker, $number)
     {
         /**
-         * @var $checker_service \Jose\Checker\CheckerManagerInterface
+         * @var \Jose\Checker\CheckerManagerInterface
          */
         $checker_service = $this->getContainer()->get($checker);
-        $checker_service->checkJWS($this->$variable, (int)$number);
+        $checker_service->checkJWS($this->$variable, (int) $number);
     }
 
     /**
@@ -150,17 +150,17 @@ trait LoaderContext
     public function theRecipientOfTheJweInTheVariableShouldBeDecryptedUsingTheDecrypterAndKey($variable, $decrypter, $key, $recipient)
     {
         /**
-         * @var $decrypter_service \Jose\DecrypterInterface
+         * @var \Jose\DecrypterInterface
          */
         $decrypter_service = $this->getContainer()->get($decrypter);
         /**
-         * @var $key_service \Jose\Object\JWKInterface
+         * @var \Jose\Object\JWKInterface
          */
         $key_service = $this->getContainer()->get($key);
 
         $decrypter_service->decryptUsingKey($this->$variable, $key_service, $index);
 
-        if ((int)$recipient !== $index) {
+        if ((int) $recipient !== $index) {
             throw new \Exception(sprintf(
                 'The decrypted recipient is at index %d.',
                 $index
@@ -174,17 +174,17 @@ trait LoaderContext
     public function theRecipientOfTheJweInTheVariableShouldBeDecryptedUsingTheDecrypterAndKeyset($variable, $decrypter, $keyset, $recipient)
     {
         /**
-         * @var $decrypter_service \Jose\DecrypterInterface
+         * @var \Jose\DecrypterInterface
          */
         $decrypter_service = $this->getContainer()->get($decrypter);
         /**
-         * @var $keyset_service \Jose\Object\JWKSetInterface
+         * @var \Jose\Object\JWKSetInterface
          */
         $keyset_service = $this->getContainer()->get($keyset);
 
         $decrypter_service->decryptUsingKeySet($this->$variable, $keyset_service, $index);
 
-        if ((int)$recipient !== $index) {
+        if ((int) $recipient !== $index) {
             throw new \Exception(sprintf(
                 'The decrypted recipient is at index %d.',
                 $index

@@ -48,7 +48,7 @@ trait KeysAndKeySetsContext
     public function theKeysetInTheServiceContainsKeys($service, $number)
     {
         $this->theServiceShouldBeAnObjectThatImplements($service, JWKSetInterface::class);
-        if ((int)$number !== count($this->getContainer()->get($service))) {
+        if ((int) $number !== count($this->getContainer()->get($service))) {
             throw new \Exception(sprintf(
                 'The service "%s" contains %d key(s).',
                 $service,

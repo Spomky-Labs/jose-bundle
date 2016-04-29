@@ -44,7 +44,7 @@ final class CompressionManager
             Assertion::keyExists($this->compression_methods, $method, sprintf('The compression method "%s" is not supported.', $method));
             $result[] = $this->compression_methods[$method];
         }
-        
+
         return $result;
     }
 }
