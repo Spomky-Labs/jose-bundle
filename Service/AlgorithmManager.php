@@ -44,7 +44,7 @@ final class AlgorithmManager
             Assertion::keyExists($this->algorithms, $algorithm, sprintf('The algorithm "%s" is not supported.', $algorithm));
             $result[] = $this->algorithms[$algorithm];
         }
-        
+
         return $result;
     }
 }

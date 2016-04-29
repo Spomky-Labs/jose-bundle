@@ -186,7 +186,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         ]);
 
         $container->setDefinition($service_id, $definition);
-        
+
         if (true === $config['create_decrypter']) {
             $this->createDecrypter($name, $config, $container);
         }
@@ -211,7 +211,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
             $config['compression_methods'],
             null === $config['logger'] ? null : new Reference($config['logger']),
         ]);
-        
+
         $container->setDefinition($service_id, $definition);
     }
 
@@ -234,7 +234,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         ]);
 
         $container->setDefinition($service_id, $definition);
-        
+
         if (true === $config['create_verifier']) {
             $this->createVerifier($name, $config, $container);
         }
@@ -257,7 +257,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
             $config['algorithms'],
             null === $config['logger'] ? null : new Reference($config['logger']),
         ]);
-        
+
         $container->setDefinition($service_id, $definition);
     }
 

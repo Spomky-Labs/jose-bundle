@@ -21,7 +21,7 @@ final class CheckerManager
      * @var \Jose\Checker\ClaimCheckerInterface[]
      */
     private $claim_checkers = [];
-    
+
     /**
      * @var \Jose\Checker\HeaderCheckerInterface[]
      */
@@ -61,7 +61,7 @@ final class CheckerManager
             Assertion::keyExists($this->claim_checkers, $alias, sprintf('The claim checker alias "%s" is not supported.', $alias));
             $result[] = $this->claim_checkers[$alias];
         }
-        
+
         return $result;
     }
 
@@ -77,7 +77,7 @@ final class CheckerManager
             Assertion::keyExists($this->header_checkers, $alias, sprintf('The header checker alias "%s" is not supported.', $alias));
             $result[] = $this->header_checkers[$alias];
         }
-        
+
         return $result;
     }
 }

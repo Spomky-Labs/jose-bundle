@@ -22,7 +22,7 @@ trait JWSCreationContext
      * @var array
      */
     private $signature_protected_header = [];
-    
+
     /**
      * @var array
      */
@@ -62,7 +62,7 @@ trait JWSCreationContext
     public function iTryToCreateAJwsInJsonCompactSerializationModeWithSignatureKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {
         /**
-         * @var $jws_creator \Jose\Factory\JWSFactory
+         * @var \Jose\Factory\JWSFactory
          */
         $jws_creator = $this->getContainer()->get('jose.factory.jws');
         $logger = $this->getContainer()->get('logger');
@@ -76,7 +76,7 @@ trait JWSCreationContext
     public function iTryToCreateAJwsInJsonFlattenedSerializationModeWithSignatureKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {
         /**
-         * @var $jws_creator \Jose\Factory\JWSFactory
+         * @var \Jose\Factory\JWSFactory
          */
         $jws_creator = $this->getContainer()->get('jose.factory.jws');
         $logger = $this->getContainer()->get('logger');

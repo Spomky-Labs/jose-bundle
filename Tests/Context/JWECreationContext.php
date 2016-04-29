@@ -22,17 +22,17 @@ trait JWECreationContext
      * @var array
      */
     private $recipient_header = [];
-    
+
     /**
      * @var array
      */
     private $jwe_shared_protected_header = [];
-    
+
     /**
      * @var array
      */
     private $jwe_shared_header = [];
-    
+
     /**
      * @var array
      */
@@ -88,7 +88,7 @@ trait JWECreationContext
     public function iTryToCreateAJweInJsonCompactSerializationModeWithRecipientKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {
         /**
-         * @var $jwe_creator \Jose\Factory\JWEFactory
+         * @var \Jose\Factory\JWEFactory
          */
         $jwe_creator = $this->getContainer()->get('jose.factory.jwe');
         $logger = $this->getContainer()->get('logger');
@@ -102,7 +102,7 @@ trait JWECreationContext
     public function iTryToCreateAJweInJsonFlattenedSerializationModeWithRecipientKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {
         /**
-         * @var $jwe_creator \Jose\Factory\JWEFactory
+         * @var \Jose\Factory\JWEFactory
          */
         $jwe_creator = $this->getContainer()->get('jose.factory.jwe');
         $logger = $this->getContainer()->get('logger');

@@ -12,11 +12,11 @@
 namespace SpomkyLabs\JoseBundle\Service;
 
 use Jose\Checker\CheckerManagerInterface;
+use Jose\Decrypter;
 use Jose\DecrypterInterface;
+use Jose\Encrypter;
 use Jose\EncrypterInterface;
 use Jose\Factory\CheckerManagerFactory;
-use Jose\Decrypter;
-use Jose\Encrypter;
 use Jose\JWTCreator;
 use Jose\JWTLoader;
 use Jose\Signer;
@@ -111,7 +111,7 @@ final class ServiceFactory
     public function createVerifier(array $selected_algorithms, LoggerInterface $logger = null)
     {
         $algorithms = $this->algorithm_manager->getSelectedAlgorithmMethods($selected_algorithms);
-        
+
         return Verifier::createVerifier($algorithms, $logger);
     }
 
@@ -125,7 +125,7 @@ final class ServiceFactory
     {
         $claim_checkers = $this->checker_manager->getSelectedClaimChecker($selected_claim_checkers);
         $header_checkers = $this->checker_manager->getSelectedHeaderChecker($selected_header_checkers);
-        
+
         return CheckerManagerFactory::createClaimCheckerManager($claim_checkers, $header_checkers);
     }
 
@@ -143,7 +143,7 @@ final class ServiceFactory
         if (null !== $decrypter) {
             $jwt_loader->enableEncryptionSupport($decrypter);
         }
-        
+
         return $jwt_loader;
     }
 
@@ -159,7 +159,7 @@ final class ServiceFactory
         if (null !== $encrypter) {
             $jwt_creator->enableEncryptionSupport($encrypter);
         }
-        
+
         return $jwt_creator;
     }
 }
