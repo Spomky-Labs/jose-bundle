@@ -9,28 +9,28 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace SpomkyLabs\JoseBundle\DependencyInjection\JWKSource;
+namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class CertificateFile implements JWKSourceInterface
+class X5U implements JWKSetSourceInterface
 {
     /**
      * {@inheritdoc}
      */
     public function create(ContainerBuilder $container, $id, array $config)
     {
-        $definition = new Definition('Jose\Object\JWK');
+        $definition = new Definition('Jose\Object\JWKSet');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
-            'createFromCertificateFile',
+            'createFromX5U',
         ]);
         $definition->setArguments([
-            $config['path'],
-            $config['additional_values'],
+            $config['url'],
+            $config['is_secured'],
         ]);
 
         $container->setDefinition($id, $definition);
@@ -39,9 +39,9 @@ class CertificateFile implements JWKSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function getKey()
+    public function getKeySet()
     {
-        return 'certificate';
+        return 'x5u';
     }
 
     /**
@@ -51,11 +51,11 @@ class CertificateFile implements JWKSourceInterface
     {
         $node
             ->children()
-                ->scalarNode('path')->isRequired()->end()
-                ->arrayNode('additional_values')
-                    ->defaultValue([])
-                    ->useAttributeAsKey('key')
-                    ->prototype('variable')->end()
+                ->scalarNode('url')
+                    ->isRequired()
+                ->end()
+                ->booleanNode('is_secured')
+                    ->defaultTrue()
                 ->end()
             ->end();
     }

@@ -9,14 +9,14 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace SpomkyLabs\JoseBundle\DependencyInjection\JWKSource;
+namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class KeyFile implements JWKSourceInterface
+class X5C implements JWKSourceInterface
 {
     /**
      * {@inheritdoc}
@@ -26,12 +26,10 @@ class KeyFile implements JWKSourceInterface
         $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
-            'createFromKeyFile',
+            'createFromCertificate',
         ]);
         $definition->setArguments([
-            $config['path'],
-            $config['password'],
-            $config['additional_values'],
+            $config['value'],
         ]);
 
         $container->setDefinition($id, $definition);
@@ -42,7 +40,7 @@ class KeyFile implements JWKSourceInterface
      */
     public function getKey()
     {
-        return 'file';
+        return 'x5c';
     }
 
     /**
@@ -52,12 +50,8 @@ class KeyFile implements JWKSourceInterface
     {
         $node
             ->children()
-                ->scalarNode('path')->isRequired()->end()
-                ->scalarNode('password')->defaultNull()->end()
-                ->arrayNode('additional_values')
-                    ->defaultValue([])
-                    ->useAttributeAsKey('key')
-                    ->prototype('variable')->end()
+                ->scalarNode('value')
+                    ->isRequired()
                 ->end()
             ->end();
     }

@@ -9,14 +9,14 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace SpomkyLabs\JoseBundle\DependencyInjection\JWKSource;
+namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class X5C implements JWKSourceInterface
+class KeyFile implements JWKSourceInterface
 {
     /**
      * {@inheritdoc}
@@ -26,10 +26,12 @@ class X5C implements JWKSourceInterface
         $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
-            'createFromCertificate',
+            'createFromKeyFile',
         ]);
         $definition->setArguments([
-            $config['value'],
+            $config['path'],
+            $config['password'],
+            $config['additional_values'],
         ]);
 
         $container->setDefinition($id, $definition);
@@ -40,7 +42,7 @@ class X5C implements JWKSourceInterface
      */
     public function getKey()
     {
-        return 'x5c';
+        return 'file';
     }
 
     /**
@@ -50,8 +52,12 @@ class X5C implements JWKSourceInterface
     {
         $node
             ->children()
-                ->scalarNode('value')
-                    ->isRequired()
+                ->scalarNode('path')->isRequired()->end()
+                ->scalarNode('password')->defaultNull()->end()
+                ->arrayNode('additional_values')
+                    ->defaultValue([])
+                    ->useAttributeAsKey('key')
+                    ->prototype('variable')->end()
                 ->end()
             ->end();
     }

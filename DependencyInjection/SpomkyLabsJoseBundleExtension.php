@@ -22,12 +22,12 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 final class SpomkyLabsJoseBundleExtension extends Extension
 {
     /**
-     * @var \SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\JWKSourceInterface[]
+     * @var \SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\JWKSourceInterface[]
      */
     private $jwk_sources;
 
     /**
-     * @var \SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\JWKSetSourceInterface[]
+     * @var \SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource\JWKSetSourceInterface[]
      */
     private $jwk_set_sources;
 
@@ -98,40 +98,27 @@ final class SpomkyLabsJoseBundleExtension extends Extension
             $this->createJWKSet($name, $key_set, $container, $this->jwk_set_sources);
         }
 
-        foreach ($config['encrypters'] as $name => $encrypter) {
-            $this->createEncrypter($name, $encrypter, $container);
-        }
-
-        foreach ($config['decrypters'] as $name => $decrypter) {
-            $this->createDecrypter($name, $decrypter, $container);
-        }
-
-        foreach ($config['signers'] as $name => $signer) {
-            $this->createSigner($name, $signer, $container);
-        }
-
-        foreach ($config['verifiers'] as $name => $verifier) {
-            $this->createVerifier($name, $verifier, $container);
-        }
-
-        foreach ($config['checkers'] as $name => $checker) {
-            $this->createChecker($name, $checker, $container);
-        }
-
-        foreach ($config['jwt_loaders'] as $name => $loader) {
-            $this->createJWTLoader($name, $loader, $container);
-        }
-
-        foreach ($config['jwt_creators'] as $name => $creator) {
-            $this->createJWTCreator($name, $creator, $container);
+        $services = [
+            'encrypters' => 'createEncrypter',
+            'decrypters' => 'createDecrypter',
+            'signers' => 'createSigner',
+            'verifiers' => 'createVerifier',
+            'checkers' => 'createChecker',
+            'jwt_loaders' => 'createJWTLoader',
+            'jwt_creators' => 'createJWTCreator',
+        ];
+        foreach ($services as $service=>$method) {
+            foreach ($config[$service] as $name => $data) {
+                $this->$method($name, $data, $container);
+            }
         }
     }
 
     /**
-     * @param string                                                                          $name
-     * @param array                                                                           $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder                         $container
-     * @param \SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\JWKSetSourceInterface[] $jwk_set_sources
+     * @param string                                                                                 $name
+     * @param array                                                                                  $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder                                $container
+     * @param \SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource\JWKSetSourceInterface[] $jwk_set_sources
      */
     private function createJWKSet($name, array $config, ContainerBuilder $container, array $jwk_set_sources)
     {
@@ -147,10 +134,10 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     }
 
     /**
-     * @param string                                                                    $name
-     * @param array                                                                     $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder                   $container
-     * @param \SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\JWKSourceInterface[] $jwk_sources
+     * @param string                                                                           $name
+     * @param array                                                                            $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder                          $container
+     * @param \SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\JWKSourceInterface[] $jwk_sources
      */
     private function createJWK($name, array $config, ContainerBuilder $container, array $jwk_sources)
     {

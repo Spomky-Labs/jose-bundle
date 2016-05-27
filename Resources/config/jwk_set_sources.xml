@@ -5,16 +5,16 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="jose.jwk_set_source.jwkset" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\JWKSet">
+        <service id="jose.jwk_set_source.jwkset" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource\JWKSet">
             <tag name="jose.jwk_set_source" />
         </service>
-        <service id="jose.jwk_set_source.keys" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\Keys">
+        <service id="jose.jwk_set_source.keys" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource\Keys">
             <tag name="jose.jwk_set_source" />
         </service>
-        <service id="jose.jwk_set_source.jku" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\JKU">
+        <service id="jose.jwk_set_source.jku" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource\JKU">
             <tag name="jose.jwk_set_source" />
         </service>
-        <service id="jose.jwk_set_source.x5u" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource\X5U">
+        <service id="jose.jwk_set_source.x5u" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource\X5U">
             <tag name="jose.jwk_set_source" />
         </service>
     </services>

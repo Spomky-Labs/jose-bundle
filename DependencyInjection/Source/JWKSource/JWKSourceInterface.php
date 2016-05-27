@@ -9,15 +9,16 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource;
+namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\SourceInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-interface JWKSetSourceInterface
+interface JWKSourceInterface extends SourceInterface
 {
     /**
-     * Creates the JWKSet, registers it and returns its id.
+     * Creates the JWK, registers it and returns its id.
      *
      * @param ContainerBuilder $container A ContainerBuilder instance
      * @param string           $id        The id of the service
@@ -26,11 +27,11 @@ interface JWKSetSourceInterface
     public function create(ContainerBuilder $container, $id, array $config);
 
     /**
-     * Returns the key set for the Key Set Source configuration.
+     * Returns the key for the Key Source configuration.
      *
      * @return string
      */
-    public function getKeySet();
+    public function getKey();
 
     /**
      * Adds configuration nodes for this service.

@@ -14,6 +14,7 @@ namespace SpomkyLabs\JoseBundle\DependencyInjection\Compiler;
 use Assert\Assertion;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 final class CheckerCompilerPass implements CompilerPassInterface
@@ -26,18 +27,36 @@ final class CheckerCompilerPass implements CompilerPassInterface
 
         $definition = $container->getDefinition('jose.checker_manager');
 
-        $taggedClaimCheckerServices = $container->findTaggedServiceIds('jose.checker.claim');
+        $this->addClaimCheckers($definition, $container);
+        $this->addHeaderCheckers($definition, $container);
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\Definition       $definition
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function addHeaderCheckers(Definition $definition, ContainerBuilder $container)
+    {
         $taggedHeaderCheckerServices = $container->findTaggedServiceIds('jose.checker.header');
-        foreach ($taggedClaimCheckerServices as $id => $tags) {
-            foreach ($tags as $attributes) {
-                Assertion::keyExists($attributes, 'alias', sprintf("The claim checker '%s' does not have any 'alias' attribute.", $id));
-                $definition->addMethodCall('addClaimChecker', [new Reference($id), $attributes['alias']]);
-            }
-        }
         foreach ($taggedHeaderCheckerServices as $id => $tags) {
             foreach ($tags as $attributes) {
                 Assertion::keyExists($attributes, 'alias', sprintf("The header checker '%s' does not have any 'alias' attribute.", $id));
                 $definition->addMethodCall('addHeaderChecker', [new Reference($id), $attributes['alias']]);
+            }
+        }
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\Definition       $definition
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    private function addClaimCheckers(Definition $definition, ContainerBuilder $container)
+    {
+        $taggedClaimCheckerServices = $container->findTaggedServiceIds('jose.checker.claim');
+        foreach ($taggedClaimCheckerServices as $id => $tags) {
+            foreach ($tags as $attributes) {
+                Assertion::keyExists($attributes, 'alias', sprintf("The claim checker '%s' does not have any 'alias' attribute.", $id));
+                $definition->addMethodCall('addClaimChecker', [new Reference($id), $attributes['alias']]);
             }
         }
     }

@@ -5,23 +5,23 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="jose.jwk_source.file" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\KeyFile">
+        <service id="jose.jwk_source.file" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\KeyFile">
             <tag name="jose.jwk_source" />
         </service>
 
-        <service id="jose.jwk_source.certificate" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\CertificateFile">
+        <service id="jose.jwk_source.certificate" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\CertificateFile">
             <tag name="jose.jwk_source" />
         </service>
 
-        <service id="jose.jwk_source.values" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\Values">
+        <service id="jose.jwk_source.values" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\Values">
             <tag name="jose.jwk_source" />
         </service>
 
-        <service id="jose.jwk_source.jwk" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\JWK">
+        <service id="jose.jwk_source.jwk" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\JWK">
             <tag name="jose.jwk_source" />
         </service>
 
-        <service id="jose.jwk_source.x5c" class="SpomkyLabs\JoseBundle\DependencyInjection\JWKSource\X5C">
+        <service id="jose.jwk_source.x5c" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\X5C">
             <tag name="jose.jwk_source" />
         </service>
     </services>

@@ -9,14 +9,14 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace SpomkyLabs\JoseBundle\DependencyInjection\JWKSource;
+namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class Values implements JWKSourceInterface
+class CertificateFile implements JWKSourceInterface
 {
     /**
      * {@inheritdoc}
@@ -26,10 +26,11 @@ class Values implements JWKSourceInterface
         $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
-            'createFromValues',
+            'createFromCertificateFile',
         ]);
         $definition->setArguments([
-            $config['values'],
+            $config['path'],
+            $config['additional_values'],
         ]);
 
         $container->setDefinition($id, $definition);
@@ -40,7 +41,7 @@ class Values implements JWKSourceInterface
      */
     public function getKey()
     {
-        return 'values';
+        return 'certificate';
     }
 
     /**
@@ -50,8 +51,9 @@ class Values implements JWKSourceInterface
     {
         $node
             ->children()
-                ->arrayNode('values')
-                    ->isRequired()
+                ->scalarNode('path')->isRequired()->end()
+                ->arrayNode('additional_values')
+                    ->defaultValue([])
                     ->useAttributeAsKey('key')
                     ->prototype('variable')->end()
                 ->end()

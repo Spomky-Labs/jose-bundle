@@ -9,28 +9,27 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace SpomkyLabs\JoseBundle\DependencyInjection\JWKSetSource;
+namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class JKU implements JWKSetSourceInterface
+class JWK implements JWKSourceInterface
 {
     /**
      * {@inheritdoc}
      */
     public function create(ContainerBuilder $container, $id, array $config)
     {
-        $definition = new Definition('Jose\Object\JWKSet');
+        $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
-            'createFromJKU',
+            'createFromValues',
         ]);
         $definition->setArguments([
-            $config['url'],
-            $config['is_secured'],
+            json_decode($config['value'], true),
         ]);
 
         $container->setDefinition($id, $definition);
@@ -39,9 +38,9 @@ class JKU implements JWKSetSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function getKeySet()
+    public function getKey()
     {
-        return 'jku';
+        return 'jwk';
     }
 
     /**
@@ -51,11 +50,8 @@ class JKU implements JWKSetSourceInterface
     {
         $node
             ->children()
-                ->scalarNode('url')
+                ->scalarNode('value')
                     ->isRequired()
-                ->end()
-                ->booleanNode('is_secured')
-                    ->defaultTrue()
                 ->end()
             ->end();
     }

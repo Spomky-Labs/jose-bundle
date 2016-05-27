@@ -9,14 +9,14 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace SpomkyLabs\JoseBundle\DependencyInjection\JWKSource;
+namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class JWK implements JWKSourceInterface
+class Values implements JWKSourceInterface
 {
     /**
      * {@inheritdoc}
@@ -29,7 +29,7 @@ class JWK implements JWKSourceInterface
             'createFromValues',
         ]);
         $definition->setArguments([
-            json_decode($config['value'], true),
+            $config['values'],
         ]);
 
         $container->setDefinition($id, $definition);
@@ -40,7 +40,7 @@ class JWK implements JWKSourceInterface
      */
     public function getKey()
     {
-        return 'jwk';
+        return 'values';
     }
 
     /**
@@ -50,8 +50,10 @@ class JWK implements JWKSourceInterface
     {
         $node
             ->children()
-                ->scalarNode('value')
+                ->arrayNode('values')
                     ->isRequired()
+                    ->useAttributeAsKey('key')
+                    ->prototype('variable')->end()
                 ->end()
             ->end();
     }
