@@ -59,6 +59,24 @@ trait KeysAndKeySetsContext
 
     /**
      * @param string $service
+     *
+     * @throws \Exception
+     *
+     * @Then the keyset in the service :service contains keys
+     */
+    public function theKeysetInTheServiceContainsSomeKeys($service)
+    {
+        $this->theServiceShouldBeAnObjectThatImplements($service, JWKSetInterface::class);
+        if (0 === count($this->getContainer()->get($service))) {
+            throw new \Exception(sprintf(
+                'The service "%s" does not contain keys.',
+                $service
+            ));
+        }
+    }
+
+    /**
+     * @param string $service
      * @param string $interface
      *
      * @throws \Exception

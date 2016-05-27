@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "spomky-labs/jose": "^3.0@beta",
+        "spomky-labs/jose": "^3.0",
         "symfony/http-kernel": "^2.7|^3.0",
         "symfony/dependency-injection": "^2.7|^3.0",
         "symfony/config": "^2.7|^3.0",
@@ -24,7 +24,7 @@
         "behat/mink-extension": "^2.1",
         "behat/mink-browserkit-driver":  "*",
         "behat/symfony2-extension":  "^2.1",
-        "symfony/monolog-bundle": "^2.10",
+        "symfony/monolog-bundle": "^2.0",
         "ext-curl": "*"
     },
     "autoload": {
