@@ -61,7 +61,7 @@ trait JWSCreationContext
      */
     public function iTryToCreateAJwsInJsonCompactSerializationModeWithSignatureKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {
-        /**
+        /*
          * @var \Jose\Factory\JWSFactory
          */
         $jws_creator = $this->getContainer()->get('jose.factory.jws');
@@ -75,7 +75,7 @@ trait JWSCreationContext
      */
     public function iTryToCreateAJwsInJsonFlattenedSerializationModeWithSignatureKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {
-        /**
+        /*
          * @var \Jose\Factory\JWSFactory
          */
         $jws_creator = $this->getContainer()->get('jose.factory.jws');

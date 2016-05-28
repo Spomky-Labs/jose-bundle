@@ -22,7 +22,7 @@ final class JWKSource implements SourceInterface
      * @var null|\SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\JWKSourceInterface[]
      */
     private $jwk_sources = null;
-    
+
     /**
      * {@inheritdoc}
      */
@@ -71,7 +71,6 @@ final class JWKSource implements SourceInterface
      */
     private function getJWKSources()
     {
-
         if (null !== $this->jwk_sources) {
             return $this->jwk_sources;
         }
@@ -89,7 +88,7 @@ final class JWKSource implements SourceInterface
         }
 
         $this->jwk_sources = $jwk_sources;
-        
+
         return $jwk_sources;
     }
 }

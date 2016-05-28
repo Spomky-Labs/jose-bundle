@@ -22,7 +22,7 @@ final class JWKSetSource implements SourceInterface
      * @var null|\SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource\JWKSetSourceInterface[]
      */
     private $jwkset_sources = null;
-    
+
     /**
      * {@inheritdoc}
      */
