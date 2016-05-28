@@ -27,60 +27,33 @@ monolog:
             max_files: 10
 
 jose:
-#    easy_jwt_creator:
-#        test:
-#            signature_algorithms:
-#                - 'HS256'
-#                - 'HS512'
-#            key_encryption_algorithms:
-#                - 'RSA-OAEP'
-#            content_encryption_algorithms:
-#                - 'A256GCM'
-#    easy_jwt_loader:
-#        test:
-#            signature_algorithms:
-#                - 'HS256'
-#                - 'HS512'
-#            key_encryption_algorithms:
-#                - 'RSA-OAEP'
-#            content_encryption_algorithms:
-#                - 'A256GCM'
-#            claim_checkers:
-#                - 'exp'
-#                - 'iat'
-#                - 'nbf'
-#            header_checkers:
-#                - 'crit'
-    jwt_creators:
+    easy_jwt_creator:
         main:
-            signer: 'jose.signer.hmac'
-            encrypter: 'jose.encrypter.main'
-    jwt_loaders:
-        main:
-            verifier: 'jose.verifier.hmac'
-            checker: 'jose.checker.main'
-            decrypter: 'jose.decrypter.main'
-    encrypters:
-        main:
-            key_encryption_algorithms:
-                - 'RSA-OAEP'
-            content_encryption_algorithms:
-                - 'A256GCM'
-            create_decrypter: true
-    signers:
-        hmac:
-            algorithms:
+            signature_algorithms:
                 - 'HS256'
                 - 'HS384'
                 - 'HS512'
-            create_verifier: true
-    checkers:
+            key_encryption_algorithms:
+                - 'A256GCMKW'
+                - 'RSA-OAEP'
+            content_encryption_algorithms:
+                - 'A256GCM'
+    easy_jwt_loader:
         main:
-            claims:
+            signature_algorithms:
+                - 'HS256'
+                - 'HS384'
+                - 'HS512'
+            key_encryption_algorithms:
+                - 'A256GCMKW'
+                - 'RSA-OAEP'
+            content_encryption_algorithms:
+                - 'A256GCM'
+            claim_checkers:
                 - 'exp'
                 - 'iat'
                 - 'nbf'
-            headers:
+            header_checkers:
                 - 'crit'
     key_sets:
         jwkset1:
@@ -89,6 +62,7 @@ jose:
         jwkset2:
             keys:
                 id:
+                    - 'jose.key.key0'
                     - 'jose.key.key1'
                     - 'jose.key.key2'
                     - 'jose.key.key3'

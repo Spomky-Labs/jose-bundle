@@ -50,21 +50,29 @@ final class DecrypterSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function addConfigurationSection(ArrayNodeDefinition $node)
+    public function getNodeDefinition(ArrayNodeDefinition $node)
     {
-        $node->children()
-            ->arrayNode('decrypters')
-            ->useAttributeAsKey('name')
-            ->prototype('array')
+        $node
             ->children()
-            ->arrayNode('key_encryption_algorithms')->isRequired()->prototype('scalar')->end()->end()
-            ->arrayNode('content_encryption_algorithms')->isRequired()->prototype('scalar')->end()->end()
-            ->arrayNode('compression_methods')->defaultValue(['DEF'])->prototype('scalar')->end()->end()
-            ->scalarNode('logger')->defaultNull()->end()
-            ->booleanNode('create_decrypter')->defaultTrue()->end()
-            ->end()
-            ->end()
-            ->end()
+                ->arrayNode($this->getName())
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->arrayNode('key_encryption_algorithms')->isRequired()->prototype('scalar')->end()->end()
+                            ->arrayNode('content_encryption_algorithms')->isRequired()->prototype('scalar')->end()->end()
+                            ->arrayNode('compression_methods')->defaultValue(['DEF'])->prototype('scalar')->end()->end()
+                            ->scalarNode('logger')->defaultNull()->end()
+                            ->booleanNode('create_decrypter')->defaultTrue()->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config)
+    {
     }
 }

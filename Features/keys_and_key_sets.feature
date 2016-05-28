@@ -14,7 +14,7 @@ Feature: This bundle is able to use keys and key sets
 
   Scenario: A Key Set is available through a service and loaded from an URL
     When the service "jose.key_set.jwkset2" should be an object that implements "\Jose\Object\JWKSetInterface"
-    And the keyset in the service "jose.key_set.jwkset2" contains 3 keys
+    And the keyset in the service "jose.key_set.jwkset2" contains 4 keys
 
   Scenario: A Key Set is available through a service and loaded from an URL
     When the service "jose.key_set.jwkset3" should be an object that implements "\Jose\Object\JWKSetInterface"

@@ -48,18 +48,26 @@ final class CheckerSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function addConfigurationSection(ArrayNodeDefinition $node)
+    public function getNodeDefinition(ArrayNodeDefinition $node)
     {
-        $node->children()
-            ->arrayNode('checkers')
-            ->useAttributeAsKey('name')
-            ->prototype('array')
+        $node
             ->children()
-            ->arrayNode('claims')->isRequired()->prototype('scalar')->end()->end()
-            ->arrayNode('headers')->isRequired()->prototype('scalar')->end()->end()
-            ->end()
-            ->end()
-            ->end()
+                ->arrayNode($this->getName())
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->arrayNode('claims')->isRequired()->prototype('scalar')->end()->end()
+                            ->arrayNode('headers')->isRequired()->prototype('scalar')->end()->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config)
+    {
     }
 }

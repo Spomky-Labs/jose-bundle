@@ -7,7 +7,7 @@ Feature: This bundle provides a service able to load JWT (JWS or JWE)
     """
     Then the variable "loaded" should be an object that implements "\Jose\Object\JWSInterface"
     And the JWS in the variable "loaded" should contains 1 signature
-    And the signature 0 of the JWS in the variable "loaded" should be verified using the verifier "jose.verifier.hmac" and key "jose.key.key0"
+    And the signature 0 of the JWS in the variable "loaded" should be verified using the verifier "jose.verifier.main" and key "jose.key.key0"
     And the signature 0 of the JWS in the variable "loaded" should be checked using the checker "jose.checker.main"
     And I unset the variable "loaded"
 
@@ -18,7 +18,7 @@ Feature: This bundle provides a service able to load JWT (JWS or JWE)
     """
     Then the variable "loaded" should be an object that implements "\Jose\Object\JWSInterface"
     And the JWS in the variable "loaded" should contains 1 signature
-    And the signature 0 of the JWS in the variable "loaded" should be verified using the verifier "jose.verifier.hmac" and key "jose.key.key0"
+    And the signature 0 of the JWS in the variable "loaded" should be verified using the verifier "jose.verifier.main" and key "jose.key.key0"
     And the signature 0 of the JWS in the variable "loaded" should be checked using the checker "jose.checker.main"
     And I unset the variable "loaded"
 
@@ -29,7 +29,7 @@ Feature: This bundle provides a service able to load JWT (JWS or JWE)
     """
     Then the variable "loaded" should be an object that implements "\Jose\Object\JWSInterface"
     And the JWS in the variable "loaded" should contains 1 signature
-    And the signature 0 of the JWS in the variable "loaded" should be verified using the verifier "jose.verifier.hmac" and key "jose.key.key0"
+    And the signature 0 of the JWS in the variable "loaded" should be verified using the verifier "jose.verifier.main" and key "jose.key.key0"
     And the signature 0 of the JWS in the variable "loaded" should be checked using the checker "jose.checker.main"
     And I unset the variable "loaded"
 
