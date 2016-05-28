@@ -31,11 +31,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 final class SpomkyLabsJoseBundleExtension extends Extension
 {
     /**
-     * @var \SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource\JWKSetSourceInterface[]
-     */
-    private $jwk_set_sources;
-
-    /**
      * @var string
      */
     private $alias;
