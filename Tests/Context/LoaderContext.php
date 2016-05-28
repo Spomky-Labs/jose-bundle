@@ -32,7 +32,7 @@ trait LoaderContext
      */
     public function iTryToLoadTheFollowingJwtAndIStoreTheResultInTheVariable($variable, PyStringNode $string)
     {
-        /**
+        /*
          * @var \Jose\LoaderInterface
          */
         $loader = $this->getContainer()->get('jose.loader');
@@ -89,11 +89,11 @@ trait LoaderContext
      */
     public function theSignatureOfTheJwsInTheVariableShouldBeVerifiedUsingTheVerifierAndKey($variable, $verifier, $key, $number)
     {
-        /**
+        /*
          * @var \Jose\VerifierInterface
          */
         $verifier_service = $this->getContainer()->get($verifier);
-        /**
+        /*
          * @var \Jose\Object\JWKInterface
          */
         $key_service = $this->getContainer()->get($key);
@@ -113,11 +113,11 @@ trait LoaderContext
      */
     public function theSignatureOfTheJwsInTheVariableShouldBeVerifiedUsingTheVerifierAndKeyset($variable, $verifier, $keyset, $number)
     {
-        /**
+        /*
          * @var \Jose\VerifierInterface
          */
         $verifier_service = $this->getContainer()->get($verifier);
-        /**
+        /*
          * @var \Jose\Object\JWKSetInterface
          */
         $keyset_service = $this->getContainer()->get($keyset);
@@ -137,7 +137,7 @@ trait LoaderContext
      */
     public function theSignatureOfTheJwsInTheVariableShouldBeCheckedUsingTheChecker($variable, $checker, $number)
     {
-        /**
+        /*
          * @var \Jose\Checker\CheckerManagerInterface
          */
         $checker_service = $this->getContainer()->get($checker);
@@ -149,11 +149,11 @@ trait LoaderContext
      */
     public function theRecipientOfTheJweInTheVariableShouldBeDecryptedUsingTheDecrypterAndKey($variable, $decrypter, $key, $recipient)
     {
-        /**
+        /*
          * @var \Jose\DecrypterInterface
          */
         $decrypter_service = $this->getContainer()->get($decrypter);
-        /**
+        /*
          * @var \Jose\Object\JWKInterface
          */
         $key_service = $this->getContainer()->get($key);
@@ -173,11 +173,11 @@ trait LoaderContext
      */
     public function theRecipientOfTheJweInTheVariableShouldBeDecryptedUsingTheDecrypterAndKeyset($variable, $decrypter, $keyset, $recipient)
     {
-        /**
+        /*
          * @var \Jose\DecrypterInterface
          */
         $decrypter_service = $this->getContainer()->get($decrypter);
-        /**
+        /*
          * @var \Jose\Object\JWKSetInterface
          */
         $keyset_service = $this->getContainer()->get($keyset);
