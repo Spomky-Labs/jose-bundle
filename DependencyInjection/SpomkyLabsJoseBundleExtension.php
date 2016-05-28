@@ -14,6 +14,8 @@ namespace SpomkyLabs\JoseBundle\DependencyInjection;
 use Assert\Assertion;
 use SpomkyLabs\JoseBundle\DependencyInjection\Source\CheckerSource;
 use SpomkyLabs\JoseBundle\DependencyInjection\Source\DecrypterSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\EasyJWTCreatorSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\EasyJWTLoaderSource;
 use SpomkyLabs\JoseBundle\DependencyInjection\Source\EncrypterSource;
 use SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
 use SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
@@ -25,10 +27,11 @@ use SpomkyLabs\JoseBundle\DependencyInjection\Source\VerifierSource;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-final class SpomkyLabsJoseBundleExtension extends Extension
+final class SpomkyLabsJoseBundleExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * @var string
@@ -46,6 +49,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     public function __construct($alias)
     {
         $this->alias = $alias;
+        $this->updateSources();
     }
 
     /**
@@ -64,7 +68,6 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
-        $this->updateSources();
 
         $config = $processor->processConfiguration(
             $this->getConfiguration($configs, $container),
@@ -109,6 +112,9 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         }
     }
 
+    /**
+     * 
+     */
     private function updateSources()
     {
         $this->addServiceSource(new JWTCreatorSource());
@@ -120,5 +126,23 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         $this->addServiceSource(new CheckerSource());
         $this->addServiceSource(new JWKSource());
         $this->addServiceSource(new JWKSetSource());
+        $this->addServiceSource(new EasyJWTCreatorSource());
+        $this->addServiceSource(new EasyJWTLoaderSource());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        $configs = $container->getExtensionConfig($this->getAlias());
+        $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
+
+        foreach ($this->service_sources as $service_source) {
+            $result = $service_source->prepend($container, $config);
+            if (null !== $result) {
+                $container->prependExtensionConfig($this->getAlias(), $result);
+            }
+        }
     }
 }

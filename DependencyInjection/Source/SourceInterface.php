@@ -31,5 +31,13 @@ interface SourceInterface
     /**
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
      */
-    public function addConfigurationSection(ArrayNodeDefinition $node);
+    public function getNodeDefinition(ArrayNodeDefinition $node);
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param array                                                   $config
+     * 
+     * @return null|array
+     */
+    public function prepend(ContainerBuilder $container, array $config);
 }

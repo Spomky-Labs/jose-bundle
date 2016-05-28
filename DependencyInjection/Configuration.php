@@ -47,7 +47,7 @@ final class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root($this->alias);
 
         foreach ($this->service_sources as $service_source) {
-            $service_source->addConfigurationSection($rootNode);
+            $service_source->getNodeDefinition($rootNode);
         }
 
         return $treeBuilder;

@@ -50,20 +50,26 @@ final class JWKSetSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function addConfigurationSection(ArrayNodeDefinition $node)
+    public function getNodeDefinition(ArrayNodeDefinition $node)
     {
         $sourceNodeBuilder = $node
-            ->fixXmlConfig('source')
             ->children()
-            ->arrayNode('key_sets')
-            ->useAttributeAsKey('name')
-            ->prototype('array')
-            ->performNoDeepMerging()
-            ->children();
+                ->arrayNode('key_sets')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->performNoDeepMerging()
+                        ->children();
         foreach ($this->getJWKSetSources() as $name => $source) {
             $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
             $source->addConfiguration($sourceNode);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config)
+    {
     }
 
     /**

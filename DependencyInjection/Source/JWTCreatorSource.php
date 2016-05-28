@@ -48,10 +48,10 @@ final class JWTCreatorSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function addConfigurationSection(ArrayNodeDefinition $node)
+    public function getNodeDefinition(ArrayNodeDefinition $node)
     {
         $node->children()
-                ->arrayNode('jwt_creators')
+                ->arrayNode($this->getName())
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
@@ -61,5 +61,12 @@ final class JWTCreatorSource implements SourceInterface
                     ->end()
                 ->end()
             ->end();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config)
+    {
     }
 }

@@ -46,24 +46,52 @@ final class EncrypterSource implements SourceInterface
 
         $container->setDefinition($service_id, $definition);
     }
+    
+    
 
     /**
      * {@inheritdoc}
      */
-    public function addConfigurationSection(ArrayNodeDefinition $node)
+    public function getNodeDefinition(ArrayNodeDefinition $node)
     {
-        $node->children()
-            ->arrayNode('encrypters')
-            ->useAttributeAsKey('name')
-            ->prototype('array')
+        $node
             ->children()
-            ->arrayNode('key_encryption_algorithms')->isRequired()->prototype('scalar')->end()->end()
-            ->arrayNode('content_encryption_algorithms')->isRequired()->prototype('scalar')->end()->end()
-            ->arrayNode('compression_methods')->defaultValue(['DEF'])->prototype('scalar')->end()->end()
-            ->scalarNode('logger')->defaultNull()->end()
-            ->end()
-            ->end()
-            ->end()
+                ->arrayNode($this->getName())
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->arrayNode('key_encryption_algorithms')->isRequired()->prototype('scalar')->end()->end()
+                            ->arrayNode('content_encryption_algorithms')->isRequired()->prototype('scalar')->end()->end()
+                            ->arrayNode('compression_methods')->defaultValue(['DEF'])->prototype('scalar')->end()->end()
+                            ->scalarNode('logger')->defaultNull()->end()
+                            ->booleanNode('create_decrypter')->defaultFalse()->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config)
+    {
+        if (false === array_key_exists($this->getName(), $config)) {
+            return;
+        }
+
+        foreach ($config[$this->getName()] as $id=>$section) {
+            if (true === $section['create_decrypter']) {
+
+                $values = $section;
+                unset($values['create_decrypter']);
+                $config['decrypters'] = array_merge(
+                    array_key_exists('decrypters', $config) ? $config['decrypters'] : [],
+                    [$id => $values]
+                );
+            }
+        }
+
+        return $config;
     }
 }

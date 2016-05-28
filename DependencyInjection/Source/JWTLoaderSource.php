@@ -50,10 +50,10 @@ final class JWTLoaderSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function addConfigurationSection(ArrayNodeDefinition $node)
+    public function getNodeDefinition(ArrayNodeDefinition $node)
     {
         $node->children()
-                ->arrayNode('jwt_loaders')
+                ->arrayNode($this->getName())
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
@@ -65,5 +65,12 @@ final class JWTLoaderSource implements SourceInterface
                     ->end()
                 ->end()
             ->end();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config)
+    {
     }
 }

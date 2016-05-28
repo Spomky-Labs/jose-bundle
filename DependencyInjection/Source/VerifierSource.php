@@ -48,18 +48,26 @@ final class VerifierSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function addConfigurationSection(ArrayNodeDefinition $node)
+    public function getNodeDefinition(ArrayNodeDefinition $node)
     {
-        $node->children()
-            ->arrayNode('verifiers')
-            ->useAttributeAsKey('name')
-            ->prototype('array')
+        $node
             ->children()
-            ->arrayNode('algorithms')->isRequired()->prototype('scalar')->end()->end()
-            ->scalarNode('logger')->defaultNull()->end()
-            ->end()
-            ->end()
-            ->end()
+                ->arrayNode($this->getName())
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->arrayNode('algorithms')->isRequired()->prototype('scalar')->end()->end()
+                            ->scalarNode('logger')->defaultNull()->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config)
+    {
     }
 }

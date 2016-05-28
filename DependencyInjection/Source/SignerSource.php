@@ -48,18 +48,44 @@ final class SignerSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function addConfigurationSection(ArrayNodeDefinition $node)
+    public function getNodeDefinition(ArrayNodeDefinition $node)
     {
-        $node->children()
-            ->arrayNode('signers')
-            ->useAttributeAsKey('name')
-            ->prototype('array')
+        $node
             ->children()
-            ->arrayNode('algorithms')->isRequired()->prototype('scalar')->end()->end()
-            ->scalarNode('logger')->defaultNull()->end()
-            ->end()
-            ->end()
-            ->end()
+                ->arrayNode($this->getName())
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->arrayNode('algorithms')->isRequired()->prototype('scalar')->end()->end()
+                            ->scalarNode('logger')->defaultNull()->end()
+                            ->booleanNode('create_verifier')->defaultFalse()->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config)
+    {
+        if (false === array_key_exists($this->getName(), $config)) {
+            return;
+        }
+
+        foreach ($config[$this->getName()] as $id=>$section) {
+            if (true === $section['create_verifier']) {
+
+                $values = $section;
+                unset($values['create_verifier']);
+                $config['verifiers'] = array_merge(
+                    array_key_exists('verifiers', $config) ? $config['verifiers'] : [],
+                    [$id => $values]
+                );
+            }
+        }
+        
+        return $config;
     }
 }

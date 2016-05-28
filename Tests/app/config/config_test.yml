@@ -27,6 +27,30 @@ monolog:
             max_files: 10
 
 jose:
+#    easy_jwt_creator:
+#        test:
+#            signature_algorithms:
+#                - 'HS256'
+#                - 'HS512'
+#            key_encryption_algorithms:
+#                - 'RSA-OAEP'
+#            content_encryption_algorithms:
+#                - 'A256GCM'
+#    easy_jwt_loader:
+#        test:
+#            signature_algorithms:
+#                - 'HS256'
+#                - 'HS512'
+#            key_encryption_algorithms:
+#                - 'RSA-OAEP'
+#            content_encryption_algorithms:
+#                - 'A256GCM'
+#            claim_checkers:
+#                - 'exp'
+#                - 'iat'
+#                - 'nbf'
+#            header_checkers:
+#                - 'crit'
     jwt_creators:
         main:
             signer: 'jose.signer.hmac'
@@ -42,24 +66,14 @@ jose:
                 - 'RSA-OAEP'
             content_encryption_algorithms:
                 - 'A256GCM'
-    decrypters:
-        main:
-            key_encryption_algorithms:
-                - 'RSA-OAEP'
-            content_encryption_algorithms:
-                - 'A256GCM'
+            create_decrypter: true
     signers:
         hmac:
             algorithms:
                 - 'HS256'
                 - 'HS384'
                 - 'HS512'
-    verifiers:
-        hmac:
-            algorithms:
-                - 'HS256'
-                - 'HS384'
-                - 'HS512'
+            create_verifier: true
     checkers:
         main:
             claims:
