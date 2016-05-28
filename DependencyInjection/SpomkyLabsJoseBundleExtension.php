@@ -72,7 +72,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         );
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $services = $this->getXmlFileToLoad();
+        $services = ['services', 'compression_methods', 'checkers', 'signature_algorithms', 'encryption_algorithms', 'checkers',];
         foreach ($services as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
@@ -107,23 +107,6 @@ final class SpomkyLabsJoseBundleExtension extends Extension
                 $service_source->createService($name, $data, $container);
             }
         }
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getXmlFileToLoad()
-    {
-        $services = [
-            'services',
-            'compression_methods',
-            'checkers',
-            'signature_algorithms',
-            'encryption_algorithms',
-            'checkers',
-        ];
-
-        return $services;
     }
 
     /**
