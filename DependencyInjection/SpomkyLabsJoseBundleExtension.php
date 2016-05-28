@@ -11,21 +11,25 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection;
 
+use Assert\Assertion;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\CheckerSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\DecrypterSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\EncrypterSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\JWTCreatorSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\JWTLoaderSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\SignerSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\SourceInterface;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\VerifierSource;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 final class SpomkyLabsJoseBundleExtension extends Extension
 {
-    /**
-     * @var \SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\JWKSourceInterface[]
-     */
-    private $jwk_sources;
-
     /**
      * @var \SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource\JWKSetSourceInterface[]
      */
@@ -37,6 +41,11 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     private $alias;
 
     /**
+     * @var \SpomkyLabs\JoseBundle\DependencyInjection\Source\SourceInterface[]
+     */
+    private $service_sources = [];
+
+    /**
      * @param string $alias
      */
     public function __construct($alias)
@@ -45,11 +54,22 @@ final class SpomkyLabsJoseBundleExtension extends Extension
     }
 
     /**
+     * @param \SpomkyLabs\JoseBundle\DependencyInjection\Source\SourceInterface $source
+     */
+    public function addServiceSource(SourceInterface $source)
+    {
+        $name = $source->getName();
+        Assertion::false(in_array($name, $this->service_sources), sprintf('The source "%s" is already set.', $name));
+        $this->service_sources[$name] = $source;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
+        $this->updateSources();
 
         $config = $processor->processConfiguration(
             $this->getConfiguration($configs, $container),
@@ -70,10 +90,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension
      */
     public function getConfiguration(array $configs, ContainerBuilder $container)
     {
-        $jwk_sources = $this->createJWKSources();
-        $jwk_set_sources = $this->createJWKSetSources();
-
-        return new Configuration($this->getAlias(), $jwk_sources, $jwk_set_sources);
+        return new Configuration($this->getAlias(), $this->service_sources);
     }
 
     /**
@@ -90,227 +107,11 @@ final class SpomkyLabsJoseBundleExtension extends Extension
      */
     private function initConfiguration(ContainerBuilder $container, array $config)
     {
-        foreach ($config['keys'] as $name => $key) {
-            $this->createJWK($name, $key, $container, $this->jwk_sources);
-        }
-
-        foreach ($config['key_sets'] as $name => $key_set) {
-            $this->createJWKSet($name, $key_set, $container, $this->jwk_set_sources);
-        }
-
-        $services = [
-            'encrypters' => 'createEncrypter',
-            'decrypters' => 'createDecrypter',
-            'signers' => 'createSigner',
-            'verifiers' => 'createVerifier',
-            'checkers' => 'createChecker',
-            'jwt_loaders' => 'createJWTLoader',
-            'jwt_creators' => 'createJWTCreator',
-        ];
-        foreach ($services as $service=>$method) {
-            foreach ($config[$service] as $name => $data) {
-                $this->$method($name, $data, $container);
+        foreach ($this->service_sources as $service_source) {
+            foreach ($config[$service_source->getName()] as $name => $data) {
+                $service_source->createService($name, $data, $container);
             }
         }
-    }
-
-    /**
-     * @param string                                                                                 $name
-     * @param array                                                                                  $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder                                $container
-     * @param \SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource\JWKSetSourceInterface[] $jwk_set_sources
-     */
-    private function createJWKSet($name, array $config, ContainerBuilder $container, array $jwk_set_sources)
-    {
-        foreach ($config as $key => $adapter) {
-            if (array_key_exists($key, $jwk_set_sources)) {
-                $service_id = sprintf('jose.key_set.%s', $name);
-                $jwk_set_sources[$key]->create($container, $service_id, $adapter);
-
-                return;
-            }
-        }
-        throw new \LogicException(sprintf('The JWKSet definition "%s" is not configured.', $name));
-    }
-
-    /**
-     * @param string                                                                           $name
-     * @param array                                                                            $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder                          $container
-     * @param \SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\JWKSourceInterface[] $jwk_sources
-     */
-    private function createJWK($name, array $config, ContainerBuilder $container, array $jwk_sources)
-    {
-        foreach ($config as $key => $adapter) {
-            if (array_key_exists($key, $jwk_sources)) {
-                $service_id = sprintf('jose.key.%s', $name);
-                $jwk_sources[$key]->create($container, $service_id, $adapter);
-
-                return;
-            }
-        }
-        throw new \LogicException(sprintf('The JWK definition "%s" is not configured.', $name));
-    }
-
-    /**
-     * @param string                                                  $name
-     * @param array                                                   $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    private function createEncrypter($name, array $config, ContainerBuilder $container)
-    {
-        $service_id = sprintf('jose.encrypter.%s', $name);
-        $definition = new Definition('Jose\Encrypter');
-        $definition->setFactory([
-            new Reference('jose.factory.service'),
-            'createEncrypter',
-        ]);
-        $definition->setArguments([
-            $config['key_encryption_algorithms'],
-            $config['content_encryption_algorithms'],
-            $config['compression_methods'],
-            null === $config['logger'] ? null : new Reference($config['logger']),
-        ]);
-
-        $container->setDefinition($service_id, $definition);
-
-        if (true === $config['create_decrypter']) {
-            $this->createDecrypter($name, $config, $container);
-        }
-    }
-
-    /**
-     * @param string                                                  $name
-     * @param array                                                   $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    private function createDecrypter($name, array $config, ContainerBuilder $container)
-    {
-        $service_id = sprintf('jose.decrypter.%s', $name);
-        $definition = new Definition('Jose\Decrypter');
-        $definition->setFactory([
-            new Reference('jose.factory.service'),
-            'createDecrypter',
-        ]);
-        $definition->setArguments([
-            $config['key_encryption_algorithms'],
-            $config['content_encryption_algorithms'],
-            $config['compression_methods'],
-            null === $config['logger'] ? null : new Reference($config['logger']),
-        ]);
-
-        $container->setDefinition($service_id, $definition);
-    }
-
-    /**
-     * @param string                                                  $name
-     * @param array                                                   $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    private function createSigner($name, array $config, ContainerBuilder $container)
-    {
-        $service_id = sprintf('jose.signer.%s', $name);
-        $definition = new Definition('Jose\Signer');
-        $definition->setFactory([
-            new Reference('jose.factory.service'),
-            'createSigner',
-        ]);
-        $definition->setArguments([
-            $config['algorithms'],
-            null === $config['logger'] ? null : new Reference($config['logger']),
-        ]);
-
-        $container->setDefinition($service_id, $definition);
-
-        if (true === $config['create_verifier']) {
-            $this->createVerifier($name, $config, $container);
-        }
-    }
-
-    /**
-     * @param string                                                  $name
-     * @param array                                                   $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    private function createVerifier($name, array $config, ContainerBuilder $container)
-    {
-        $service_id = sprintf('jose.verifier.%s', $name);
-        $definition = new Definition('Jose\Verifier');
-        $definition->setFactory([
-            new Reference('jose.factory.service'),
-            'createVerifier',
-        ]);
-        $definition->setArguments([
-            $config['algorithms'],
-            null === $config['logger'] ? null : new Reference($config['logger']),
-        ]);
-
-        $container->setDefinition($service_id, $definition);
-    }
-
-    /**
-     * @param string                                                  $name
-     * @param array                                                   $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    private function createChecker($name, array $config, ContainerBuilder $container)
-    {
-        $service_id = sprintf('jose.checker.%s', $name);
-        $definition = new Definition('Jose\Checker\CheckerManager');
-        $definition->setFactory([
-            new Reference('jose.factory.service'),
-            'createChecker',
-        ]);
-        $definition->setArguments([
-            $config['claims'],
-            $config['headers'],
-        ]);
-
-        $container->setDefinition($service_id, $definition);
-    }
-
-    /**
-     * @param string                                                  $name
-     * @param array                                                   $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    private function createJWTLoader($name, array $config, ContainerBuilder $container)
-    {
-        $service_id = sprintf('jose.jwt_loader.%s', $name);
-        $definition = new Definition('Jose\JWTLoader');
-        $definition->setFactory([
-            new Reference('jose.factory.service'),
-            'createJWTLoader',
-        ]);
-        $definition->setArguments([
-            new Reference($config['checker']),
-            new Reference($config['verifier']),
-            null === $config['decrypter'] ? null : new Reference($config['decrypter']),
-            null === $config['logger'] ? null : new Reference($config['logger']),
-        ]);
-
-        $container->setDefinition($service_id, $definition);
-    }
-
-    /**
-     * @param string                                                  $name
-     * @param array                                                   $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     */
-    private function createJWTCreator($name, array $config, ContainerBuilder $container)
-    {
-        $service_id = sprintf('jose.jwt_creator.%s', $name);
-        $definition = new Definition('Jose\JWTCreator');
-        $definition->setFactory([
-            new Reference('jose.factory.service'),
-            'createJWTCreator',
-        ]);
-        $definition->setArguments([
-            new Reference($config['signer']),
-            null === $config['encrypter'] ? null : new Reference($config['encrypter']),
-        ]);
-
-        $container->setDefinition($service_id, $definition);
     }
 
     /**
@@ -330,45 +131,19 @@ final class SpomkyLabsJoseBundleExtension extends Extension
         return $services;
     }
 
-    private function createJWKSources()
+    /**
+     * 
+     */
+    private function updateSources()
     {
-        if (null !== $this->jwk_sources) {
-            return $this->jwk_sources;
-        }
-
-        // load bundled adapter factories
-        $tempContainer = new ContainerBuilder();
-        $loader = new XmlFileLoader($tempContainer, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('jwk_sources.xml');
-
-        $services = $tempContainer->findTaggedServiceIds('jose.jwk_source');
-        $jwk_sources = [];
-        foreach (array_keys($services) as $id) {
-            $factory = $tempContainer->get($id);
-            $jwk_sources[str_replace('-', '_', $factory->getKey())] = $factory;
-        }
-
-        return $this->jwk_sources = $jwk_sources;
-    }
-
-    private function createJWKSetSources()
-    {
-        if (null !== $this->jwk_set_sources) {
-            return $this->jwk_set_sources;
-        }
-
-        // load bundled adapter factories
-        $tempContainer = new ContainerBuilder();
-        $loader = new XmlFileLoader($tempContainer, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('jwk_set_sources.xml');
-
-        $services = $tempContainer->findTaggedServiceIds('jose.jwk_set_source');
-        $jwk_set_sources = [];
-        foreach (array_keys($services) as $id) {
-            $factory = $tempContainer->get($id);
-            $jwk_set_sources[str_replace('-', '_', $factory->getKeySet())] = $factory;
-        }
-
-        return $this->jwk_set_sources = $jwk_set_sources;
+        $this->addServiceSource(new JWTCreatorSource());
+        $this->addServiceSource(new JWTLoaderSource());
+        $this->addServiceSource(new SignerSource());
+        $this->addServiceSource(new VerifierSource());
+        $this->addServiceSource(new EncrypterSource());
+        $this->addServiceSource(new DecrypterSource());
+        $this->addServiceSource(new CheckerSource());
+        $this->addServiceSource(new JWKSource());
+        $this->addServiceSource(new JWKSetSource());
     }
 }

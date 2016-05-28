@@ -42,14 +42,24 @@ jose:
                 - 'RSA-OAEP'
             content_encryption_algorithms:
                 - 'A256GCM'
-            create_decrypter: true
+    decrypters:
+        main:
+            key_encryption_algorithms:
+                - 'RSA-OAEP'
+            content_encryption_algorithms:
+                - 'A256GCM'
     signers:
         hmac:
             algorithms:
                 - 'HS256'
                 - 'HS384'
                 - 'HS512'
-            create_verifier: true
+    verifiers:
+        hmac:
+            algorithms:
+                - 'HS256'
+                - 'HS384'
+                - 'HS512'
     checkers:
         main:
             claims:

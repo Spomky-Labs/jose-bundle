@@ -11,6 +11,25 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 interface SourceInterface
 {
+    /**
+     * @return string
+     */
+    public function getName();
+
+    /**
+     * @param string                                                  $name
+     * @param array                                                   $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     */
+    public function createService($name, array $config, ContainerBuilder $container);
+
+    /**
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $node
+     */
+    public function addConfigurationSection(ArrayNodeDefinition $node);
 }

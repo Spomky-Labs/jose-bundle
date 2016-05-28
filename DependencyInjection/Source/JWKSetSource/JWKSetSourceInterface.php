@@ -11,11 +11,10 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
 
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\SourceInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-interface JWKSetSourceInterface extends SourceInterface
+interface JWKSetSourceInterface
 {
     /**
      * Creates the JWKSet, registers it and returns its id.

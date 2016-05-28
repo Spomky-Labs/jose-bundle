@@ -11,11 +11,10 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\SourceInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-interface JWKSourceInterface extends SourceInterface
+interface JWKSourceInterface
 {
     /**
      * Creates the JWK, registers it and returns its id.
