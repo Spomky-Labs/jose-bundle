@@ -76,6 +76,7 @@ final class ServiceFactory
     /**
      * @param string[]                      $selected_key_encryption_algorithms
      * @param string[]                      $selected_content_encryption_algorithms
+     * @param string[]                      $selected_compression_methods
      * @param \Psr\Log\LoggerInterface|null $logger
      *
      * @return \Jose\DecrypterInterface
@@ -141,7 +142,7 @@ final class ServiceFactory
     {
         $jwt_loader = new JWTLoader($checker_manager, $verifier, $logger);
         if (null !== $decrypter) {
-            $jwt_loader->enableEncryptionSupport($decrypter);
+            $jwt_loader->enableDecryptionSupport($decrypter);
         }
 
         return $jwt_loader;
