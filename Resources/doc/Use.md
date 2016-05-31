@@ -1,7 +1,7 @@
 How to use
 ==========
 
-# Configuration
+# Configure the Bundle
 
 ## Load Your Keys And Key Sets
 
@@ -17,4 +17,33 @@ This bundle will help you to create operation services that exactly fit on your 
 For example, you may need to encrypt/decrypt JWE using `A256KW` and `A256GCM` algorithms and want to sign/verify JWS using `HS256` and `PS512` algorithms.
 For internal communications, you just sign/verify JWS using `RS384`.
 
-Read [the dedicated page](Operation.md) to know how to perform all these operations.
+Read [the dedicated page](Services.md) to know how to perform all these services.
+
+# JWS/JWE Creation and Loading
+
+Now you have keys, key sets and services, then let's create/load your first JWS/JWE objects.
+
+## 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

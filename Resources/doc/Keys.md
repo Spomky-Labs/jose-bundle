@@ -11,7 +11,7 @@ The service create is `jose.key.YOUR_KEY_ID`.
 ## Key From a Public/Private Key File
 
 The following configuration allows you to load a key from a key file. This key can be a RSA or an EC key. Both PEM and DER formats are supported.
-If the pivate key is encrypted, your configuration must indicate the password to decrypt it.
+If the private key is encrypted, your configuration must indicate the password to decrypt it.
 
 ```yml
 jose:
