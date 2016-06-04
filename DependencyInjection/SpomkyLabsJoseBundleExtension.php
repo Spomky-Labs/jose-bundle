@@ -112,9 +112,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
         }
     }
 
-    /**
-     * 
-     */
+
     private function updateSources()
     {
         $this->addServiceSource(new JWTCreatorSource());

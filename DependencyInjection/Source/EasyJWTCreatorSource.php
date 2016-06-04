@@ -62,7 +62,7 @@ final class EasyJWTCreatorSource implements SourceInterface
             return;
         }
 
-        foreach ($config[$this->getName()] as $id=>$section) {
+        foreach ($config[$this->getName()] as $id => $section) {
             $config = $this->createServiceConfiguration($config, $id, $section);
         }
 
@@ -98,7 +98,7 @@ final class EasyJWTCreatorSource implements SourceInterface
             array_key_exists('signers', $config) ? $config['signers'] : [],
             [$id => [
                 'algorithms' => $section['signature_algorithms'],
-                'logger' => array_key_exists('logger', $section) ? $section['logger'] : null,
+                'logger'     => array_key_exists('logger', $section) ? $section['logger'] : null,
             ]]
         );
 
@@ -120,10 +120,10 @@ final class EasyJWTCreatorSource implements SourceInterface
         $config['encrypters'] = array_merge(
             array_key_exists('encrypters', $config) ? $config['encrypters'] : [],
             [$id => [
-                'key_encryption_algorithms' => $section['key_encryption_algorithms'],
+                'key_encryption_algorithms'     => $section['key_encryption_algorithms'],
                 'content_encryption_algorithms' => $section['content_encryption_algorithms'],
-                'compression_methods' => $section['compression_methods'],
-                'logger' => array_key_exists('logger', $section) ? $section['logger'] : null,
+                'compression_methods'           => $section['compression_methods'],
+                'logger'                        => array_key_exists('logger', $section) ? $section['logger'] : null,
             ]]
         );
 

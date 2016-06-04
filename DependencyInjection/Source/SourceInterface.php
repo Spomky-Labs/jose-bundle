@@ -36,7 +36,7 @@ interface SourceInterface
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param array                                                   $config
-     * 
+     *
      * @return null|array
      */
     public function prepend(ContainerBuilder $container, array $config);

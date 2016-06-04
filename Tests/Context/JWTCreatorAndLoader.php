@@ -10,9 +10,8 @@
  */
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
-use Behat\Behat\Tester\Exception\PendingException;
-use Jose\Object\JWSInterface;
 
+use Jose\Object\JWSInterface;
 
 /**
  * Behat context trait.
@@ -37,17 +36,17 @@ trait JWTCreatorAndLoader
     public function iHaveAValidJweCreatedBySignedUsingAndEncryptedUsingStoredInTheVariable($jwt_creator, $signature_key, $encryption_key, $variable)
     {
         /**
-         * @var $creator \Jose\JWTCreator
+         * @var \Jose\JWTCreator
          */
         $creator = $this->getContainer()->get($jwt_creator);
 
         /**
-         * @var $key1 \Jose\Object\JWKInterface
+         * @var \Jose\Object\JWKInterface
          */
         $key1 = $this->getContainer()->get($signature_key);
 
         /**
-         * @var $key2 \Jose\Object\JWKInterface
+         * @var \Jose\Object\JWKInterface
          */
         $key2 = $this->getContainer()->get($encryption_key);
 
@@ -56,7 +55,7 @@ trait JWTCreatorAndLoader
             $this->signature_protected_header,
             $key1
         );
-        
+
         $jwe = $creator->encrypt(
             $jws,
             $this->jwe_shared_protected_header,
@@ -72,12 +71,12 @@ trait JWTCreatorAndLoader
     public function iWantToLoadAndVerifyTheValueInTheVariableUsingTheJwtLoaderAndIStoreTheResultInTheVariable($variable1, $decryption_key, $jwt_loader, $variable2)
     {
         /**
-         * @var $loader \Jose\JWTLoader
+         * @var \Jose\JWTLoader
          */
         $loader = $this->getContainer()->get($jwt_loader);
 
         /**
-         * @var $keyset \Jose\Object\JWKSetInterface
+         * @var \Jose\Object\JWKSetInterface
          */
         $keyset = $this->getContainer()->get($decryption_key);
 
@@ -93,5 +92,4 @@ trait JWTCreatorAndLoader
             throw new \Exception(sprintf('The variable "%s" does not contain a JWS object', $variable));
         }
     }
-
 }
