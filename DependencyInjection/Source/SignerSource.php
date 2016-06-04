@@ -74,9 +74,8 @@ final class SignerSource implements SourceInterface
             return;
         }
 
-        foreach ($config[$this->getName()] as $id=>$section) {
+        foreach ($config[$this->getName()] as $id => $section) {
             if (true === $section['create_verifier']) {
-
                 $values = $section;
                 unset($values['create_verifier']);
                 $config['verifiers'] = array_merge(
@@ -85,7 +84,7 @@ final class SignerSource implements SourceInterface
                 );
             }
         }
-        
+
         return $config;
     }
 }

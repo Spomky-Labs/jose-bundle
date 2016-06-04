@@ -46,8 +46,6 @@ final class EncrypterSource implements SourceInterface
 
         $container->setDefinition($service_id, $definition);
     }
-    
-    
 
     /**
      * {@inheritdoc}
@@ -80,9 +78,8 @@ final class EncrypterSource implements SourceInterface
             return;
         }
 
-        foreach ($config[$this->getName()] as $id=>$section) {
+        foreach ($config[$this->getName()] as $id => $section) {
             if (true === $section['create_decrypter']) {
-
                 $values = $section;
                 unset($values['create_decrypter']);
                 $config['decrypters'] = array_merge(

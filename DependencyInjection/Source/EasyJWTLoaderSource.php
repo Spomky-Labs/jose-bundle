@@ -64,7 +64,7 @@ final class EasyJWTLoaderSource implements SourceInterface
             return;
         }
 
-        foreach ($config[$this->getName()] as $id=>$section) {
+        foreach ($config[$this->getName()] as $id => $section) {
             $config = $this->createServiceConfiguration($config, $id, $section);
         }
 
@@ -84,7 +84,7 @@ final class EasyJWTLoaderSource implements SourceInterface
         $config = $this->createDecrypterServiceConfiguration($config, $id, $section);
         $config = $this->createJWTLoaderServiceConfiguration($config, $id, $section);
         $config = $this->createCheckerServiceConfiguration($config, $id, $section);
-        
+
         return $config;
     }
 
@@ -101,7 +101,7 @@ final class EasyJWTLoaderSource implements SourceInterface
             array_key_exists('verifiers', $config) ? $config['verifiers'] : [],
             [$id => [
                 'algorithms' => $section['signature_algorithms'],
-                'logger' => array_key_exists('logger', $section) ? $section['logger'] : null,
+                'logger'     => array_key_exists('logger', $section) ? $section['logger'] : null,
             ]]
         );
 
@@ -123,10 +123,10 @@ final class EasyJWTLoaderSource implements SourceInterface
         $config['decrypters'] = array_merge(
             array_key_exists('decrypters', $config) ? $config['decrypters'] : [],
             [$id => [
-                'key_encryption_algorithms' => $section['key_encryption_algorithms'],
+                'key_encryption_algorithms'     => $section['key_encryption_algorithms'],
                 'content_encryption_algorithms' => $section['content_encryption_algorithms'],
-                'compression_methods' => $section['compression_methods'],
-                'logger' => array_key_exists('logger', $section) ? $section['logger'] : null,
+                'compression_methods'           => $section['compression_methods'],
+                'logger'                        => array_key_exists('logger', $section) ? $section['logger'] : null,
             ]]
         );
 
@@ -145,7 +145,7 @@ final class EasyJWTLoaderSource implements SourceInterface
         $config['checkers'] = array_merge(
             array_key_exists('checkers', $config) ? $config['checkers'] : [],
             [$id => [
-                'claims' => $section['claim_checkers'],
+                'claims'  => $section['claim_checkers'],
                 'headers' => $section['header_checkers'],
             ]]
         );
@@ -164,7 +164,7 @@ final class EasyJWTLoaderSource implements SourceInterface
     {
         $service = [
             'verifier' => sprintf('jose.verifier.%s', $id),
-            'checker' => sprintf('jose.checker.%s', $id),
+            'checker'  => sprintf('jose.checker.%s', $id),
         ];
         if (true === $this->isEncryptionSupportEnabled($section)) {
             $service['decrypter'] = sprintf('jose.decrypter.%s', $id);
