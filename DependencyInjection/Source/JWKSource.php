@@ -70,7 +70,6 @@ final class JWKSource implements SourceInterface
      */
     public function prepend(ContainerBuilder $container, array $config)
     {
-        // TODO: Implement prepend() method.
     }
 
     /**
