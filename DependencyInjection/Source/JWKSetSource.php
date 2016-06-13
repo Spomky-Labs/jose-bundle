@@ -24,6 +24,21 @@ final class JWKSetSource implements SourceInterface
     private $jwkset_sources = null;
 
     /**
+     * @var string
+     */
+    private $bundle_path = null;
+
+    /**
+     * JWKSetSource constructor.
+     *
+     * @param string $bundle_path
+     */
+    public function __construct($bundle_path)
+    {
+        $this->bundle_path = $bundle_path;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getName()
@@ -83,7 +98,7 @@ final class JWKSetSource implements SourceInterface
 
         // load bundled adapter factories
         $tempContainer = new ContainerBuilder();
-        $loader = new XmlFileLoader($tempContainer, new FileLocator(__DIR__.'/../../Resources/config'));
+        $loader = new XmlFileLoader($tempContainer, new FileLocator($this->bundle_path.'/Resources/config'));
         $loader->load('jwkset_sources.xml');
 
         $services = $tempContainer->findTaggedServiceIds('jose.jwk_set_source');

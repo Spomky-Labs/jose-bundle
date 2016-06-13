@@ -37,6 +37,11 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
      * @var string
      */
     private $alias;
+    
+    /**
+     * @var string
+     */
+    private $bundle_path;
 
     /**
      * @var \SpomkyLabs\JoseBundle\DependencyInjection\Source\SourceInterface[]
@@ -44,11 +49,15 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
     private $service_sources = [];
 
     /**
+     * SpomkyLabsJoseBundleExtension constructor.
+     *
      * @param string $alias
+     * @param string $bundle_path
      */
-    public function __construct($alias)
+    public function __construct($alias, $bundle_path)
     {
         $this->alias = $alias;
+        $this->bundle_path = $bundle_path;
         $this->updateSources();
     }
 
@@ -122,8 +131,8 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
         $this->addServiceSource(new EncrypterSource());
         $this->addServiceSource(new DecrypterSource());
         $this->addServiceSource(new CheckerSource());
-        $this->addServiceSource(new JWKSource());
-        $this->addServiceSource(new JWKSetSource());
+        $this->addServiceSource(new JWKSource($this->bundle_path));
+        $this->addServiceSource(new JWKSetSource($this->bundle_path));
         $this->addServiceSource(new EasyJWTCreatorSource());
         $this->addServiceSource(new EasyJWTLoaderSource());
     }

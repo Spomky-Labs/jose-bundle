@@ -22,7 +22,7 @@ final class SpomkyLabsJoseBundle extends Bundle
 {
     public function getContainerExtension()
     {
-        return new SpomkyLabsJoseBundleExtension('jose');
+        return new SpomkyLabsJoseBundleExtension('jose', __DIR__);
     }
 
     public function build(ContainerBuilder $container)
