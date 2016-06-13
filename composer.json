@@ -11,11 +11,9 @@
         }
     ],
     "require": {
-        "spomky-labs/jose": "^3.0",
-        "symfony/http-kernel": "^2.7|^3.0",
+        "spomky-labs/jose": "^4.0",
         "symfony/dependency-injection": "^2.7|^3.0",
-        "symfony/config": "^2.7|^3.0",
-        "fgrosse/phpasn1": "dev-compat/php5-5 as v1.3.1"
+        "symfony/config": "^2.7|^3.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^2.7|^3.0",
