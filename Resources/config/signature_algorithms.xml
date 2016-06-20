@@ -49,8 +49,8 @@
             <tag name="jose.algorithm" alias="HS512" category="signature" requirement="optional" />
         </service>
 
-        <service id="jose.algorithm.ed25519" class="Jose\Algorithm\Signature\Ed25519" public="false">
-            <tag name="jose.algorithm" alias="Ed25519" category="signature" requirement="optional" />
+        <service id="jose.algorithm.ed25519" class="Jose\Algorithm\Signature\EdDSA" public="false">
+            <tag name="jose.algorithm" alias="EdDSA" category="signature" requirement="optional" />
         </service>
     </services>
 </container>
