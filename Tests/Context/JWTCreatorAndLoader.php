@@ -35,17 +35,17 @@ trait JWTCreatorAndLoader
      */
     public function iHaveAValidJweCreatedBySignedUsingAndEncryptedUsingStoredInTheVariable($jwt_creator, $signature_key, $encryption_key, $variable)
     {
-        /**
+        /*
          * @var \Jose\JWTCreator
          */
         $creator = $this->getContainer()->get($jwt_creator);
 
-        /**
+        /*
          * @var \Jose\Object\JWKInterface
          */
         $key1 = $this->getContainer()->get($signature_key);
 
-        /**
+        /*
          * @var \Jose\Object\JWKInterface
          */
         $key2 = $this->getContainer()->get($encryption_key);
@@ -70,12 +70,12 @@ trait JWTCreatorAndLoader
      */
     public function iWantToLoadAndVerifyTheValueInTheVariableUsingTheJwtLoaderAndIStoreTheResultInTheVariable($variable1, $decryption_key, $jwt_loader, $variable2)
     {
-        /**
+        /*
          * @var \Jose\JWTLoader
          */
         $loader = $this->getContainer()->get($jwt_loader);
 
-        /**
+        /*
          * @var \Jose\Object\JWKSetInterface
          */
         $keyset = $this->getContainer()->get($decryption_key);

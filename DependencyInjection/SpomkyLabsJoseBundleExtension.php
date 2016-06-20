@@ -37,7 +37,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
      * @var string
      */
     private $alias;
-    
+
     /**
      * @var string
      */
@@ -120,7 +120,6 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
             }
         }
     }
-
 
     private function updateSources()
     {
