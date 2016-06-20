@@ -49,7 +49,7 @@
             <tag name="jose.algorithm" alias="HS512" category="signature" requirement="optional" />
         </service>
 
-        <service id="jose.algorithm.ed25519" class="Jose\Algorithm\Signature\EdDSA" public="false">
+        <service id="jose.algorithm.eddsa" class="Jose\Algorithm\Signature\EdDSA" public="false">
             <tag name="jose.algorithm" alias="EdDSA" category="signature" requirement="optional" />
         </service>
     </services>
