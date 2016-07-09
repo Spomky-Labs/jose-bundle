@@ -29,7 +29,7 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        return sys_get_temp_dir().'/TestSpomkyLabsJoseBundle';
+        return sys_get_temp_dir().'/SpomkyLabsJoseBundleTest';
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

@@ -160,3 +160,36 @@ jose:
                         hw4EbNX/3aBd7YdStysVAq45pmp06drE57xNNB6pXE0zX5IJL4hmXXeXxx12E6nV
                         5fEWCRE11azbJHFwLJhWC9kXtNHjUStedejV0NxPNO3CBWaAocvmMw==
                         -----END CERTIFICATE-----
+        key7:
+            rsa:
+                size: 4096
+                storage_path: "%kernel.cache_dir%/rsa"
+                ttl: 100
+                additional_values:
+                    alg: "RS256"
+        key8:
+            none:
+                storage_path: "%kernel.cache_dir%/none"
+                ttl: 100
+                additional_values:
+                    alg: "none"
+        key9:
+            ec:
+                curve: 'P-256'
+                storage_path: "%kernel.cache_dir%/ec"
+                ttl: 100
+                additional_values:
+                    alg: "ES256"
+        key10:
+            okp:
+                curve: 'Ed25519'
+                storage_path: "%kernel.cache_dir%/eddsa"
+                ttl: 100
+                additional_values:
+                    alg: "EdDSA"
+        key11:
+            oct:
+                size: 256
+                storage_path: "%kernel.cache_dir%/oct"
+                additional_values:
+                    alg: "HS256"

@@ -24,5 +24,25 @@
         <service id="jose.jwk_source.x5c" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\X5C">
             <tag name="jose.jwk_source" />
         </service>
+
+        <service id="jose.jwk_source.random.oct" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\RandomOctKey">
+            <tag name="jose.jwk_source" />
+        </service>
+
+        <service id="jose.jwk_source.random.rsa" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\RandomRSAKey">
+            <tag name="jose.jwk_source" />
+        </service>
+
+        <service id="jose.jwk_source.random.okp" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\RandomOKPKey">
+            <tag name="jose.jwk_source" />
+        </service>
+
+        <service id="jose.jwk_source.random.ec" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\RandomECKey">
+            <tag name="jose.jwk_source" />
+        </service>
+
+        <service id="jose.jwk_source.random.none" class="SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource\RandomNoneKey">
+            <tag name="jose.jwk_source" />
+        </service>
     </services>
 </container>

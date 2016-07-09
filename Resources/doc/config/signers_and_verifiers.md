@@ -3,7 +3,7 @@ Signers and Verifiers Services
 
 # Signers
 
-A Signer is a service that provides functions to sign payloads according to the headers (protected or unpreotected) and private or shared keys.
+A Signer is a service that provides functions to sign payloads according to the headers (protected or unprotected) and private or shared keys.
 
 Each Signer you create is available as a service you can inject in your own services or use from the container. It is allowed to use a set of algorithms you explicitly defined.
 
@@ -30,7 +30,7 @@ Now you will be able to sign payloads (claims or messages) using these services:
 ```php
 use Jose\Factory\JWSFactory;
 
-// We get the key and the signer
+// We get the key and the signer (we suppose that MY_KEY1 is a valid key)
 $key = $container->get('jose.key.MY_KEY1');
 $signer = $container->get('jose.signer.SIGNER1');
 
@@ -52,6 +52,7 @@ $jws->addSignatureInformation(
 $signer->sign($jws);
 
 //We can get the Compact, Flattened or General Serialization Representation of that JWS
+// 0 is the signature index (the first signature in this case)
 $jws->toCompactJSON(0);
 $jws->toFlattenedJSON(0);
 $jws->toJSON();

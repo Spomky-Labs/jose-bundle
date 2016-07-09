@@ -1,9 +1,12 @@
 Keys
 ====
 
+The following example will show you how to load a key depending on the source of the data.
+For all keys, we recommend you to set, besides the required data, additional data such as the key ID (`kid`) and the usage (`use`).
+
 # From Values
 
-The following example shows you how to load a key using its values.
+With this key type, the JWK is created using values you directly set.
 
 ```yml
 jose:
@@ -113,4 +116,89 @@ jose:
                         hw4EbNX/3aBd7YdStysVAq45pmp06drE57xNNB6pXE0zX5IJL4hmXXeXxx12E6nV
                         5fEWCRE11azbJHFwLJhWC9kXtNHjUStedejV0NxPNO3CBWaAocvmMw==
                         -----END CERTIFICATE-----
+```
+
+# Random Key Creation
+
+This bundle is able to create and rotate keys for you.
+These keys are stored in a file and served on demand. When expired, they are automatically re-created.
+If you need, a key may have no expiration time.
+
+Please note that parameters `storage_path`, `ttl` and `additional_values` are common for all keys.
+When `ttl` value is `0` (zero), this means the key will never expire.
+
+The key ID (`kid`) is always set. If you add it to the `additional_values` list, then this value is ignored. 
+
+## RSA Key
+
+```yml
+jose:
+    keys:
+        key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
+            rsa: # Type of key. In this case, the key is a random RSA key.
+                size: 4096 # Key size in bits
+                storage_path: "/Path/To/The/Storage/File.key" # Path of the file
+                ttl: 3600 # TTL in second
+                additional_values: # You can add custom values 
+                    alg: 'RS256'
+                    use: 'sig'
+```
+
+## EC Key
+
+```yml
+jose:
+    keys:
+        key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
+            ec: # Type of key. In this case, the key is a random EC key.
+                curve: 'P-256' # Curve of the key. P-256, P-384 and P-521 are supported
+                storage_path: "/Path/To/The/Storage/File.key" # Path of the file
+                ttl: 3600 # TTL in second
+                additional_values: # You can add custom values 
+                    alg: 'ES256'
+                    use: 'sig'
+```
+
+## Oct Key
+
+```yml
+jose:
+    keys:
+        key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
+            oct: # Type of key. In this case, the key is a random Octet key.
+                size: 256 # Key size in bits
+                storage_path: "/Path/To/The/Storage/File.key" # Path of the file
+                ttl: 3600 # TTL in second
+                additional_values: # You can add custom values 
+                    alg: 'HS256'
+                    use: 'sig'
+```
+
+## OKP Key
+
+```yml
+jose:
+    keys:
+        key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
+            okp: # Type of key. In this case, the key is a random OKP key.
+                curve: 'X25519' # Curve of the key. X25519 and Ed25519 are supported
+                storage_path: "/Path/To/The/Storage/File.key" # Path of the file
+                ttl: 3600 # TTL in second
+                additional_values: # You can add custom values 
+                    alg: 'ECDH-ES'
+                    use: 'enc'
+```
+
+## None Key
+
+```yml
+jose:
+    keys:
+        key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
+            none: # Type of key. In this case, the key is a none key.
+                storage_path: "/Path/To/The/Storage/File.key" # Path of the file
+                ttl: 3600 # TTL in second
+                additional_values: # You can add custom values 
+                    alg: 'ECDH-ES'
+                    use: 'enc'
 ```
