@@ -91,9 +91,8 @@ trait JWECreationContext
          * @var \Jose\Factory\JWEFactory
          */
         $jwe_creator = $this->getContainer()->get('jose.factory.jwe');
-        $logger = $this->getContainer()->get('logger');
         $key = $this->getContainer()->get($key_service);
-        $this->$variable = $jwe_creator->createJWEToCompactJSON($this->getPayload(), $key, $this->jwe_shared_protected_header, $logger);
+        $this->$variable = $jwe_creator->createJWEToCompactJSON($this->getPayload(), $key, $this->jwe_shared_protected_header);
     }
 
     /**
@@ -105,8 +104,7 @@ trait JWECreationContext
          * @var \Jose\Factory\JWEFactory
          */
         $jwe_creator = $this->getContainer()->get('jose.factory.jwe');
-        $logger = $this->getContainer()->get('logger');
         $key = $this->getContainer()->get($key_service);
-        $this->$variable = $jwe_creator->createJWEToFlattenedJSON($this->getPayload(), $key, $this->jwe_shared_protected_header, $this->jwe_shared_header, $this->recipient_header, $this->jwe_aad, $logger);
+        $this->$variable = $jwe_creator->createJWEToFlattenedJSON($this->getPayload(), $key, $this->jwe_shared_protected_header, $this->jwe_shared_header, $this->recipient_header, $this->jwe_aad);
     }
 }

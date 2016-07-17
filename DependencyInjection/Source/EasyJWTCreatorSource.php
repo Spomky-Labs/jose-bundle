@@ -63,7 +63,6 @@ final class EasyJWTCreatorSource implements SourceInterface
                                 ->defaultValue(['DEF'])
                                 ->prototype('scalar')->end()
                             ->end()
-                            ->scalarNode('logger')->defaultNull()->end()
                         ->end()
                     ->end()
                 ->end()
@@ -115,7 +114,6 @@ final class EasyJWTCreatorSource implements SourceInterface
             array_key_exists('signers', $config) ? $config['signers'] : [],
             [$id => [
                 'algorithms' => $section['signature_algorithms'],
-                'logger'     => array_key_exists('logger', $section) ? $section['logger'] : null,
             ]]
         );
 
@@ -140,7 +138,6 @@ final class EasyJWTCreatorSource implements SourceInterface
                 'key_encryption_algorithms'     => $section['key_encryption_algorithms'],
                 'content_encryption_algorithms' => $section['content_encryption_algorithms'],
                 'compression_methods'           => $section['compression_methods'],
-                'logger'                        => array_key_exists('logger', $section) ? $section['logger'] : null,
             ]]
         );
 

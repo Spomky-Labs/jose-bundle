@@ -39,7 +39,6 @@ final class VerifierSource implements SourceInterface
         ]);
         $definition->setArguments([
             $config['algorithms'],
-            null === $config['logger'] ? null : new Reference($config['logger']),
         ]);
 
         $container->setDefinition($service_id, $definition);
@@ -60,9 +59,6 @@ final class VerifierSource implements SourceInterface
                                 ->useAttributeAsKey('name')
                                 ->isRequired()
                                 ->prototype('scalar')->end()
-                            ->end()
-                            ->scalarNode('logger')
-                                ->defaultNull()
                             ->end()
                         ->end()
                     ->end()

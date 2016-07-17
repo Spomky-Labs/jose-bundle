@@ -9,7 +9,7 @@ Feature: This bundle is able to use keys and key sets
     When the service "jose.key.key6" should be an object that implements "\Jose\Object\JWKInterface"
 
   Scenario: A Key is available through a service
-    When the service "jose.key.key11" should be an object that implements "\Jose\Object\JWKInterface"
+    When the service "jose.key.key10" should be an object that implements "\Jose\Object\JWKInterface"
 
   Scenario: A Key Set is available through a service
     When the service "jose.key_set.jwkset1" should be an object that implements "\Jose\Object\JWKSetInterface"

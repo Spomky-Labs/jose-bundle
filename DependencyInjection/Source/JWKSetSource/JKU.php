@@ -51,12 +51,8 @@ class JKU implements JWKSetSourceInterface
     {
         $node
             ->children()
-                ->scalarNode('url')
-                    ->isRequired()
-                ->end()
-                ->booleanNode('is_secured')
-                    ->defaultTrue()
-                ->end()
+                ->scalarNode('url')->isRequired()->end()
+                ->booleanNode('is_secured')->defaultTrue()->end()
             ->end();
     }
 }

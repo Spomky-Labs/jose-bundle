@@ -11,14 +11,12 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
-
 class RandomNoneKey extends RandomKey
 {
     /**
      * {@inheritdoc}
      */
-    protected function createNewKey(array $config)
+    protected function getKeyConfig(array $config)
     {
         $values = $config['additional_values'];
         $values['kty'] = 'none';
@@ -32,13 +30,5 @@ class RandomNoneKey extends RandomKey
     public function getKey()
     {
         return 'none';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addConfiguration(NodeDefinition $node)
-    {
-        parent::addConfiguration($node);
     }
 }

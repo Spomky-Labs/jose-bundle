@@ -11,13 +11,16 @@
 
 namespace SpomkyLabs\TestJoseBundle\DependencyInjection;
 
+use Assert\Assertion;
+use SpomkyLabs\JoseBundle\Helper\ConfigurationHelper;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-final class TestExtension extends Extension
+final class TestExtension extends Extension implements PrependExtensionInterface
 {
     private $alias;
 
@@ -46,5 +49,20 @@ final class TestExtension extends Extension
     public function getAlias()
     {
         return $this->alias;
+    }
+
+    public function prepend(ContainerBuilder $container)
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+        Assertion::keyExists($bundles, 'SpomkyLabsJoseBundle', 'The "Spomky-Labs/JoseBundle" must be enabled.');
+        $jose_config = current($container->getExtensionConfig('jose'));
+
+        $checker_config = ConfigurationHelper::getCheckerConfiguration('test', ['crit'], ['iat', 'nbf', 'exp']);
+        array_merge(
+            $jose_config,
+            $checker_config
+        );
+
+        $container->prependExtensionConfig('jose', $jose_config);
     }
 }

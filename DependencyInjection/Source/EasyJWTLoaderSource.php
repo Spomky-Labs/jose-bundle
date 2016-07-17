@@ -73,7 +73,6 @@ final class EasyJWTLoaderSource implements SourceInterface
                                 ->defaultValue([])
                                 ->prototype('scalar')->end()
                             ->end()
-                            ->scalarNode('logger')->defaultNull()->end()
                         ->end()
                     ->end()
                 ->end()
@@ -126,7 +125,6 @@ final class EasyJWTLoaderSource implements SourceInterface
             array_key_exists('verifiers', $config) ? $config['verifiers'] : [],
             [$id => [
                 'algorithms' => $section['signature_algorithms'],
-                'logger'     => array_key_exists('logger', $section) ? $section['logger'] : null,
             ]]
         );
 
@@ -151,7 +149,6 @@ final class EasyJWTLoaderSource implements SourceInterface
                 'key_encryption_algorithms'     => $section['key_encryption_algorithms'],
                 'content_encryption_algorithms' => $section['content_encryption_algorithms'],
                 'compression_methods'           => $section['compression_methods'],
-                'logger'                        => array_key_exists('logger', $section) ? $section['logger'] : null,
             ]]
         );
 

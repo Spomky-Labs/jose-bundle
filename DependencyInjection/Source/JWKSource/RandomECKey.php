@@ -11,7 +11,6 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
-use Jose\Factory\JWKFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 
 class RandomECKey extends RandomKey
@@ -19,12 +18,13 @@ class RandomECKey extends RandomKey
     /**
      * {@inheritdoc}
      */
-    protected function createNewKey(array $config)
+    protected function getKeyConfig(array $config)
     {
-        $curve = $config['curve'];
         $values = $config['additional_values'];
+        $values['kty'] = 'EC';
+        $values['crv'] = $config['curve'];
 
-        return JWKFactory::createECKey($curve, $values)->getAll();
+        return $values;
     }
 
     /**

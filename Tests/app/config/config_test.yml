@@ -16,16 +16,6 @@ framework:
     fragments:       ~
     http_method_override: true
 
-monolog:
-    handlers:
-        main:
-            type:  rotating_file
-            path:  '%kernel.logs_dir%/%kernel.environment%.log'
-            level: debug
-            # max number of log files to keep
-            # defaults to zero, which means infinite files
-            max_files: 10
-
 jose:
     easy_jwt_creator:
         main:
@@ -181,14 +171,8 @@ jose:
                 additional_values:
                     alg: "ES256"
         key10:
-            okp:
-                curve: 'Ed25519'
-                storage_path: "%kernel.cache_dir%/eddsa"
-                ttl: 100
-                additional_values:
-                    alg: "EdDSA"
-        key11:
             oct:
+                ttl: 100
                 size: 256
                 storage_path: "%kernel.cache_dir%/oct"
                 additional_values:

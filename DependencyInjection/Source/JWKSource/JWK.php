@@ -50,9 +50,7 @@ class JWK implements JWKSourceInterface
     {
         $node
             ->children()
-                ->scalarNode('value')
-                    ->isRequired()
-                ->end()
+                ->scalarNode('value')->isRequired()->end()
             ->end();
     }
 }

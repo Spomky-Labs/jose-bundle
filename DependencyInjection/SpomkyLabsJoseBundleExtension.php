@@ -58,7 +58,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
     {
         $this->alias = $alias;
         $this->bundle_path = $bundle_path;
-        $this->updateSources();
+        $this->addDefaultSources();
     }
 
     /**
@@ -121,7 +121,10 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
         }
     }
 
-    private function updateSources()
+    /**
+     *
+     */
+    private function addDefaultSources()
     {
         $this->addServiceSource(new JWTCreatorSource());
         $this->addServiceSource(new JWTLoaderSource());

@@ -50,9 +50,7 @@ class JWKSet implements JWKSetSourceInterface
     {
         $node
             ->children()
-                ->scalarNode('value')
-                    ->isRequired()
-                ->end()
+                ->scalarNode('value')->isRequired()->end()
             ->end();
     }
 }

@@ -65,9 +65,8 @@ trait JWSCreationContext
          * @var \Jose\Factory\JWSFactory
          */
         $jws_creator = $this->getContainer()->get('jose.factory.jws');
-        $logger = $this->getContainer()->get('logger');
         $key = $this->getContainer()->get($key_service);
-        $this->$variable = $jws_creator->createJWSToCompactJSON($this->getPayload(), $key, $this->signature_protected_header, $logger);
+        $this->$variable = $jws_creator->createJWSToCompactJSON($this->getPayload(), $key, $this->signature_protected_header);
     }
 
     /**
@@ -79,8 +78,7 @@ trait JWSCreationContext
          * @var \Jose\Factory\JWSFactory
          */
         $jws_creator = $this->getContainer()->get('jose.factory.jws');
-        $logger = $this->getContainer()->get('logger');
         $key = $this->getContainer()->get($key_service);
-        $this->$variable = $jws_creator->createJWSToFlattenedJSON($this->getPayload(), $key, $this->signature_protected_header, $this->signature_header, $logger);
+        $this->$variable = $jws_creator->createJWSToFlattenedJSON($this->getPayload(), $key, $this->signature_protected_header, $this->signature_header);
     }
 }

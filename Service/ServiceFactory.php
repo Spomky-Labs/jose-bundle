@@ -23,7 +23,6 @@ use Jose\Signer;
 use Jose\SignerInterface;
 use Jose\Verifier;
 use Jose\VerifierInterface;
-use Psr\Log\LoggerInterface;
 
 final class ServiceFactory
 {
@@ -60,60 +59,56 @@ final class ServiceFactory
      * @param string[]                      $selected_key_encryption_algorithms
      * @param string[]                      $selected_content_encryption_algorithms
      * @param string[]                      $selected_compression_methods
-     * @param \Psr\Log\LoggerInterface|null $logger
      *
      * @return \Jose\EncrypterInterface
      */
-    public function createEncrypter(array $selected_key_encryption_algorithms, array $selected_content_encryption_algorithms, array $selected_compression_methods, LoggerInterface $logger = null)
+    public function createEncrypter(array $selected_key_encryption_algorithms, array $selected_content_encryption_algorithms, array $selected_compression_methods)
     {
         $key_encryption_algorithms = $this->algorithm_manager->getSelectedAlgorithmMethods($selected_key_encryption_algorithms);
         $content_encryption_algorithms = $this->algorithm_manager->getSelectedAlgorithmMethods($selected_content_encryption_algorithms);
         $compression_methods = $this->compression_manager->getSelectedCompressionMethods($selected_compression_methods);
 
-        return Encrypter::createEncrypter($key_encryption_algorithms, $content_encryption_algorithms, $compression_methods, $logger);
+        return Encrypter::createEncrypter($key_encryption_algorithms, $content_encryption_algorithms, $compression_methods);
     }
 
     /**
      * @param string[]                      $selected_key_encryption_algorithms
      * @param string[]                      $selected_content_encryption_algorithms
      * @param string[]                      $selected_compression_methods
-     * @param \Psr\Log\LoggerInterface|null $logger
      *
      * @return \Jose\DecrypterInterface
      */
-    public function createDecrypter(array $selected_key_encryption_algorithms, array $selected_content_encryption_algorithms, array $selected_compression_methods, LoggerInterface $logger = null)
+    public function createDecrypter(array $selected_key_encryption_algorithms, array $selected_content_encryption_algorithms, array $selected_compression_methods)
     {
         $key_encryption_algorithms = $this->algorithm_manager->getSelectedAlgorithmMethods($selected_key_encryption_algorithms);
         $content_encryption_algorithms = $this->algorithm_manager->getSelectedAlgorithmMethods($selected_content_encryption_algorithms);
         $compression_methods = $this->compression_manager->getSelectedCompressionMethods($selected_compression_methods);
 
-        return Decrypter::createDecrypter($key_encryption_algorithms, $content_encryption_algorithms, $compression_methods, $logger);
+        return Decrypter::createDecrypter($key_encryption_algorithms, $content_encryption_algorithms, $compression_methods);
     }
 
     /**
      * @param string[]                      $selected_algorithms
-     * @param \Psr\Log\LoggerInterface|null $logger
      *
      * @return \Jose\SignerInterface
      */
-    public function createSigner(array $selected_algorithms, LoggerInterface $logger = null)
+    public function createSigner(array $selected_algorithms)
     {
         $algorithms = $this->algorithm_manager->getSelectedAlgorithmMethods($selected_algorithms);
 
-        return Signer::createSigner($algorithms, $logger);
+        return Signer::createSigner($algorithms);
     }
 
     /**
      * @param string[]                      $selected_algorithms
-     * @param \Psr\Log\LoggerInterface|null $logger
      *
      * @return \Jose\VerifierInterface
      */
-    public function createVerifier(array $selected_algorithms, LoggerInterface $logger = null)
+    public function createVerifier(array $selected_algorithms)
     {
         $algorithms = $this->algorithm_manager->getSelectedAlgorithmMethods($selected_algorithms);
 
-        return Verifier::createVerifier($algorithms, $logger);
+        return Verifier::createVerifier($algorithms);
     }
 
     /**
@@ -134,13 +129,12 @@ final class ServiceFactory
      * @param \Jose\Checker\CheckerManagerInterface $checker_manager
      * @param \Jose\VerifierInterface               $verifier
      * @param \Jose\DecrypterInterface|null         $decrypter
-     * @param \Psr\Log\LoggerInterface|null         $logger
      *
      * @return \Jose\JWTLoader
      */
-    public function createJWTLoader(CheckerManagerInterface $checker_manager, VerifierInterface $verifier, DecrypterInterface $decrypter = null, LoggerInterface $logger = null)
+    public function createJWTLoader(CheckerManagerInterface $checker_manager, VerifierInterface $verifier, DecrypterInterface $decrypter = null)
     {
-        $jwt_loader = new JWTLoader($checker_manager, $verifier, $logger);
+        $jwt_loader = new JWTLoader($checker_manager, $verifier);
         if (null !== $decrypter) {
             $jwt_loader->enableDecryptionSupport($decrypter);
         }

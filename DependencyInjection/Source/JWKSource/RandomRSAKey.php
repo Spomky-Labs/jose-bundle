@@ -11,24 +11,20 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
-use Assert\Assertion;
-use Jose\Factory\JWKFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 
 class RandomRSAKey extends RandomKey
 {
     /**
      * {@inheritdoc}
      */
-    protected function createNewKey(array $config)
+    protected function getKeyConfig(array $config)
     {
-        $size = $config['size'];
         $values = $config['additional_values'];
-        
-        return JWKFactory::createRSAKey($size, $values)->getAll();
+        $values['kty'] = 'RSA';
+        $values['size'] = $config['size'];
+
+        return $values;
     }
 
     /**

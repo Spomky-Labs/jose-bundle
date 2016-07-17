@@ -40,8 +40,7 @@ final class DecrypterSource implements SourceInterface
         $definition->setArguments([
             $config['key_encryption_algorithms'],
             $config['content_encryption_algorithms'],
-            $config['compression_methods'],
-            null === $config['logger'] ? null : new Reference($config['logger']),
+            $config['compression_methods']
         ]);
 
         $container->setDefinition($service_id, $definition);
@@ -72,12 +71,6 @@ final class DecrypterSource implements SourceInterface
                                 ->useAttributeAsKey('name')
                                 ->defaultValue(['DEF'])
                                 ->prototype('scalar')->end()
-                            ->end()
-                            ->scalarNode('logger')
-                                ->defaultNull()
-                            ->end()
-                            ->booleanNode('create_decrypter')
-                                ->defaultTrue()
                             ->end()
                         ->end()
                     ->end()

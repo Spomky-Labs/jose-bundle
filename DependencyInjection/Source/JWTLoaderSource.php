@@ -41,7 +41,6 @@ final class JWTLoaderSource implements SourceInterface
             new Reference($config['checker']),
             new Reference($config['verifier']),
             null === $config['decrypter'] ? null : new Reference($config['decrypter']),
-            null === $config['logger'] ? null : new Reference($config['logger']),
         ]);
 
         $container->setDefinition($service_id, $definition);
@@ -64,9 +63,6 @@ final class JWTLoaderSource implements SourceInterface
                                 ->isRequired()
                             ->end()
                             ->scalarNode('decrypter')
-                                ->defaultNull()
-                            ->end()
-                            ->scalarNode('logger')
                                 ->defaultNull()
                             ->end()
                         ->end()
