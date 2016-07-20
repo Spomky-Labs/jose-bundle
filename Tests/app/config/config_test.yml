@@ -154,25 +154,21 @@ jose:
             rsa:
                 size: 4096
                 storage_path: "%kernel.cache_dir%/rsa"
-                ttl: 100
                 additional_values:
                     alg: "RS256"
         key8:
             none:
                 storage_path: "%kernel.cache_dir%/none"
-                ttl: 100
                 additional_values:
                     alg: "none"
         key9:
             ec:
                 curve: 'P-256'
                 storage_path: "%kernel.cache_dir%/ec"
-                ttl: 100
                 additional_values:
                     alg: "ES256"
         key10:
             oct:
-                ttl: 100
                 size: 256
                 storage_path: "%kernel.cache_dir%/oct"
                 additional_values:

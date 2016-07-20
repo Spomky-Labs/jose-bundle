@@ -23,15 +23,15 @@ abstract class RandomKey implements JWKSourceInterface
      */
     public function create(ContainerBuilder $container, $id, array $config)
     {
-        $definition = new Definition('Jose\Object\RotatableJWK');
+        $definition = new Definition('Jose\Object\StorableJWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
-            'createRotatableKey',
+            'createStorableKey',
         ]);
 
         $key_config = $this->getKeyConfig($config);
 
-        $definition->setArguments([$config['storage_path'], $key_config, $config['ttl']]);
+        $definition->setArguments([$config['storage_path'], $key_config]);
         $container->setDefinition($id, $definition);
     }
 
@@ -50,7 +50,6 @@ abstract class RandomKey implements JWKSourceInterface
         $node
             ->children()
                 ->scalarNode('storage_path')->isRequired()->end()
-                ->integerNode('ttl')->defaultValue(0)->min(0)->end()
                 ->arrayNode('additional_values')
                     ->defaultValue([])
                     ->useAttributeAsKey('key')

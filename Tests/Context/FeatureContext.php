@@ -28,4 +28,5 @@ class FeatureContext extends MinkContext implements SnippetAcceptingContext
     use JWECreationContext;
     use KeysAndKeySetsContext;
     use JWTCreatorAndLoader;
+    use ApplicationContext;
 }
