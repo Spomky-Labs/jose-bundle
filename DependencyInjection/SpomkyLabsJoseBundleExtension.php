@@ -12,18 +12,7 @@
 namespace SpomkyLabs\JoseBundle\DependencyInjection;
 
 use Assert\Assertion;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\CheckerSource;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\DecrypterSource;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\EasyJWTCreatorSource;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\EasyJWTLoaderSource;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\EncrypterSource;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\JWTCreatorSource;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\JWTLoaderSource;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\SignerSource;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\SourceInterface;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\VerifierSource;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -64,7 +53,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
     /**
      * @param \SpomkyLabs\JoseBundle\DependencyInjection\Source\SourceInterface $source
      */
-    public function addServiceSource(SourceInterface $source)
+    public function addServiceSource(Source\SourceInterface $source)
     {
         $name = $source->getName();
         Assertion::false(in_array($name, $this->service_sources), sprintf('The source "%s" is already set.', $name));
@@ -126,17 +115,17 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
      */
     private function addDefaultSources()
     {
-        $this->addServiceSource(new JWTCreatorSource());
-        $this->addServiceSource(new JWTLoaderSource());
-        $this->addServiceSource(new SignerSource());
-        $this->addServiceSource(new VerifierSource());
-        $this->addServiceSource(new EncrypterSource());
-        $this->addServiceSource(new DecrypterSource());
-        $this->addServiceSource(new CheckerSource());
-        $this->addServiceSource(new JWKSource($this->bundle_path));
-        $this->addServiceSource(new JWKSetSource($this->bundle_path));
-        $this->addServiceSource(new EasyJWTCreatorSource());
-        $this->addServiceSource(new EasyJWTLoaderSource());
+        $this->addServiceSource(new Source\JWTCreatorSource());
+        $this->addServiceSource(new Source\JWTLoaderSource());
+        $this->addServiceSource(new Source\SignerSource());
+        $this->addServiceSource(new Source\VerifierSource());
+        $this->addServiceSource(new Source\EncrypterSource());
+        $this->addServiceSource(new Source\DecrypterSource());
+        $this->addServiceSource(new Source\CheckerSource());
+        $this->addServiceSource(new Source\JWKSource($this->bundle_path));
+        $this->addServiceSource(new Source\JWKSetSource($this->bundle_path));
+        $this->addServiceSource(new Source\EasyJWTCreatorSource());
+        $this->addServiceSource(new Source\EasyJWTLoaderSource());
     }
 
     /**
