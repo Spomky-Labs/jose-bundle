@@ -135,6 +135,15 @@ trait ApplicationContext
     }
 
     /**
+     * @Given I wait :time seconds
+     */
+    public function iWaitSeconds($time)
+    {
+        sleep((int)$time);
+    }
+
+
+    /**
      * @When I run command :line
      */
     public function iRunCommand($line)
