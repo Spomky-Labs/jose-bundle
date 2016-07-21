@@ -1,6 +1,4 @@
-Feature: A Console Command exists to remove old tokens
-  Invalid tokens (expired or used) needs to be removed.
-  A Console Command ease to remove all tokens
+Feature: A Console Command to rotate keys
 
   Scenario:  I want to rotate a key that do not exist
     When I run command "spomky-labs:jose:rotate-keys" with parameters
