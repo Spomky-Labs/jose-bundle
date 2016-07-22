@@ -59,7 +59,7 @@ final class ConfigurationHelper
         Assertion::boolean($create_verifier);
         return [
             'jose' => [
-                'signers' => [
+                'verifiers' => [
                     $name => [
                         'algorithms' => $signature_algorithms,
                         'create_verifier' => $create_verifier,
