@@ -59,7 +59,7 @@ final class ConfigurationHelper
         Assertion::boolean($create_verifier);
         return [
             'jose' => [
-                'verifiers' => [
+                'signers' => [
                     $name => [
                         'algorithms' => $signature_algorithms,
                         'create_verifier' => $create_verifier,
@@ -84,7 +84,7 @@ final class ConfigurationHelper
         Assertion::notEmpty($signature_algorithms);
         return [
             'jose' => [
-                'signers' => [
+                'verifiers' => [
                     $name => [
                         'algorithms' => $signature_algorithms,
                     ]
