@@ -88,7 +88,7 @@ final class ServiceFactory
     }
 
     /**
-     * @param string[]                      $selected_algorithms
+     * @param string[] $selected_algorithms
      *
      * @return \Jose\SignerInterface
      */
@@ -100,7 +100,7 @@ final class ServiceFactory
     }
 
     /**
-     * @param string[]                      $selected_algorithms
+     * @param string[] $selected_algorithms
      *
      * @return \Jose\VerifierInterface
      */

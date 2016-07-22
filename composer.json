@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "spomky-labs/jose": "^5.0@dev",
+        "spomky-labs/jose": "^5.0@alpha",
         "symfony/dependency-injection": "^2.7|^3.0",
         "symfony/config": "^2.7|^3.0"
     },
