@@ -25,4 +25,4 @@ before_script:
     - composer update --no-interaction
 
 script:
-    - vendor/bin/behat
+    - composer test

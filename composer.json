@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "spomky-labs/jose": "^5.0",
+        "spomky-labs/jose": "^5.1",
         "symfony/dependency-injection": "^2.7|^3.0",
         "symfony/config": "^2.7|^3.0"
     },
@@ -34,6 +34,9 @@
             "SpomkyLabs\\TestJoseBundle\\": "Tests/TestJoseBundle",
             "SpomkyLabs\\JoseBundle\\Features\\Context\\": "Tests/Context"
         }
+    },
+    "scripts":{
+        "test": "behat"
     },
     "extra": {
         "branch-alias": {

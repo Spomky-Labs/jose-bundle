@@ -73,13 +73,13 @@ jose:
                     k: "hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg"
         key1:
             file:
-                path: "%kernel.root_dir%/Keys/EC/private.es256.encrypted.key"
+                path: "%kernel.root_dir%/keys/EC/private.es256.encrypted.key"
                 password: "test"
                 additional_values:
                     foo: "bar"
         key2:
             file:
-                path: "%kernel.root_dir%/Keys/EC/public.es512.key"
+                path: "%kernel.root_dir%/keys/EC/public.es512.key"
         key3:
             certificate:
                 path: "%kernel.root_dir%/certificates/RSA/DER/8192b-rsa-example-cert.der"

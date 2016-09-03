@@ -53,7 +53,6 @@ Then, add the bundle into your kernel:
 ```php
 <?php
 
-use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
