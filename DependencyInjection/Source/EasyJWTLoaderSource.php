@@ -42,6 +42,10 @@ final class EasyJWTLoaderSource implements SourceInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
+                            ->booleanNode('is_public')
+                                ->info('If true, the service will be public, else private.')
+                                ->defaultTrue()
+                            ->end()
                             ->arrayNode('signature_algorithms')
                                 ->useAttributeAsKey('name')
                                 ->isRequired()
@@ -124,6 +128,7 @@ final class EasyJWTLoaderSource implements SourceInterface
         $config['verifiers'] = array_merge(
             array_key_exists('verifiers', $config) ? $config['verifiers'] : [],
             [$id => [
+                'is_public'  => $section['is_public'],
                 'algorithms' => $section['signature_algorithms'],
             ]]
         );
@@ -146,6 +151,7 @@ final class EasyJWTLoaderSource implements SourceInterface
         $config['decrypters'] = array_merge(
             array_key_exists('decrypters', $config) ? $config['decrypters'] : [],
             [$id => [
+                'is_public'                     => $section['is_public'],
                 'key_encryption_algorithms'     => $section['key_encryption_algorithms'],
                 'content_encryption_algorithms' => $section['content_encryption_algorithms'],
                 'compression_methods'           => $section['compression_methods'],
@@ -167,8 +173,9 @@ final class EasyJWTLoaderSource implements SourceInterface
         $config['checkers'] = array_merge(
             array_key_exists('checkers', $config) ? $config['checkers'] : [],
             [$id => [
-                'claims'  => $section['claim_checkers'],
-                'headers' => $section['header_checkers'],
+                'is_public' => $section['is_public'],
+                'claims'    => $section['claim_checkers'],
+                'headers'   => $section['header_checkers'],
             ]]
         );
 
@@ -185,8 +192,9 @@ final class EasyJWTLoaderSource implements SourceInterface
     private function createJWTLoaderServiceConfiguration(array $config, $id, array $section)
     {
         $service = [
-            'verifier' => sprintf('jose.verifier.%s', $id),
-            'checker'  => sprintf('jose.checker.%s', $id),
+            'is_public' => $section['is_public'],
+            'verifier'  => sprintf('jose.verifier.%s', $id),
+            'checker'   => sprintf('jose.checker.%s', $id),
         ];
         if (true === $this->isEncryptionSupportEnabled($section)) {
             $service['decrypter'] = sprintf('jose.decrypter.%s', $id);

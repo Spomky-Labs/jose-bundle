@@ -40,6 +40,7 @@ final class VerifierSource implements SourceInterface
         $definition->setArguments([
             $config['algorithms'],
         ]);
+        $definition->setPublic($config['is_public']);
 
         $container->setDefinition($service_id, $definition);
     }
@@ -55,6 +56,10 @@ final class VerifierSource implements SourceInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
+                            ->booleanNode('is_public')
+                                ->info('If true, the service will be public, else private.')
+                                ->defaultTrue()
+                            ->end()
                             ->arrayNode('algorithms')
                                 ->useAttributeAsKey('name')
                                 ->isRequired()

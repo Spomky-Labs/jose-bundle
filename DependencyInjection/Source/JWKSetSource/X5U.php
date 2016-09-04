@@ -32,6 +32,7 @@ class X5U implements JWKSetSourceInterface
             $config['url'],
             $config['is_secured'],
         ]);
+        $definition->setPublic($config['is_public']);
 
         $container->setDefinition($id, $definition);
     }
@@ -51,6 +52,10 @@ class X5U implements JWKSetSourceInterface
     {
         $node
             ->children()
+                ->booleanNode('is_public')
+                    ->info('If true, the service will be public, else private.')
+                    ->defaultTrue()
+                ->end()
                 ->scalarNode('url')->isRequired()->end()
                 ->booleanNode('is_secured')->defaultTrue()->end()
             ->end();

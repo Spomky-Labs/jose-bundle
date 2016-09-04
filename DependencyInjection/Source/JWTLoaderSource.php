@@ -42,6 +42,7 @@ final class JWTLoaderSource implements SourceInterface
             new Reference($config['verifier']),
             null === $config['decrypter'] ? null : new Reference($config['decrypter']),
         ]);
+        $definition->setPublic($config['is_public']);
 
         $container->setDefinition($service_id, $definition);
     }
@@ -56,6 +57,10 @@ final class JWTLoaderSource implements SourceInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
+                            ->booleanNode('is_public')
+                                ->info('If true, the service will be public, else private.')
+                                ->defaultTrue()
+                            ->end()
                             ->scalarNode('verifier')
                                 ->isRequired()
                             ->end()

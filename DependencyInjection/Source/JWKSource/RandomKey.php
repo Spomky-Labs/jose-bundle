@@ -32,6 +32,8 @@ abstract class RandomKey implements JWKSourceInterface
         $key_config = $this->getKeyConfig($config);
 
         $definition->setArguments([$config['storage_path'], $key_config]);
+        $definition->setPublic($config['is_public']);
+
         $container->setDefinition($id, $definition);
     }
 
@@ -49,6 +51,10 @@ abstract class RandomKey implements JWKSourceInterface
     {
         $node
             ->children()
+                ->booleanNode('is_public')
+                    ->info('If true, the service will be public, else private.')
+                    ->defaultTrue()
+                ->end()
                 ->scalarNode('storage_path')->isRequired()->end()
                 ->arrayNode('additional_values')
                     ->defaultValue([])

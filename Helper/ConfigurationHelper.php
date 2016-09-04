@@ -24,7 +24,7 @@ final class ConfigurationHelper
      *
      * @return array
      */
-    public static function getCheckerConfiguration($name, array $header_checkers, array $claim_checkers)
+    public static function getCheckerConfiguration($name, array $header_checkers, array $claim_checkers, $is_public = true)
     {
         Assertion::string($name);
         Assertion::notEmpty($name);
@@ -34,8 +34,9 @@ final class ConfigurationHelper
             'jose' => [
                 'checkers' => [
                     $name => [
-                        'claims' => $claim_checkers,
-                        'headers' => $header_checkers,
+                        'is_public' => $is_public,
+                        'claims'    => $claim_checkers,
+                        'headers'   => $header_checkers,
                     ]
                 ]
             ]
@@ -50,7 +51,7 @@ final class ConfigurationHelper
      *
      * @return array
      */
-    public static function getSignerConfiguration($name, array $signature_algorithms, $create_verifier = false)
+    public static function getSignerConfiguration($name, array $signature_algorithms, $create_verifier = false, $is_public = true)
     {
         Assertion::string($name);
         Assertion::notEmpty($name);
@@ -61,7 +62,8 @@ final class ConfigurationHelper
             'jose' => [
                 'signers' => [
                     $name => [
-                        'algorithms' => $signature_algorithms,
+                        'is_public'       => $is_public,
+                        'algorithms'      => $signature_algorithms,
                         'create_verifier' => $create_verifier,
                     ]
                 ]
@@ -76,7 +78,7 @@ final class ConfigurationHelper
      *
      * @return array
      */
-    public static function getVerifierConfiguration($name, array $signature_algorithms)
+    public static function getVerifierConfiguration($name, array $signature_algorithms, $is_public = true)
     {
         Assertion::string($name);
         Assertion::notEmpty($name);
@@ -86,6 +88,7 @@ final class ConfigurationHelper
             'jose' => [
                 'verifiers' => [
                     $name => [
+                        'is_public'  => $is_public,
                         'algorithms' => $signature_algorithms,
                     ]
                 ]
@@ -103,7 +106,7 @@ final class ConfigurationHelper
      *
      * @return array
      */
-    public static function getEncrypterConfiguration($name, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods = ['DEF'], $create_decrypter = false)
+    public static function getEncrypterConfiguration($name, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods = ['DEF'], $create_decrypter = false, $is_public = true)
     {
         Assertion::string($name);
         Assertion::notEmpty($name);
@@ -116,10 +119,11 @@ final class ConfigurationHelper
             'jose' => [
                 'encrypters' => [
                     $name => [
-                        'key_encryption_algorithms' => $key_encryption_algorithms,
+                        'is_public'                     => $is_public,
+                        'key_encryption_algorithms'     => $key_encryption_algorithms,
                         'content_encryption_algorithms' => $content_encryption_algorithms,
-                        'compression_methods' => $compression_methods,
-                        'create_decrypter' => $create_decrypter,
+                        'compression_methods'           => $compression_methods,
+                        'create_decrypter'              => $create_decrypter,
                     ]
                 ]
             ]
@@ -135,7 +139,7 @@ final class ConfigurationHelper
      *
      * @return array
      */
-    public static function getDecrypterConfiguration($name, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods = ['DEF'])
+    public static function getDecrypterConfiguration($name, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods = ['DEF'], $is_public = true)
     {
         Assertion::string($name);
         Assertion::notEmpty($name);
@@ -147,9 +151,10 @@ final class ConfigurationHelper
             'jose' => [
                 'decrypters' => [
                     $name => [
-                        'key_encryption_algorithms' => $key_encryption_algorithms,
+                        'is_public'                     => $is_public,
+                        'key_encryption_algorithms'     => $key_encryption_algorithms,
                         'content_encryption_algorithms' => $content_encryption_algorithms,
-                        'compression_methods' => $compression_methods,
+                        'compression_methods'           => $compression_methods,
                     ]
                 ]
             ]
@@ -163,7 +168,7 @@ final class ConfigurationHelper
      *
      * @return array
      */
-    public static function getJWTCreatorConfiguration($name, $signer, $encrypter = null)
+    public static function getJWTCreatorConfiguration($name, $signer, $encrypter = null, $is_public = true)
     {
         Assertion::string($name);
         Assertion::notEmpty($name);
@@ -174,7 +179,8 @@ final class ConfigurationHelper
             'jose' => [
                 'jwt_creators' => [
                     $name => [
-                        'signer' => $signer,
+                        'is_public' => $is_public,
+                        'signer'    => $signer,
                         'encrypter' => $encrypter,
                     ]
                 ]
@@ -191,7 +197,7 @@ final class ConfigurationHelper
      *
      * @return array
      */
-    public static function getJWTLoaderConfiguration($name, $verifier, $checker, $decrypter = null)
+    public static function getJWTLoaderConfiguration($name, $verifier, $checker, $decrypter = null, $is_public = true)
     {
         Assertion::string($name);
         Assertion::notEmpty($name);
@@ -204,8 +210,9 @@ final class ConfigurationHelper
             'jose' => [
                 'jwt_loaders' => [
                     $name => [
-                        'verifier' => $verifier,
-                        'checker' => $checker,
+                        'is_public' => $is_public,
+                        'verifier'  => $verifier,
+                        'checker'   => $checker,
                         'decrypter' => $decrypter,
                     ]
                 ]

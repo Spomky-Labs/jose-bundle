@@ -31,6 +31,7 @@ class Values implements JWKSourceInterface
         $definition->setArguments([
             $config['values'],
         ]);
+        $definition->setPublic($config['is_public']);
 
         $container->setDefinition($id, $definition);
     }
@@ -50,6 +51,10 @@ class Values implements JWKSourceInterface
     {
         $node
             ->children()
+                ->booleanNode('is_public')
+                    ->info('If true, the service will be public, else private.')
+                    ->defaultTrue()
+                ->end()
                 ->arrayNode('values')
                     ->isRequired()
                     ->useAttributeAsKey('key')

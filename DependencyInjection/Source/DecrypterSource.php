@@ -42,6 +42,7 @@ final class DecrypterSource implements SourceInterface
             $config['content_encryption_algorithms'],
             $config['compression_methods']
         ]);
+        $definition->setPublic($config['is_public']);
 
         $container->setDefinition($service_id, $definition);
     }
@@ -57,6 +58,10 @@ final class DecrypterSource implements SourceInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
+                            ->booleanNode('is_public')
+                                ->info('If true, the service will be public, else private.')
+                                ->defaultTrue()
+                            ->end()
                             ->arrayNode('key_encryption_algorithms')
                                 ->useAttributeAsKey('name')
                                 ->isRequired()

@@ -32,6 +32,7 @@ class CertificateFile implements JWKSourceInterface
             $config['path'],
             $config['additional_values'],
         ]);
+        $definition->setPublic($config['is_public']);
 
         $container->setDefinition($id, $definition);
     }
@@ -51,6 +52,10 @@ class CertificateFile implements JWKSourceInterface
     {
         $node
             ->children()
+                ->booleanNode('is_public')
+                    ->info('If true, the service will be public, else private.')
+                    ->defaultTrue()
+                ->end()
                 ->scalarNode('path')->isRequired()->end()
                 ->arrayNode('additional_values')
                     ->defaultValue([])
