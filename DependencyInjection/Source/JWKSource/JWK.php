@@ -31,6 +31,7 @@ class JWK implements JWKSourceInterface
         $definition->setArguments([
             json_decode($config['value'], true),
         ]);
+        $definition->setPublic($config['is_public']);
 
         $container->setDefinition($id, $definition);
     }
@@ -50,6 +51,10 @@ class JWK implements JWKSourceInterface
     {
         $node
             ->children()
+                ->booleanNode('is_public')
+                    ->info('If true, the service will be public, else private.')
+                    ->defaultTrue()
+                ->end()
                 ->scalarNode('value')->isRequired()->end()
             ->end();
     }

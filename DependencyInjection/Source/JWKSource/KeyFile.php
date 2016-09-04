@@ -33,6 +33,7 @@ class KeyFile implements JWKSourceInterface
             $config['password'],
             $config['additional_values'],
         ]);
+        $definition->setPublic($config['is_public']);
 
         $container->setDefinition($id, $definition);
     }
@@ -52,6 +53,10 @@ class KeyFile implements JWKSourceInterface
     {
         $node
             ->children()
+                ->booleanNode('is_public')
+                    ->info('If true, the service will be public, else private.')
+                    ->defaultTrue()
+                ->end()
                 ->scalarNode('path')->isRequired()->end()
                 ->scalarNode('password')->defaultNull()->end()
                 ->arrayNode('additional_values')

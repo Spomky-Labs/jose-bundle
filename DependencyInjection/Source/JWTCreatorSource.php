@@ -41,6 +41,7 @@ final class JWTCreatorSource implements SourceInterface
             new Reference($config['signer']),
             null === $config['encrypter'] ? null : new Reference($config['encrypter']),
         ]);
+        $definition->setPublic($config['is_public']);
 
         $container->setDefinition($service_id, $definition);
     }
@@ -55,6 +56,10 @@ final class JWTCreatorSource implements SourceInterface
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
+                            ->booleanNode('is_public')
+                                ->info('If true, the service will be public, else private.')
+                                ->defaultTrue()
+                            ->end()
                             ->scalarNode('signer')->isRequired()->end()
                             ->scalarNode('encrypter')->defaultNull()->end()
                         ->end()
