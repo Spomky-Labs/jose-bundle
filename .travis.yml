@@ -34,4 +34,4 @@ before_script:
   - if [[ !$deps ]]; then composer install --no-interaction ; fi
 
 script:
-    - composer test
+    - ./vendor/bin/behat
