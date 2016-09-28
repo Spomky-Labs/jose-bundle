@@ -20,7 +20,7 @@ class RandomECKey extends RandomKey
      */
     protected function getKeyConfig(array $config)
     {
-        $values = $config['additional_values'];
+        $values = $config['key_configuration'];
         $values['kty'] = 'EC';
         $values['crv'] = $config['curve'];
 
@@ -40,7 +40,6 @@ class RandomECKey extends RandomKey
      */
     public function addConfiguration(NodeDefinition $node)
     {
-        
         $node
             ->children()
                 ->scalarNode('curve')
@@ -53,7 +52,10 @@ class RandomECKey extends RandomKey
             ->end();
         parent::addConfiguration($node);
     }
-    
+
+    /**
+     * @return \Closure
+     */
     private static function checkCurve()
     {
         return function ($v) {

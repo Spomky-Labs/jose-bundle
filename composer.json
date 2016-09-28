@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "Symfony2 Jose Bundle",
     "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jose", "Jot", "Bundle", "Symfony"],
-    "homepage": "https://github.com/Spomky-Labs/JoseBundle",
+    "homepage": "https://github.com/Spomky-Labs/jose-bundle",
     "license": "MIT",
     "authors": [
         {
@@ -11,18 +11,20 @@
         }
     ],
     "require": {
-        "spomky-labs/jose": "^5.1",
+        "spomky-labs/jose": "^6.0@dev",
+        "symfony/console": "^2.7|^3.0",
         "symfony/http-kernel": "^2.7|^3.0",
+        "symfony/framework-bundle": "^2.7|^3.0",
         "symfony/dependency-injection": "^2.7|^3.0",
         "symfony/config": "^2.7|^3.0"
     },
     "require-dev": {
         "symfony/finder": "^2.7|^3.0",
         "symfony/var-dumper": "^2.7|^3.0",
-        "behat/behat": "^3.0",
-        "behat/mink": "*",
-        "behat/mink-extension": "^2.1",
-        "behat/mink-browserkit-driver":  "*",
+        "behat/behat": "^3.1",
+        "behat/mink": "^1.5",
+        "behat/mink-extension": "^2.0",
+        "behat/mink-browserkit-driver":  "^1.1",
         "behat/symfony2-extension":  "^2.1",
         "ext-curl": "*"
     },
@@ -42,7 +44,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }

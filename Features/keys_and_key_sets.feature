@@ -9,7 +9,11 @@ Feature: This bundle is able to use keys and key sets
     When the service "jose.key.key6" should be an object that implements "\Jose\Object\JWKInterface"
 
   Scenario: A Key is available through a service
+    When the service "jose.key.key10" should be an object that implements "\Jose\Object\StorableInterface"
     When the service "jose.key.key10" should be an object that implements "\Jose\Object\JWKInterface"
+
+  Scenario: A Key from a Key Set can be used as a service
+    When the service "jose.key.from_keyset" should be an object that implements "\Jose\Object\JWKInterface"
 
   Scenario: A Key Set is available through a service
     When the service "jose.key_set.jwkset1" should be an object that implements "\Jose\Object\JWKSetInterface"
@@ -26,3 +30,19 @@ Feature: This bundle is able to use keys and key sets
   Scenario: A Key Set is available through a service and loaded from an URL
     When the service "jose.key_set.jwkset4" should be an object that implements "\Jose\Object\JWKSetInterface"
     And the keyset in the service "jose.key_set.jwkset4" contains keys
+
+  Scenario: A Rotatable Key Set contains the expected number of keys
+    When the service "jose.key_set.auto_signature" should be an object that implements "\Jose\Object\RotatableInterface"
+    When the service "jose.key_set.auto_signature" should be an object that implements "\Jose\Object\StorableInterface"
+    When the service "jose.key_set.auto_signature" should be an object that implements "\Jose\Object\JWKSetInterface"
+    And the keyset in the service "jose.key_set.auto_signature" contains 5 keys
+
+  Scenario: A Key Set of Key Sets contains the expected number of keys
+    When the service "jose.key_set.all_in_one" should be an object that implements "\Jose\Object\JWKSets"
+    When the service "jose.key_set.all_in_one" should be an object that implements "\Jose\Object\JWKSetInterface"
+    And the keyset in the service "jose.key_set.all_in_one" contains 7 keys
+
+  Scenario: A Public Key Set contains the expected number of keys
+    When the service "jose.key_set.all_in_one_public" should be an object that implements "\Jose\Object\PublicJWKSet"
+    When the service "jose.key_set.all_in_one_public" should be an object that implements "\Jose\Object\JWKSetInterface"
+    And the keyset in the service "jose.key_set.all_in_one_public" contains 7 keys

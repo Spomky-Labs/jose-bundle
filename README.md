@@ -17,8 +17,6 @@ Jose Bundle
 This Symfony bundle provides services to create, load, verify or decrypt JWT.
 It uses [spomky-Labs/jose](https://github.com/Spomky-Labs/jose) to ease encryption/decryption and signature/verification of JWS and JWE.
 
-> Note 1: this bundle is still in development. The first stable release will be tagged as v1.0.x. All tags v0.x.y must be considered as unstable.
-
 # The Release Process
 
 The release process [is described here](doc/Release.md).
@@ -77,9 +75,20 @@ This bundle needs to be configured. Please [see this page](Resources/doc/Configu
 
 Have a look at [this page](Resources/doc/Use.md) to know hot to configure and use this bundle.
 
+# Bundle Integration
+
+This bundle provides a Configuration Helper.
+This helper provides an easy way to create all services through the configuration of another bundle.
+ 
+Please read [this page](Resources/doc/config/configuration_helper.md) to know how to easily configure the bundle from another bundle.
+
+
 # Contributing
 
-Requests for new features, bug fixed and all other ideas to make this library useful are welcome. [Please follow these best practices](Resources/doc/Contributing.md).
+Requests for new features, bug fixed and all other ideas to make this library useful are welcome.
+The best contribution you could provide is by fixing the [opened issues where help is wanted](https://github.com/Spomky-Labs/JoseBundle/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
+
+Please make sure to [follow these best practices](Resources/doc/Contributing.md).
 
 # Licence
 

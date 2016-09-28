@@ -40,7 +40,7 @@ final class DecrypterSource implements SourceInterface
         $definition->setArguments([
             $config['key_encryption_algorithms'],
             $config['content_encryption_algorithms'],
-            $config['compression_methods']
+            $config['compression_methods'],
         ]);
         $definition->setPublic($config['is_public']);
 

@@ -52,6 +52,8 @@ trait JWECreationContext
 
     /**
      * @Given I have the following values in the JWE shared protected header
+     *
+     * @param \Behat\Gherkin\Node\PyStringNode $string
      */
     public function iHaveTheFollowingValuesInTheJweSharedProtectedHeader(PyStringNode $string)
     {
@@ -60,6 +62,8 @@ trait JWECreationContext
 
     /**
      * @Given I have the following values in the JWE shared header
+     *
+     * @param \Behat\Gherkin\Node\PyStringNode $string
      */
     public function iHaveTheFollowingValuesInTheJweSharedHeader(PyStringNode $string)
     {
@@ -68,6 +72,8 @@ trait JWECreationContext
 
     /**
      * @Given I have the following values in the recipient header
+     *
+     * @param \Behat\Gherkin\Node\PyStringNode $string
      */
     public function iHaveTheFollowingValuesInTheRecipientHeader(PyStringNode $string)
     {
@@ -76,6 +82,8 @@ trait JWECreationContext
 
     /**
      * @Given I have the following value as AAD
+     *
+     * @param \Behat\Gherkin\Node\PyStringNode $string
      */
     public function iHaveTheFollowingValueAsAad(PyStringNode $string)
     {
@@ -84,6 +92,9 @@ trait JWECreationContext
 
     /**
      * @When I try to create a JWE in JSON Compact Serialization Mode with recipient key :key_service and I store the result in the variable :variable
+     *
+     * @param string $key_service
+     * @param string $variable
      */
     public function iTryToCreateAJweInJsonCompactSerializationModeWithRecipientKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {
@@ -97,6 +108,9 @@ trait JWECreationContext
 
     /**
      * @When I try to create a JWE in JSON Flattened Serialization Mode with recipient key :key_service and I store the result in the variable :variable
+     *
+     * @param string $key_service
+     * @param string $variable
      */
     public function iTryToCreateAJweInJsonFlattenedSerializationModeWithRecipientKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {

@@ -6,74 +6,74 @@
 
     <services>
         <service id="jose.algorithm.a128cbchs256" class="Jose\Algorithm\ContentEncryption\A128CBCHS256" public="false">
-            <tag name="jose.algorithm" alias="A128CBC-HS256" category="content_encryption" requirement="required" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.a192cbchs384" class="Jose\Algorithm\ContentEncryption\A192CBCHS384" public="false">
-            <tag name="jose.algorithm" alias="A192CBC-HS384" category="content_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.a256cbchs512" class="Jose\Algorithm\ContentEncryption\A256CBCHS512" public="false">
-            <tag name="jose.algorithm" alias="A256CBC-HS512" category="content_encryption" requirement="required" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.a128gcm" class="Jose\Algorithm\ContentEncryption\A128GCM" public="false">
-            <tag name="jose.algorithm" alias="A128GCM" category="content_encryption" requirement="recommended" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.a192gcm" class="Jose\Algorithm\ContentEncryption\A192GCM" public="false">
-            <tag name="jose.algorithm" alias="A192GCM" category="content_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.a256gcm" class="Jose\Algorithm\ContentEncryption\A256GCM" public="false">
-            <tag name="jose.algorithm" alias="A256GCM" category="content_encryption" requirement="recommended" />
+            <tag name="jose.algorithm" />
         </service>
 
         <service id="jose.algorithm.a128kw" class="Jose\Algorithm\KeyEncryption\A128KW" public="false">
-            <tag name="jose.algorithm" alias="A128KW" category="key_encryption" requirement="recommended" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.a192kw" class="Jose\Algorithm\KeyEncryption\A192KW" public="false">
-            <tag name="jose.algorithm" alias="A192KW" category="key_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.a256kw" class="Jose\Algorithm\KeyEncryption\A256KW" public="false">
-            <tag name="jose.algorithm" alias="A256KW" category="key_encryption" requirement="recommended" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.a128gcmkw" class="Jose\Algorithm\KeyEncryption\A128GCMKW" public="false">
-            <tag name="jose.algorithm" alias="A128GCMKW" category="key_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.a192gcmkw" class="Jose\Algorithm\KeyEncryption\A192GCMKW" public="false">
-            <tag name="jose.algorithm" alias="A192GCMKW" category="key_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.a256gcmkw" class="Jose\Algorithm\KeyEncryption\A256GCMKW" public="false">
-            <tag name="jose.algorithm" alias="A256GCMKW" category="key_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.dir" class="Jose\Algorithm\KeyEncryption\Dir" public="false">
-            <tag name="jose.algorithm" alias="dir" category="key_encryption" requirement="recommended" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.ecdhes" class="Jose\Algorithm\KeyEncryption\ECDHES" public="false">
-            <tag name="jose.algorithm" alias="ECDH-ES" category="key_encryption" requirement="recommended+" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.ecdhesa128kw" class="Jose\Algorithm\KeyEncryption\ECDHESA128KW" public="false">
-            <tag name="jose.algorithm" alias="ECDH-ES+A128KW" category="key_encryption" requirement="recommended" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.ecdhesa192kw" class="Jose\Algorithm\KeyEncryption\ECDHESA192KW" public="false">
-            <tag name="jose.algorithm" alias="ECDH-ES+A192KW" category="key_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.ecdhesa256kw" class="Jose\Algorithm\KeyEncryption\ECDHESA256KW" public="false">
-            <tag name="jose.algorithm" alias="ECDH-ES+A256KW" category="key_encryption" requirement="recommended" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.pbes2hs256a128kw" class="Jose\Algorithm\KeyEncryption\PBES2HS256A128KW" public="false">
-            <tag name="jose.algorithm" alias="PBES2-HS256+A128KW" category="key_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.pbes2hs384a192kw" class="Jose\Algorithm\KeyEncryption\PBES2HS384A192KW" public="false">
-            <tag name="jose.algorithm" alias="PBES2-HS384+A192KW" category="key_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.pbes2hs512a256kw" class="Jose\Algorithm\KeyEncryption\PBES2HS512A256KW" public="false">
-            <tag name="jose.algorithm" alias="PBES2-HS512+A256KW" category="key_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.rsa1_5" class="Jose\Algorithm\KeyEncryption\RSA15" public="false">
-            <tag name="jose.algorithm" alias="RSA1_5" category="key_encryption" requirement="recommended-" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.rsa_oaep" class="Jose\Algorithm\KeyEncryption\RSAOAEP" public="false">
-            <tag name="jose.algorithm" alias="RSA-OAEP" category="key_encryption" requirement="recommended+" />
+            <tag name="jose.algorithm" />
         </service>
         <service id="jose.algorithm.rsa_oaep256" class="Jose\Algorithm\KeyEncryption\RSAOAEP256" public="false">
-            <tag name="jose.algorithm" alias="RSA-OAEP-256" category="key_encryption" requirement="optional" />
+            <tag name="jose.algorithm" />
         </service>
     </services>
 </container>

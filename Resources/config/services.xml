@@ -5,21 +5,24 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="jose.factory.compression_manager" class="Jose\Factory\CompressionManagerFactory" />
-        <service id="jose.factory.checker_manager" class="Jose\Factory\CheckerManagerFactory" />
-        <service id="jose.factory.decrypter" class="Jose\Factory\DecrypterFactory" />
-        <service id="jose.factory.encrypter" class="Jose\Factory\EncrypterFactory" />
-        <service id="jose.factory.jwe" class="Jose\Factory\JWEFactory" />
-        <service id="jose.factory.jwk" class="Jose\Factory\JWKFactory" />
-        <service id="jose.factory.jws" class="Jose\Factory\JWSFactory" />
-        <service id="jose.factory.signer" class="Jose\Factory\SignerFactory" />
-        <service id="jose.factory.verifier" class="Jose\Factory\VerifierFactory" />
-        <service id="jose.loader" class="Jose\Loader" />
+        <service id="jose.factory.compression_manager" class="Jose\Factory\CompressionManagerFactory" public="false" />
+        <service id="jose.factory.checker_manager" class="Jose\Factory\CheckerManagerFactory" public="false" />
+        <service id="jose.factory.decrypter" class="Jose\Factory\DecrypterFactory" public="false" />
+        <service id="jose.factory.encrypter" class="Jose\Factory\EncrypterFactory" public="false" />
 
-        <service id="jose.compression_manager" class="SpomkyLabs\JoseBundle\Service\CompressionManager" />
-        <service id="jose.algorithm_manager" class="SpomkyLabs\JoseBundle\Service\AlgorithmManager" />
-        <service id="jose.checker_manager" class="SpomkyLabs\JoseBundle\Service\CheckerManager" />
-        <service id="jose.factory.service" class="SpomkyLabs\JoseBundle\Service\ServiceFactory">
+        <service id="jose.factory.signer" class="Jose\Factory\SignerFactory" public="false" />
+        <service id="jose.factory.verifier" class="Jose\Factory\VerifierFactory" public="false" />
+
+
+        <service id="jose.factory.jwe" class="Jose\Factory\JWEFactory" public="true" />
+        <service id="jose.factory.jwk" class="Jose\Factory\JWKFactory" public="true" />
+        <service id="jose.factory.jws" class="Jose\Factory\JWSFactory" public="true" />
+        <service id="jose.loader" class="Jose\Loader" public="true" />
+
+        <service id="jose.compression_manager" class="SpomkyLabs\JoseBundle\Service\CompressionManager" public="false" />
+        <service id="jose.algorithm_manager" class="SpomkyLabs\JoseBundle\Service\AlgorithmManager" public="false" />
+        <service id="jose.checker_manager" class="SpomkyLabs\JoseBundle\Service\CheckerManager" public="false" />
+        <service id="jose.factory.service" class="SpomkyLabs\JoseBundle\Service\ServiceFactory" public="false">
             <argument type="service" id="jose.algorithm_manager" />
             <argument type="service" id="jose.compression_manager" />
             <argument type="service" id="jose.checker_manager" />

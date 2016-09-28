@@ -20,11 +20,17 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class SpomkyLabsJoseBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getContainerExtension()
     {
         return new SpomkyLabsJoseBundleExtension('jose', __DIR__);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);

@@ -11,8 +11,9 @@
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
+use Assert\Assertion;
 use Behat\Gherkin\Node\PyStringNode;
-use SpomkyLabs\JoseBundle\Command\KeyRotationCommand;
+use SpomkyLabs\JoseBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -128,7 +129,9 @@ trait ApplicationContext
     {
         if (null === $this->application) {
             $this->application = new Application($this->getKernel());
-            $this->application->add(new KeyRotationCommand());
+            $this->application->add(new Command\RegenCommand());
+            $this->application->add(new Command\RotateCommand());
+            $this->application->add(new Command\DeleteCommand());
         }
 
         return $this->application;
@@ -139,9 +142,8 @@ trait ApplicationContext
      */
     public function iWaitSeconds($time)
     {
-        sleep((int)$time);
+        sleep((int) $time);
     }
-
 
     /**
      * @When I run command :line
@@ -187,9 +189,8 @@ trait ApplicationContext
      */
     public function iShouldSee(PyStringNode $result)
     {
-        if ($this->getCommandOutput() !== $result->getRaw()) {
-            throw new \Exception('The output of the command is not the same as expected. I got '.$this->getCommandOutput().'');
-        }
+        $output = $this->getCommandOutput();
+        Assertion::eq($output, $result->getRaw(), sprintf('The output of the command is not the same as expected. I got "%".', $output));
     }
 
     /**
@@ -228,7 +229,7 @@ trait ApplicationContext
      */
     public function theCommandExitCodeShouldBe($code)
     {
-        if ($this->getCommandExitCode() !== is_int($code) ? (int) $code : $code) {
+        if ($this->getCommandExitCode() !== (int) $code) {
             throw new \Exception(sprintf('The exit code is %u.', $this->getCommandExitCode()));
         }
     }

@@ -11,9 +11,9 @@ jose:
         keyset_id: # ID of the key set. When loaded, the service "jose.key_set.keyset_id" will be created
             keys: # Type of key set. In this case, the key set is created using keys previously loaded.
                 id:
-                    - key_id1
-                    - key_id2
-                    - key_id3
+                    - 'jose.key.key_id1'
+                    - 'jose.key.key_id2'
+                    - 'jose.key.key_id3'
 ```
 
 # From a JWKSet
@@ -36,7 +36,7 @@ The following example shows you how to load a key set from an URL that contains 
 jose:
     key_sets:
         keyset_id: # ID of the key set. When loaded, the service "jose.key_set.keyset_id" will be created
-            jku: # Type of key. In this case, the key set is created from a serialized JWK.
+            jku: # Type of key set. In this case, the key set is created from a serialized JWK.
                 url: "https://www.googleapis.com/oauth2/v2/certs"
                 is_secured: true # If false, unsecured connections are allowed. Default is true
 ```
@@ -49,7 +49,123 @@ The following example shows you how to load a key set from an URL that contains 
 jose:
     key_sets:
         keyset_id: # ID of the key set. When loaded, the service "jose.key_set.keyset_id" will be created
-            x5u: # Type of key. In this case, the key set is created from a serialized JWK.
+            x5u: # Type of key set. In this case, the key set is created from a serialized JWK.
                 url: "https://www.googleapis.com/oauth2/v1/certs"
                 is_secured: true # If false, unsecured connections are allowed. Default is true
+```
+
+# Random Key Set
+
+The following example shows you how to create a Key Set with random keys.
+This key set is stored so that you can reuse it.
+
+All types of keys are supported, however it can only contains one type of keys.
+
+```yml
+jose:
+    key_sets:
+        keyset_id: # ID of the key set. When loaded, the service "jose.key_set.keyset_id" will be created
+            auto: # Type of key set. In this case, the key set is created using random keys
+                storage_path: "%kernel.cache_dir%/auto_encryption.keyset" # The file where the key set is stored
+                is_rotatable: true # If true, then the key set can rotate its keys after a period of time
+                nb_keys: 2 # Number of keys in the key set
+                key_configuration: # Key configuration parameters. See the documentation for the random keys for more information.
+                    kty: 'EC' # Type of the key. Supported types are RSA, EC, oct, none and OKP (if third party libraries are installed)
+                    crv: 'P-521' # Parameters specific to the key type
+                    alg: "ECDH-ES"
+                    use: "enc"
+```
+
+Please read [this page](../use/commands.md) to know how to use console commands with this kind of key set.
+
+# Key Set of Key Sets
+
+In some context you may need to get a key set that contains several key sets.
+For example you want to merge your signature an encryption keys.
+
+```yml
+jose:
+    key_sets:
+        keyset_id: # ID of the key set. When loaded, the service "jose.key_set.keyset_id" will be created
+            jwksets: # Type of key set. In this case, the key set is created using key sets
+                id: 
+                    - 'jose.key_set.signature_keys'
+                    - 'jose.key_set.encryption_keys'
+```
+
+# Public Keys of a Key Set
+
+In some context you may need to share your public keys with third party applications.
+To avoid mistakes and to be sure that no private or symmetric keys are shared, you may need that kind od key set.
+
+```yml
+jose:
+    key_sets:
+        keyset_id: # ID of the key set. When loaded, the service "jose.key_set.keyset_id" will be created
+            public_jwkset: # Type of key set. In this case, the key set is created using another key set and will show only public keys
+                id:  'jose.key_set.signature_keys'
+```
+
+# Key Sets Combinations
+
+The following example will show you how to combine random key sets to share signature and encryption public keys at once.
+
+```yml
+jose:
+    key_sets:
+        signature_keys: # Our signature keys
+            auto:
+                storage_path: "%kernel.cache_dir%/signature_keys.keyset"
+                is_rotatable: true
+                nb_keys: 2
+                key_configuration:
+                    kty: 'RSA'
+                    size: 4096
+                    alg: "RS256"
+                    use: "sig"
+        encryption_keys: # Our encryption keys
+            auto:
+                storage_path: "%kernel.cache_dir%/encryption_keys.keyset"
+                is_rotatable: true
+                nb_keys: 2
+                key_configuration:
+                    kty: 'EC'
+                    crv: 'P-521'
+                    alg: "ECDH-ES"
+                    use: "enc"
+        all_in_one:
+            jwksets: # Combine our signature and encryption keys
+                id:
+                    - 'jose.key_set.signature_keys'
+                    - 'jose.key_set.encryption_keys'
+        all_in_one_public: # Allow use to share all public keys at once
+            public_jwkset:
+                id: 'jose.key_set.all_in_one'
+```
+
+Now the service `jose.key_set.all_in_one_public` will contain all public keys and can be shared with third party applications.
+
+The recommended way is to provide a route to get that keys.
+
+Example within a controller action:
+
+```php
+namespace AppBundle\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+class KeySetController extends Controller
+{
+    /**
+     * @Route("/jwku")
+     */
+    public function jwkuAction()
+    {
+        $jwkset = $this->get('jose.key_set.all_in_one_public');
+        
+        return JsonResponse::create($jwkset);
+    }
+}
 ```

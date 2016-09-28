@@ -11,8 +11,6 @@ framework:
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
-    trusted_hosts:   ~
-    trusted_proxies: ~
     fragments:       ~
     http_method_override: true
 
@@ -64,7 +62,39 @@ jose:
             x5u:
                 url: "https://www.googleapis.com/oauth2/v1/certs"
                 is_secured: true
+        auto_signature:
+            auto:
+                storage_path: "%kernel.cache_dir%/auto_signature.keyset"
+                is_rotatable: true
+                nb_keys: 5
+                key_configuration:
+                    kty: 'RSA'
+                    size: 4096
+                    alg: "RS256"
+                    use: "sig"
+        auto_encryption:
+            auto:
+                storage_path: "%kernel.cache_dir%/auto_encryption.keyset"
+                is_rotatable: true
+                nb_keys: 2
+                key_configuration:
+                    kty: 'EC'
+                    crv: 'P-521'
+                    alg: "ECDH-ES"
+                    use: "enc"
+        all_in_one:
+            jwksets:
+                id:
+                    - 'jose.key_set.auto_signature'
+                    - 'jose.key_set.auto_encryption'
+        all_in_one_public:
+            public_jwkset:
+                id: 'jose.key_set.all_in_one'
     keys:
+        from_keyset:
+            jwkset:
+                key_set: 'jose.key_set.all_in_one'
+                index: 0
         key0:
             values:
                 values:
@@ -73,13 +103,13 @@ jose:
                     k: "hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg"
         key1:
             file:
-                path: "%kernel.root_dir%/keys/EC/private.es256.encrypted.key"
+                path: "%kernel.root_dir%/Keys/EC/private.es256.encrypted.key"
                 password: "test"
                 additional_values:
                     foo: "bar"
         key2:
             file:
-                path: "%kernel.root_dir%/keys/EC/public.es512.key"
+                path: "%kernel.root_dir%/Keys/EC/public.es512.key"
         key3:
             certificate:
                 path: "%kernel.root_dir%/certificates/RSA/DER/8192b-rsa-example-cert.der"
@@ -154,22 +184,22 @@ jose:
             rsa:
                 size: 4096
                 storage_path: "%kernel.cache_dir%/rsa"
-                additional_values:
+                key_configuration:
                     alg: "RS256"
         key8:
             none:
                 storage_path: "%kernel.cache_dir%/none"
-                additional_values:
+                key_configuration:
                     alg: "none"
         key9:
             ec:
                 curve: 'P-256'
                 storage_path: "%kernel.cache_dir%/ec"
-                additional_values:
+                key_configuration:
                     alg: "ES256"
         key10:
             oct:
                 size: 256
                 storage_path: "%kernel.cache_dir%/oct"
-                additional_values:
+                key_configuration:
                     alg: "HS256"

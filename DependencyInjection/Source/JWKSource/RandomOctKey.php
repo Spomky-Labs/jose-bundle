@@ -20,7 +20,7 @@ class RandomOctKey extends RandomKey
      */
     protected function getKeyConfig(array $config)
     {
-        $values = $config['additional_values'];
+        $values = $config['key_configuration'];
         $values['kty'] = 'oct';
         $values['size'] = $config['size'];
 

@@ -20,7 +20,7 @@ class RandomOKPKey extends RandomKey
      */
     protected function getKeyConfig(array $config)
     {
-        $values = $config['additional_values'];
+        $values = $config['key_configuration'];
         $values['kty'] = 'OKP';
         $values['crv'] = $config['curve'];
 
@@ -53,6 +53,9 @@ class RandomOKPKey extends RandomKey
         parent::addConfiguration($node);
     }
 
+    /**
+     * @return \Closure
+     */
     private static function checkCurve()
     {
         return function ($v) {

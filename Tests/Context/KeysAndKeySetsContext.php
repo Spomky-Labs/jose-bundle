@@ -12,7 +12,6 @@
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
 use Jose\Object\JWKSetInterface;
-use Jose\Object\StorableJWK;
 
 /**
  * Behat context trait.
@@ -94,5 +93,15 @@ trait KeysAndKeySetsContext
                 get_class($this->getContainer()->get($service))
             ));
         }
+    }
+
+    /**
+     * @When I show JWKSet :id
+     */
+    public function iShowJWKSet($id)
+    {
+        $jwkset = $this->getContainer()->get($id);
+
+        dump(json_encode($jwkset));
     }
 }

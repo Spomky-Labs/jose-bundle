@@ -42,6 +42,8 @@ trait JWSCreationContext
 
     /**
      * @Given I have the following values in the signature protected header
+     *
+     * @param \Behat\Gherkin\Node\PyStringNode $string
      */
     public function iHaveTheFollowingValuesInTheSignatureProtectedHeader(PyStringNode $string)
     {
@@ -50,6 +52,8 @@ trait JWSCreationContext
 
     /**
      * @Given I have the following values in the signature header
+     *
+     * @param \Behat\Gherkin\Node\PyStringNode $string
      */
     public function iHaveTheFollowingValuesInTheSignatureHeader(PyStringNode $string)
     {
@@ -58,6 +62,9 @@ trait JWSCreationContext
 
     /**
      * @When I try to create a JWS in JSON Compact Serialization Mode with signature key :key_service and I store the result in the variable :variable
+     *
+     * @param string $key_service
+     * @param string $variable
      */
     public function iTryToCreateAJwsInJsonCompactSerializationModeWithSignatureKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {
@@ -71,6 +78,9 @@ trait JWSCreationContext
 
     /**
      * @When I try to create a JWS in JSON Flattened Serialization Mode with signature key :key_service and I store the result in the variable :variable
+     *
+     * @param string $key_service
+     * @param string $variable
      */
     public function iTryToCreateAJwsInJsonFlattenedSerializationModeWithSignatureKeyAndIStoreTheResultInTheVariable($key_service, $variable)
     {

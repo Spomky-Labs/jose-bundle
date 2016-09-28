@@ -13,6 +13,7 @@ jose:
     keys:
         key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
             values: # Type of key. In this case, we create it using its values
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
                 values: # The list of values
                     kty: "oct"
                     kid: "018c0ae5-4d9b-471b-bfd6-eef314bc7037"
@@ -28,6 +29,7 @@ jose:
     keys:
         key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
             file: # Type of key. In this case, the key is stored in an file.
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
                 path: "/Path/To/The/file.key" # Path of the file
                 password: "secret" # If the key is encrypted, this parameter is mandatory
                 additional_values: # You can add custom values 
@@ -44,6 +46,7 @@ jose:
     keys:
         key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
             certificate: # Type of key. In this case, the key is stored in an certificate.
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
                 path: "/Path/To/The/certificate.crt" # Path of the certificate
                 additional_values: # You can add custom values 
                     kid: "CERT_ABCDE"
@@ -59,7 +62,22 @@ jose:
     keys:
         key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
             jwk: # Type of key. In this case, the key from a serialized JWK.
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
                 value: '{"kty":"EC","crv":"P-521","d":"Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE","x":"AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS","y":"AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC","foo":"bar"}'
+```
+
+# From a JWKSet
+
+The following example shows you how to load a key from a JWKSet.
+
+```yml
+jose:
+    keys:
+        key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
+            jwkset: # Type of key. In this case, the key from a serialized JWK.
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
+                id: 'jose.key_set.my_key_set' # The key we want to load is in that JWKSet
+                index: 0                      # Index of the key in the JWKSet. The key MUST exist otherwise an exception will be thrown
 ```
 
 # From a Certificate Chain
@@ -71,6 +89,7 @@ jose:
     keys:
         key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
             x5c: # Type of key. In this case, the key from a a certificate chain.
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
                 value: |
                         -----BEGIN CERTIFICATE-----
                         MIID8DCCAtigAwIBAgIDAjqDMA0GCSqGSIb3DQEBCwUAMEIxCzAJBgNVBAYTAlVT
@@ -121,13 +140,14 @@ jose:
 # Random Key Creation
 
 This bundle is able to create and rotate keys for you.
-These keys are stored in a file and served on demand. When expired, they are automatically re-created.
+These keys are stored in a file and served on demand. When expired, they are updated through a dedicated console command.
 If you need, a key may have no expiration time.
 
-Please note that parameters `storage_path`, `ttl` and `additional_values` are common for all keys.
-When `ttl` value is `0` (zero), this means the key will never expire.
+Please note that parameters `storage_path` and `key_configuration` are common for all keys.
 
-The key ID (`kid`) is always set. If you add it to the `additional_values` list, then this value is ignored. 
+The key ID (`kid`) is always set. If you add it to the `additional_configuration` list, then this value is ignored. 
+
+Please read [this page](../use/commands.md) to know how to use console commands with these kind of keys.
 
 ## RSA Key
 
@@ -138,8 +158,8 @@ jose:
             rsa: # Type of key. In this case, the key is a random RSA key.
                 size: 4096 # Key size in bits
                 storage_path: "/Path/To/The/Storage/File.key" # Path of the file
-                ttl: 3600 # TTL in second
-                additional_values: # You can add custom values 
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
+                key_configuration: # You can add custom values 
                     alg: 'RS256'
                     use: 'sig'
 ```
@@ -153,8 +173,8 @@ jose:
             ec: # Type of key. In this case, the key is a random EC key.
                 curve: 'P-256' # Curve of the key. P-256, P-384 and P-521 are supported
                 storage_path: "/Path/To/The/Storage/File.key" # Path of the file
-                ttl: 3600 # TTL in second
-                additional_values: # You can add custom values 
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
+                key_configuration: # You can add custom values 
                     alg: 'ES256'
                     use: 'sig'
 ```
@@ -168,8 +188,8 @@ jose:
             oct: # Type of key. In this case, the key is a random Octet key.
                 size: 256 # Key size in bits
                 storage_path: "/Path/To/The/Storage/File.key" # Path of the file
-                ttl: 3600 # TTL in second
-                additional_values: # You can add custom values 
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
+                key_configuration: # You can add custom values 
                     alg: 'HS256'
                     use: 'sig'
 ```
@@ -183,8 +203,8 @@ jose:
             okp: # Type of key. In this case, the key is a random OKP key.
                 curve: 'X25519' # Curve of the key. X25519 and Ed25519 are supported
                 storage_path: "/Path/To/The/Storage/File.key" # Path of the file
-                ttl: 3600 # TTL in second
-                additional_values: # You can add custom values 
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
+                key_configuration: # You can add custom values 
                     alg: 'ECDH-ES'
                     use: 'enc'
 ```
@@ -197,8 +217,22 @@ jose:
         key_id: # ID of the key. When loaded, the service "jose.key.key_id" will be created
             none: # Type of key. In this case, the key is a none key.
                 storage_path: "/Path/To/The/Storage/File.key" # Path of the file
-                ttl: 3600 # TTL in second
-                additional_values: # You can add custom values 
-                    alg: 'ECDH-ES'
-                    use: 'enc'
+                is_public: true # Indicates the service will be public or private. This option is availble to all key sources
+                key_configuration: # You can add custom values 
+                    kid: 'MY_NONE_KEY'
+                    use: 'sig'
+                    alg: 'none'
 ```
+
+## Key Rotation
+
+All random keys can be refreshed through a console command after a period of time.
+
+In the following example, the command will generate a new key if the actual key is older than 86400 seconds (24 hrs):
+
+```sh
+bin/console spomky-labs:jose:rotate-keys --key="jose.key.key_id" --ttl=86400
+```
+
+_Please note that the service `jose.key.key_id` must be a valid random key._
+

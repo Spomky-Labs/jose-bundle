@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class X5U extends AbstractSource implements JWKSetSourceInterface
+class PublicJWKSet extends AbstractSource implements JWKSetSourceInterface
 {
     /**
      * {@inheritdoc}
@@ -27,14 +27,9 @@ class X5U extends AbstractSource implements JWKSetSourceInterface
         $definition = new Definition('Jose\Object\JWKSet');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
-            'createFromX5U',
+            'createPublicKeySet',
         ]);
-        $definition->setArguments([
-            $config['url'],
-            $config['is_secured'],
-            $config['cache'],
-            $config['cache_ttl'],
-        ]);
+        $definition->setArguments([new Reference($config['id'])]);
 
         return $definition;
     }
@@ -44,7 +39,7 @@ class X5U extends AbstractSource implements JWKSetSourceInterface
      */
     public function getKeySet()
     {
-        return 'x5u';
+        return 'public_jwkset';
     }
 
     /**
@@ -55,10 +50,10 @@ class X5U extends AbstractSource implements JWKSetSourceInterface
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('url')->isRequired()->end()
-                ->booleanNode('is_secured')->defaultTrue()->end()
-                ->scalarNode('cache')->defaultNull()->end()
-                ->integerNode('cache_ttl')->defaultValue(0)->end()
+                ->scalarNode('id')
+                    ->info('ID of the JWKSet to use.')
+                    ->isRequired()
+                ->end()
             ->end();
     }
 }

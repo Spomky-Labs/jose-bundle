@@ -9,7 +9,7 @@
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
+namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
 use SpomkyLabs\JoseBundle\DependencyInjection\Source\AbstractSource;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
@@ -17,24 +17,19 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class X5U extends AbstractSource implements JWKSetSourceInterface
+class JWKSet extends AbstractSource implements JWKSourceInterface
 {
     /**
      * {@inheritdoc}
      */
     public function createDefinition(ContainerBuilder $container, array $config)
     {
-        $definition = new Definition('Jose\Object\JWKSet');
+        $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
-            'createFromX5U',
+            'createFromKeySet',
         ]);
-        $definition->setArguments([
-            $config['url'],
-            $config['is_secured'],
-            $config['cache'],
-            $config['cache_ttl'],
-        ]);
+        $definition->setArguments([new Reference($config['key_set']), $config['index']]);
 
         return $definition;
     }
@@ -42,9 +37,9 @@ class X5U extends AbstractSource implements JWKSetSourceInterface
     /**
      * {@inheritdoc}
      */
-    public function getKeySet()
+    public function getKey()
     {
-        return 'x5u';
+        return 'jwkset';
     }
 
     /**
@@ -55,10 +50,13 @@ class X5U extends AbstractSource implements JWKSetSourceInterface
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('url')->isRequired()->end()
-                ->booleanNode('is_secured')->defaultTrue()->end()
-                ->scalarNode('cache')->defaultNull()->end()
-                ->integerNode('cache_ttl')->defaultValue(0)->end()
+                ->scalarNode('key_set')
+                    ->info('The key set service.')
+                    ->isRequired()->end()
+                ->integerNode('index')
+                    ->info('The index of the key in the key set.')
+                    ->isRequired()
+                ->end()
             ->end();
     }
 }

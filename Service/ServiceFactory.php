@@ -56,9 +56,9 @@ final class ServiceFactory
     }
 
     /**
-     * @param string[]                      $selected_key_encryption_algorithms
-     * @param string[]                      $selected_content_encryption_algorithms
-     * @param string[]                      $selected_compression_methods
+     * @param string[] $selected_key_encryption_algorithms
+     * @param string[] $selected_content_encryption_algorithms
+     * @param string[] $selected_compression_methods
      *
      * @return \Jose\EncrypterInterface
      */
@@ -72,9 +72,9 @@ final class ServiceFactory
     }
 
     /**
-     * @param string[]                      $selected_key_encryption_algorithms
-     * @param string[]                      $selected_content_encryption_algorithms
-     * @param string[]                      $selected_compression_methods
+     * @param string[] $selected_key_encryption_algorithms
+     * @param string[] $selected_content_encryption_algorithms
+     * @param string[] $selected_compression_methods
      *
      * @return \Jose\DecrypterInterface
      */

@@ -11,17 +11,18 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\AbstractSource;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class X5C implements JWKSourceInterface
+class X5C extends AbstractSource implements JWKSourceInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function create(ContainerBuilder $container, $id, array $config)
+    public function createDefinition(ContainerBuilder $container, array $config)
     {
         $definition = new Definition('Jose\Object\JWK');
         $definition->setFactory([
@@ -31,9 +32,8 @@ class X5C implements JWKSourceInterface
         $definition->setArguments([
             $config['value'],
         ]);
-        $definition->setPublic($config['is_public']);
 
-        $container->setDefinition($id, $definition);
+        return $definition;
     }
 
     /**
@@ -49,12 +49,9 @@ class X5C implements JWKSourceInterface
      */
     public function addConfiguration(NodeDefinition $node)
     {
+        parent::addConfiguration($node);
         $node
             ->children()
-                ->booleanNode('is_public')
-                    ->info('If true, the service will be public, else private.')
-                    ->defaultTrue()
-                ->end()
                 ->scalarNode('value')->isRequired()->end()
             ->end();
     }
