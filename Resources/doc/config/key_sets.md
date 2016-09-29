@@ -149,12 +149,14 @@ Now the service `jose.key_set.all_in_one_public` will contain all public keys an
 
 As explained above, in some context it is interesting to share public keys.
 
-That is why with bundle provide an easy way to share any JWKSet through a route and a controller.
+That is why this bundle provides an easy way to share any JWKSet through a route and a controller.
 And because you should not loose time to create controllers and routes, this bundle provides all the features built-in.
 
 The way it is managed is quite simple:
 
-1. Just add the following route into your route file:
+## Add The Built-in Route File
+
+Just add the following lines into your routing file:
 
 ```yml
 # routing.yml
@@ -163,10 +165,12 @@ jwkset_endpoint:
     prefix: '/keys' # You can prefix it as any other route
 ```
 
-2. Configure your JWKSet to be shared
+## Share Yyour JWKSet
 
-There is nothing to do except adding a `path` parameter.
+There is nothing to do except adding a `path` parameter for each key set you wamt to share.
 This path should be something like `/path/to/the/key/set`.
+
+Each path must be unique otherwise previous routes will be erased.
 
 ```yml
 jose:
@@ -178,17 +182,18 @@ jose:
                 id: 'jose.key_set.all_in_one'
 ```
 
-3. Access on your key set
+## Access On Your JWKSet
 
 The complete URL of your key set is `HOST + PREFIX + PATH + '.json'` and the route name is `jwkset_KEY_ID_json`.
 
 In our example, if the host is `http://www.example.com`, the complete URL is `http://www.example.com/keys/public_keys.json`.
 The route name is `jwkset_all_in_one_public_json`.
 
-Bonus
------
+## Bonus
 
 Some clients do not support JWKSet or JWK formats.
 
-In the meantime, another route with keys in PEM format is provided. Just replace `json` into `pem`: `http://www.example.com/keys/public_keys.pem`.
-The route name is `jwkset_all_in_one_public_pem`.
+In the meantime, another route with keys in PEM format is provided. Just replace `json` into `pem`: 
+
+* The complete URL: `http://www.example.com/keys/public_keys.pem`.
+* The route name: `jwkset_all_in_one_public_pem`.
