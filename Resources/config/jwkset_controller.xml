@@ -6,5 +6,9 @@
 
     <services>
         <service id="jose.controller.jwkset_controllery_factory" class="SpomkyLabs\JoseBundle\Controller\JWKSetControllerFactory" />
+
+        <service id="jose.routing.jwkset_loader" class="SpomkyLabs\JoseBundle\Routing\JWKSetLoader">
+            <tag name="routing.loader" />
+        </service>
     </services>
 </container>
