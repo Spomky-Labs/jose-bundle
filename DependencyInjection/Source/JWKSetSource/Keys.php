@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class Keys extends AbstractJWKSetSource implements JWKSetSourceInterface
+class Keys extends AbstractJWKSetSource
 {
     /**
      * {@inheritdoc}
