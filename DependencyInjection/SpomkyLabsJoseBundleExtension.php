@@ -72,7 +72,7 @@ final class SpomkyLabsJoseBundleExtension extends Extension implements PrependEx
         );
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $services = ['services', 'compression_methods', 'checkers', 'signature_algorithms', 'encryption_algorithms', 'checkers'];
+        $services = ['services', 'compression_methods', 'checkers', 'signature_algorithms', 'encryption_algorithms', 'checkers', 'jwkset_controller'];
         foreach ($services as $basename) {
             $loader->load(sprintf('%s.xml', $basename));
         }
