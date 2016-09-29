@@ -26,7 +26,7 @@ abstract class AbstractJWKSetSource extends AbstractSource implements JWKSetSour
         if ($config['is_shared']) {
             $controller_definition = new Definition('SpomkyLabs\JoseBundle\Controller\JWKSetController');
             $controller_definition->setFactory([new Reference('jose.controller.jwkset_controllery_factory'), 'createJWKSetController']);
-            $controller_definition->setArguments([new Reference($id]);
+            $controller_definition->setArguments([new Reference($id)]);
             $container->setDefinition('jose.controller.'.$id, $controller_definition);
         }
     }
