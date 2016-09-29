@@ -11,9 +11,11 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
 
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\AbstractSource;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\AbstractSource;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 abstract class AbstractJWKSetSource extends AbstractSource implements JWKSetSourceInterface
 {
