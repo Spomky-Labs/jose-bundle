@@ -12,8 +12,9 @@
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use SpomkyLabs\JoseBundle\DependencyInjection\Source\AbstractSource;
 
-abstract class AbstractJWKSetSource
+abstract class AbstractJWKSetSource extends AbstractSource
 {
     /**
      * {@inheritdoc}
