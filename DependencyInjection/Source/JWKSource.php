@@ -53,8 +53,7 @@ final class JWKSource implements SourceInterface
     {
         foreach ($config as $key => $adapter) {
             if (array_key_exists($key, $this->getJWKSources())) {
-                $service_id = sprintf('jose.key.%s', $name);
-                $this->getJWKSources()[$key]->create($container, $service_id, $adapter);
+                $this->getJWKSources()[$key]->create($container, 'key', $name, $adapter);
 
                 return;
             }

@@ -34,8 +34,16 @@ final class JWKSetController
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handleAction()
+    public function jsonAction()
     {
         return new Response(json_encode($this->jwkset), Response::HTTP_OK, ['content-type' => 'application/jwk-set+json']);
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function pemAction()
+    {
+        return new Response(json_encode($this->jwkset->toPEM()), Response::HTTP_OK, ['content-type' => 'application/json']);
     }
 }

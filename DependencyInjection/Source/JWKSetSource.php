@@ -53,8 +53,7 @@ final class JWKSetSource implements SourceInterface
     {
         foreach ($config as $key => $adapter) {
             if (array_key_exists($key, $this->getJWKSetSources())) {
-                $service_id = sprintf('jose.key_set.%s', $name);
-                $this->getJWKSetSources()[$key]->create($container, $service_id, $adapter);
+                $this->getJWKSetSources()[$key]->create($container, 'key_set', $name, $adapter);
 
                 return;
             }

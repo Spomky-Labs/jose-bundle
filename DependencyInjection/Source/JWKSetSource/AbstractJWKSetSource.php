@@ -22,15 +22,16 @@ abstract class AbstractJWKSetSource extends AbstractSource implements JWKSetSour
     /**
      * {@inheritdoc}
      */
-    public function create(ContainerBuilder $container, $id, array $config)
+    public function create(ContainerBuilder $container, $type, $name, array $config)
     {
-        parent::create($container, $id, $config);
+        parent::create($container, $type, $name, $config);
         
         if (null !== $config['path']) {
+            $jwkset_id = 'jose.key_set.'.$name;
             $controller_definition = new Definition('SpomkyLabs\JoseBundle\Controller\JWKSetController');
             $controller_definition->setFactory([new Reference('jose.controller.jwkset_controllery_factory'), 'createJWKSetController']);
-            $controller_definition->setArguments([new Reference($id)]);
-            $controller_id = 'jose.controller.'.$id;
+            $controller_definition->setArguments([new Reference($jwkset_id)]);
+            $controller_id = 'jose.controller.'.$name;
             $container->setDefinition($controller_id, $controller_definition);
             
             $jwkset_loader_definition = $container->getDefinition('jose.routing.jwkset_loader');

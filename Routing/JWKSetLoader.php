@@ -11,17 +11,12 @@
 namespace SpomkyLabs\JoseBundle\Routing;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 final class JWKSetLoader implements LoaderInterface
 {
-    /**
-     * @var bool
-     */
-    private $loaded = false;
-
     /**
      * @var \Symfony\Component\Routing\RouteCollection
      */
@@ -41,9 +36,13 @@ final class JWKSetLoader implements LoaderInterface
      */
     public function addJWKSetRoute($pattern, $service)
     {
-        $defaults =['_controller' => $service.':handleAction'];
-        $route = new Route($pattern, $defaults);
-        $this->routes->add('extraRoute', $route);
+        $json_defaults =['_controller' => $service.':jsonAction'];
+        $json_route = new Route($pattern.'.json', $json_defaults);
+        $this->routes->add('jwkset_'.$service.'_json', $json_route);
+
+        $pem_defaults =['_controller' => $service.':pemAction'];
+        $pem_route = new Route($pattern.'.pem', $pem_defaults);
+        $this->routes->add('jwkset_'.$service.'_pem', $pem_route);
     }
 
     /**
@@ -70,5 +69,5 @@ final class JWKSetLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function setResolver(LoaderResolver $resolver) {}
+    public function setResolver(LoaderResolverInterface $resolver) {}
 }

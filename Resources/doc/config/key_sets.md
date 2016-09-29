@@ -145,27 +145,50 @@ jose:
 
 Now the service `jose.key_set.all_in_one_public` will contain all public keys and can be shared with third party applications.
 
-The recommended way is to provide a route to get that keys.
+# Share a JWKSet
 
-Example within a controller action:
+As explained above, in some context it is interesting to share public keys.
 
-```php
-namespace AppBundle\Controller;
+That is why with bundle provide an easy way to share any JWKSet through a route and a controller.
+And because you should not loose time to create controllers and routes, this bundle provides all the features built-in.
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
+The way it is managed is quite simple:
 
-class KeySetController extends Controller
-{
-    /**
-     * @Route("/jwku")
-     */
-    public function jwkuAction()
-    {
-        $jwkset = $this->get('jose.key_set.all_in_one_public');
-        
-        return JsonResponse::create($jwkset);
-    }
-}
+1. Just add the following route into your route file:
+
+```yml
+# routing.yml
+jwkset_endpoint:
+    resource: "@SpomkyLabsJoseBundle/Resources/config/routing/jwkset_controller.yml"
+    prefix: '/keys' # You can prefix it as any other route
 ```
+
+2. Configure your JWKSet to be shared
+
+There is nothing to do except adding a `path` parameter.
+This path should be something like `/path/to/the/key/set`.
+
+```yml
+jose:
+    key_sets:
+        ...
+        all_in_one_public:
+            public_jwkset:
+                path: '/public_keys' # Note we set a path
+                id: 'jose.key_set.all_in_one'
+```
+
+3. Access on your key set
+
+The complete URL of your key set is `HOST + PREFIX + PATH + '.json'` and the route name is `jwkset_KEY_ID_json`.
+
+In our example, if the host is `http://www.example.com`, the complete URL is `http://www.example.com/keys/public_keys.json`.
+The route name is `jwkset_all_in_one_public_json`.
+
+Bonus
+-----
+
+Some clients do not support JWKSet or JWK formats.
+
+In the meantime, another route with keys in PEM format is provided. Just replace `json` into `pem`: `http://www.example.com/keys/public_keys.pem`.
+The route name is `jwkset_all_in_one_public_pem`.

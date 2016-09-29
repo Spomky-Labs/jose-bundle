@@ -25,15 +25,14 @@ abstract class AbstractSource
     abstract protected function createDefinition(ContainerBuilder $container, array $config);
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param string                                                  $id
-     * @param array                                                   $config
+     * {@inheritdoc}
      */
-    public function create(ContainerBuilder $container, $id, array $config)
+    public function create(ContainerBuilder $container, $type, $name, array $config)
     {
+        $service_id = sprintf('jose.%s.%s', $type, $name);
         $definition = $this->createDefinition($container, $config);
         $definition->setPublic($config['is_public']);
-        $container->setDefinition($id, $definition);
+        $container->setDefinition($service_id, $definition);
     }
 
     /**
