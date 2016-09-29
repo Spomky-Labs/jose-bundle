@@ -90,6 +90,7 @@ jose:
         all_in_one_public:
             public_jwkset:
                 id: 'jose.key_set.all_in_one'
+                path: '/public_keys'
     keys:
         from_keyset:
             jwkset:
