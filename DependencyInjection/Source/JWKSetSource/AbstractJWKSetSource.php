@@ -24,11 +24,15 @@ abstract class AbstractJWKSetSource extends AbstractSource implements JWKSetSour
     {
         parent::create($container, $id, $config);
         
-        if ($config['is_shared']) {
+        if (null !== $config['path']) {
             $controller_definition = new Definition('SpomkyLabs\JoseBundle\Controller\JWKSetController');
             $controller_definition->setFactory([new Reference('jose.controller.jwkset_controllery_factory'), 'createJWKSetController']);
             $controller_definition->setArguments([new Reference($id)]);
-            $container->setDefinition('jose.controller.'.$id, $controller_definition);
+            $controller_id = 'jose.controller.'.$id;
+            $container->setDefinition($controller_id, $controller_definition);
+            
+            $jwkset_loader_definition = $container->getDefinition('jose.routing.jwkset_loader');
+            $jwkset_loader_definition->addMethodCall('addJWKSetRoute', [$config['path'], $controller_id]);
         }
     }
     
@@ -40,9 +44,9 @@ abstract class AbstractJWKSetSource extends AbstractSource implements JWKSetSour
         parent::addConfiguration($node);
         $node
             ->children()
-                ->booleanNode('is_shared')
-                    ->info('If true, a controller will be created to ease the JWKSet to be shared.')
-                    ->defaultFalse()
+                ->scalarNode('path')
+                    ->info('To share the JWKSet, then set a valid path (e.g. "/jwkset.json").')
+                    ->defaultNull()
                 ->end()
             ->end();
     }
