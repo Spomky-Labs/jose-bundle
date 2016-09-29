@@ -11,13 +11,12 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
 
-use SpomkyLabs\JoseBundle\DependencyInjection\Source\AbstractSource;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class X5U extends AbstractSource implements JWKSetSourceInterface
+class X5U extends AbstractJWKSetSource implements JWKSetSourceInterface
 {
     /**
      * {@inheritdoc}
