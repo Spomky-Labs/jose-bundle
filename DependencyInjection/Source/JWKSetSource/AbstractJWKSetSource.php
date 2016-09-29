@@ -16,6 +16,21 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 abstract class AbstractJWKSetSource
 {
     /**
+     * {@inheritdoc}
+     */
+    public function create(ContainerBuilder $container, $id, array $config)
+    {
+        parent::create($container, $id, $config);
+        
+        if ($config['is_shared']) {
+            $controller_definition = new Definition('SpomkyLabs\JoseBundle\Controller\JWKSetController');
+            $controller_definition->setFactory([new Reference('jose.controller.jwkset_controllery_factory'), 'createJWKSetController']);
+            $controller_definition->setArguments([new Reference($id]);
+            $container->setDefinition('jose.controller.'.$id, $controller_definition);
+        }
+    }
+    
+    /**
      * @param \Symfony\Component\Config\Definition\Builder\NodeDefinition $node
      */
     public function addConfiguration(NodeDefinition $node)
