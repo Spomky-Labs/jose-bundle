@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class RandomKeySet extends AbstractJWKSetSource implements JWKSetSourceInterface
+final class RandomKeySet extends AbstractJWKSetSource
 {
     /**
      * {@inheritdoc}
