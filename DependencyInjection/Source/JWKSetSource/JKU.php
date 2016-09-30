@@ -57,7 +57,7 @@ class JKU extends AbstractJWKSetSource
                 ->scalarNode('url')->isRequired()->end()
                 ->booleanNode('is_secured')->defaultTrue()->end()
                 ->scalarNode('cache')->defaultNull()->end()
-                ->integerNode('cache_ttl')->defaultValue(0)->end()
+                ->integerNode('cache_ttl')->defaultValue(86400)->end()
             ->end();
     }
 }
