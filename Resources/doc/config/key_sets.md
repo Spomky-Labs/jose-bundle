@@ -39,6 +39,8 @@ jose:
             jku: # Type of key set. In this case, the key set is created from a serialized JWK.
                 url: "https://www.googleapis.com/oauth2/v2/certs"
                 is_secured: true # If false, unsecured connections are allowed. Default is true
+                cache: 'app.cache' # PSR-6: Caching Interface service. See http://www.php-fig.org/psr/psr-6/ and http://symfony.com/blog/new-in-symfony-3-1-cache-component
+                cache_ttl: 300 # Lifetime in seconds of the cache (default is 86400 = 24 hrs)
 ```
 
 # From a X5U (X509 Certificates URL)
@@ -52,6 +54,8 @@ jose:
             x5u: # Type of key set. In this case, the key set is created from a serialized JWK.
                 url: "https://www.googleapis.com/oauth2/v1/certs"
                 is_secured: true # If false, unsecured connections are allowed. Default is true
+                cache: 'app.cache' # PSR-6: Caching Interface service. See http://www.php-fig.org/psr/psr-6/ and http://symfony.com/blog/new-in-symfony-3-1-cache-component
+                cache_ttl: 300 # Lifetime in seconds of the cache (default is 86400 = 24 hrs)
 ```
 
 # Random Key Set
