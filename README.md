@@ -93,3 +93,8 @@ Please make sure to [follow these best practices](Resources/doc/Contributing.md)
 # Licence
 
 This software is release under [MIT licence](LICENSE).
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/Spomky-Labs/jose-bundle/badge.svg?style=beer-square)](https://beerpay.io/Spomky-Labs/jose-bundle)  [![Beerpay](https://beerpay.io/Spomky-Labs/jose-bundle/make-wish.svg?style=flat-square)](https://beerpay.io/Spomky-Labs/jose-bundle?focus=wish)
