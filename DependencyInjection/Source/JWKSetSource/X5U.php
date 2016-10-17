@@ -11,19 +11,18 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
 
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class X5U extends AbstractJWKSetSource
+class X5U extends DownloadedJWKSet
 {
     /**
      * {@inheritdoc}
      */
     public function createDefinition(ContainerBuilder $container, array $config)
     {
-        $definition = new Definition('Jose\Object\JWKSet');
+        $definition = new Definition('Jose\Object\X5UJWKSet');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
             'createFromX5U',
@@ -33,6 +32,7 @@ class X5U extends AbstractJWKSetSource
             $config['is_secured'],
             $config['cache'],
             $config['cache_ttl'],
+            $config['is_https'],
         ]);
 
         return $definition;
@@ -44,20 +44,5 @@ class X5U extends AbstractJWKSetSource
     public function getKeySet()
     {
         return 'x5u';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addConfiguration(NodeDefinition $node)
-    {
-        parent::addConfiguration($node);
-        $node
-            ->children()
-                ->scalarNode('url')->isRequired()->end()
-                ->booleanNode('is_secured')->defaultTrue()->end()
-                ->scalarNode('cache')->defaultNull()->end()
-                ->integerNode('cache_ttl')->defaultValue(86400)->end()
-            ->end();
     }
 }
