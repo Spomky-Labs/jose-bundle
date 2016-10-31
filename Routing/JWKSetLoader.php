@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The MIT License (MIT)
  *
@@ -6,7 +7,7 @@
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
-*/
+ */
 
 namespace SpomkyLabs\JoseBundle\Routing;
 
@@ -23,7 +24,7 @@ final class JWKSetLoader implements LoaderInterface
     private $routes;
 
     /**
-     * JWKSetLoader Constructor
+     * JWKSetLoader Constructor.
      */
     public function __construct()
     {
@@ -36,11 +37,11 @@ final class JWKSetLoader implements LoaderInterface
      */
     public function addJWKSetRoute($pattern, $service)
     {
-        $json_defaults =['_controller' => $service.':jsonAction'];
+        $json_defaults = ['_controller' => $service.':jsonAction'];
         $json_route = new Route($pattern.'.json', $json_defaults);
         $this->routes->add('jwkset_'.$service.'_json', $json_route);
 
-        $pem_defaults =['_controller' => $service.':pemAction'];
+        $pem_defaults = ['_controller' => $service.':pemAction'];
         $pem_route = new Route($pattern.'.pem', $pem_defaults);
         $this->routes->add('jwkset_'.$service.'_pem', $pem_route);
     }
@@ -64,10 +65,14 @@ final class JWKSetLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function getResolver() {}
+    public function getResolver()
+    {
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function setResolver(LoaderResolverInterface $resolver) {}
+    public function setResolver(LoaderResolverInterface $resolver)
+    {
+    }
 }

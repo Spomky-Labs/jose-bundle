@@ -11,19 +11,18 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSetSource;
 
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class JKU extends AbstractJWKSetSource
+class JKU extends DownloadedJWKSet
 {
     /**
      * {@inheritdoc}
      */
     public function createDefinition(ContainerBuilder $container, array $config)
     {
-        $definition = new Definition('Jose\Object\JWKSet');
+        $definition = new Definition('Jose\Object\JKUJWKSet');
         $definition->setFactory([
             new Reference('jose.factory.jwk'),
             'createFromJKU',
@@ -33,6 +32,7 @@ class JKU extends AbstractJWKSetSource
             $config['is_secured'],
             $config['cache'],
             $config['cache_ttl'],
+            $config['is_https'],
         ]);
 
         return $definition;
@@ -44,20 +44,5 @@ class JKU extends AbstractJWKSetSource
     public function getKeySet()
     {
         return 'jku';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addConfiguration(NodeDefinition $node)
-    {
-        parent::addConfiguration($node);
-        $node
-            ->children()
-                ->scalarNode('url')->isRequired()->end()
-                ->booleanNode('is_secured')->defaultTrue()->end()
-                ->scalarNode('cache')->defaultNull()->end()
-                ->integerNode('cache_ttl')->defaultValue(86400)->end()
-            ->end();
     }
 }

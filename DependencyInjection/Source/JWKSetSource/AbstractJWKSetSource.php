@@ -25,7 +25,7 @@ abstract class AbstractJWKSetSource extends AbstractSource implements JWKSetSour
     public function create(ContainerBuilder $container, $type, $name, array $config)
     {
         parent::create($container, $type, $name, $config);
-        
+
         if (null !== $config['path']) {
             $jwkset_id = 'jose.key_set.'.$name;
             $controller_definition = new Definition('SpomkyLabs\JoseBundle\Controller\JWKSetController');
@@ -33,12 +33,12 @@ abstract class AbstractJWKSetSource extends AbstractSource implements JWKSetSour
             $controller_definition->setArguments([new Reference($jwkset_id)]);
             $controller_id = 'jose.controller.'.$name;
             $container->setDefinition($controller_id, $controller_definition);
-            
+
             $jwkset_loader_definition = $container->getDefinition('jose.routing.jwkset_loader');
             $jwkset_loader_definition->addMethodCall('addJWKSetRoute', [$config['path'], $controller_id]);
         }
     }
-    
+
     /**
      * @param \Symfony\Component\Config\Definition\Builder\NodeDefinition $node
      */

@@ -50,14 +50,13 @@ final class TestExtension extends Extension implements PrependExtensionInterface
         return $this->alias;
     }
 
-
     /**
      * {@inheritdoc}
      */
     public function prepend(ContainerBuilder $container)
     {
         ConfigurationHelper::addChecker($container, 'test', ['crit'], ['iat', 'nbf', 'exp']);
-        ConfigurationHelper::addRandomJWKSet($container, 'from_configuration_helper', '%kernel.cache_dir%/from_configuration_helper.keyset', 2, ['kty'=>'RSA', 'size'=>1024], true);
+        ConfigurationHelper::addRandomJWKSet($container, 'from_configuration_helper', '%kernel.cache_dir%/from_configuration_helper.keyset', 2, ['kty' => 'RSA', 'size' => 1024], true);
         ConfigurationHelper::addJWKSets($container, 'all_in_one_from_configuration_helper', ['jose.key_set.from_configuration_helper']);
         ConfigurationHelper::addPublicJWKSet($container, 'all_in_one_public_from_configuration_helper', 'jose.key_set.from_configuration_helper');
 

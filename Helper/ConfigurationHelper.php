@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 final class ConfigurationHelper
 {
     const BUNDLE_ALIAS = 'jose';
+
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param string                                                  $name
@@ -30,7 +31,7 @@ final class ConfigurationHelper
     public static function addChecker(ContainerBuilder $container, $name, array $header_checkers, array $claim_checkers, $is_public = true)
     {
         $config = self::getCheckerConfiguration($name, $header_checkers, $claim_checkers, $is_public);
-            self::updateJoseConfiguration($container, $config, 'checkers');
+        self::updateJoseConfiguration($container, $config, 'checkers');
     }
 
     /**
@@ -485,6 +486,5 @@ final class ConfigurationHelper
     {
         $bundles = $container->getParameter('kernel.bundles');
         Assertion::keyExists($bundles, 'SpomkyLabsJoseBundle', 'The "Spomky-Labs/JoseBundle" must be enabled.');
-
     }
 }
