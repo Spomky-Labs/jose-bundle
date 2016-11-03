@@ -11,6 +11,7 @@
 
 namespace SpomkyLabs\JoseBundle\Features\Context;
 
+use Assert\Assertion;
 use Jose\Object\JWKSetInterface;
 
 /**
@@ -103,5 +104,18 @@ trait KeysAndKeySetsContext
         $jwkset = $this->getContainer()->get($id);
 
         dump(json_encode($jwkset));
+    }
+
+    /**
+     * @Then the route :route exists
+     *
+     * @param string $route_name
+     */
+    public function theRouteExists($route_name)
+    {
+        $router = $this->getContainer()->get('router');
+        $route = $router->getRouteCollection()->get($route_name);
+
+        Assertion::notNull($route, sprintf('The route with name "%s" does not exist.', $route_name));
     }
 }

@@ -35,7 +35,7 @@ abstract class AbstractJWKSetSource extends AbstractSource implements JWKSetSour
             $container->setDefinition($controller_id, $controller_definition);
             
             $jwkset_loader_definition = $container->getDefinition('jose.routing.jwkset_loader');
-            $jwkset_loader_definition->addMethodCall('addJWKSetRoute', [$config['path'], $controller_id]);
+            $jwkset_loader_definition->addMethodCall('addJWKSetRoute', [$config['path'], $name]);
         }
     }
     
