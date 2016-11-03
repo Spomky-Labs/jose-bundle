@@ -1,6 +1,12 @@
 Jose Bundle
 ===========
 
+Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/Spomky-Labs/jose-bundle/badge.svg?style=beer-square)](https://beerpay.io/Spomky-Labs/jose-bundle)  [![Beerpay](https://beerpay.io/Spomky-Labs/jose-bundle/make-wish.svg?style=flat-square)](https://beerpay.io/Spomky-Labs/jose-bundle?focus=wish)
+
+----
+
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Spomky-Labs/jose-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Spomky-Labs/jose-bundle/?branch=master)
 [![Build Status](https://travis-ci.org/Spomky-Labs/jose-bundle.svg?branch=master)](https://travis-ci.org/Spomky-Labs/jose-bundle)
 
