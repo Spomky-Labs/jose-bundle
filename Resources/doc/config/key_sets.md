@@ -188,16 +188,17 @@ jose:
 
 ## Access On Your JWKSet
 
-The complete URL of your key set is `HOST + PREFIX + PATH + '.json'` and the route name is `jwkset_KEY_ID_json`.
+The complete URL of your key set is `HOST + PREFIX + PATH [+ FORMAT]` and the route name is `jwkset_KEY_ID`.
 
-In our example, if the host is `http://www.example.com`, the complete URL is `http://www.example.com/keys/public_keys.json`.
-The route name is `jwkset_all_in_one_public_json`.
+In our example and for the `all_in_one_public` key set, if the host is `http://www.example.com`, the complete URL is `http://www.example.com/keys/public_keys`
+and the route name is `jwkset_all_in_one_public`.
 
-## Bonus
+### JWKSet Format
 
-Some clients do not support JWKSet or JWK formats.
+The associated controller is able to return the key set in two different formats: `JSON` and `PEM`. By default the format is `JSON`.
 
-In the meantime, another route with keys in PEM format is provided. Just replace `json` into `pem`: 
+Example:
 
-* The complete URL: `http://www.example.com/keys/public_keys.pem`.
-* The route name: `jwkset_all_in_one_public_pem`.
+- At `http://www.example.com/keys/public_keys` you will get the key set into JSON. The content type is `application/jwkset+json`.
+- At `http://www.example.com/keys/public_keys.json` you will get the key set into JSON. The content type is `application/jwkset+json`.
+- At `http://www.example.com/keys/public_keys.pem` you will get the key set into PEM. The content type is `application/json`.

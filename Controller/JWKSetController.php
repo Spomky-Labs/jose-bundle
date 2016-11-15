@@ -32,18 +32,20 @@ final class JWKSetController
     }
 
     /**
+     * @param string $_format
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function jsonAction()
+    public function getAction($_format)
     {
-        return new Response(json_encode($this->jwkset), Response::HTTP_OK, ['content-type' => 'application/jwk-set+json']);
-    }
+        if ('json' === $_format) {
+            $value = json_encode($this->jwkset);
+            $ct = 'application/jwk-set+json';
+        } else {
+            $value = json_encode($this->jwkset->toPEM());
+            $ct = 'application/json';
+        }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function pemAction()
-    {
-        return new Response(json_encode($this->jwkset->toPEM()), Response::HTTP_OK, ['content-type' => 'application/json']);
+        return new Response($value, Response::HTTP_OK, ['content-type' => $ct]);
     }
 }
