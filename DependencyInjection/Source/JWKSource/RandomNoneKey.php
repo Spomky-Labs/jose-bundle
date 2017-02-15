@@ -11,7 +11,7 @@
 
 namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
-class RandomNoneKey extends RandomKey
+final class RandomNoneKey extends RandomKey
 {
     /**
      * {@inheritdoc}

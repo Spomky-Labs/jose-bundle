@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class JKU extends DownloadedJWKSet
+final class JKU extends DownloadedJWKSet
 {
     /**
      * {@inheritdoc}

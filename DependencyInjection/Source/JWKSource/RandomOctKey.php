@@ -13,7 +13,7 @@ namespace SpomkyLabs\JoseBundle\DependencyInjection\Source\JWKSource;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 
-class RandomOctKey extends RandomKey
+final class RandomOctKey extends RandomKey
 {
     /**
      * {@inheritdoc}

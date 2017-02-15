@@ -40,10 +40,10 @@ final class JWKSetController
     {
         if ('json' === $_format) {
             $value = json_encode($this->jwkset);
-            $ct = 'application/jwk-set+json';
+            $ct = 'application/jwk-set+json; charset=UTF-8';
         } else {
             $value = json_encode($this->jwkset->toPEM());
-            $ct = 'application/json';
+            $ct = 'application/json; charset=UTF-8';
         }
 
         return new Response($value, Response::HTTP_OK, ['content-type' => $ct]);

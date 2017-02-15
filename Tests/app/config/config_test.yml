@@ -4,8 +4,6 @@ framework:
     translator: ~
     default_locale:  "en"
     csrf_protection: ~
-    validation:
-        enable_annotations: true
     session:
         storage_id: session.storage.mock_file
     router:
