@@ -30,7 +30,7 @@ final class JKU extends DownloadedJWKSet
         $definition->setArguments([
             $config['url'],
             $config['is_secured'],
-            $config['cache'],
+            new Reference($config['cache']),
             $config['cache_ttl'],
             $config['is_https'],
         ]);
