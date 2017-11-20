@@ -30,7 +30,7 @@ final class X5U extends DownloadedJWKSet
         $definition->setArguments([
             $config['url'],
             $config['is_secured'],
-            new Reference($config['cache']),
+            null !== $config['cache'] ? new Reference($config['cache']) : null,
             $config['cache_ttl'],
             $config['is_https'],
         ]);
