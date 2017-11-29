@@ -58,6 +58,7 @@ final class JWKSource implements SourceInterface
                 return;
             }
         }
+
         throw new \LogicException(sprintf('The JWK definition "%s" is not configured.', $name));
     }
 

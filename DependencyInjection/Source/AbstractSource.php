@@ -25,7 +25,8 @@ abstract class AbstractSource
     abstract protected function createDefinition(ContainerBuilder $container, array $config);
 
     /**
-     * {@inheritdoc}
+     * @param string $type
+     * @param string $name
      */
     public function create(ContainerBuilder $container, $type, $name, array $config)
     {

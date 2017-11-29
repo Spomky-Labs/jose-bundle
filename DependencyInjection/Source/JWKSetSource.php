@@ -58,6 +58,7 @@ final class JWKSetSource implements SourceInterface
                 return;
             }
         }
+
         throw new \LogicException(sprintf('The JWKSet definition "%s" is not configured.', $name));
     }
 
