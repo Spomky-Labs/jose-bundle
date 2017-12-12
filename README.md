@@ -3,9 +3,20 @@ Jose Bundle
 
 Help me out for a couple of :beers:!
 
-[![Beerpay](https://beerpay.io/Spomky-Labs/jose-bundle/badge.svg?style=beer-square)](https://beerpay.io/Spomky-Labs/jose-bundle)  [![Beerpay](https://beerpay.io/Spomky-Labs/jose-bundle/make-wish.svg?style=flat-square)](https://beerpay.io/Spomky-Labs/jose-bundle?focus=wish)
+[![Beerpay](https://beerpay.io/Spomky-Labs/jose/badge.svg?style=beer-square)](https://beerpay.io/Spomky-Labs/jose)  [![Beerpay](https://beerpay.io/Spomky-Labs/jose/make-wish.svg?style=flat-square)](https://beerpay.io/Spomky-Labs/jose?focus=wish)
 
 ----
+
+<p align="center">:warning::warning::warning:</p>
+
+We highly recommend you to use the new [JWT Framework project](https://travis-ci.org/web-token/jwt-framework) instead of this bundle.
+
+* Active support of this bundle is provided until **end of 2018**.
+* Security support will be provided **from 2019 and up to end of 2020**.
+
+A migration guide will be/is available in [the documentation of the new project](https://web-token.spomky-labs.com/migration/spomky-labs-jose/).
+
+<p align="center">:warning::warning::warning:</p>
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Spomky-Labs/jose-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Spomky-Labs/jose-bundle/?branch=master)
 [![Build Status](https://travis-ci.org/Spomky-Labs/jose-bundle.svg?branch=master)](https://travis-ci.org/Spomky-Labs/jose-bundle)
