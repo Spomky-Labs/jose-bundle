@@ -29,7 +29,7 @@ A migration guide will be/is available in [the documentation of the new project]
 [![Latest Stable Version](https://poser.pugx.org/Spomky-Labs/jose-bundle/v/stable.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
 [![Total Downloads](https://poser.pugx.org/Spomky-Labs/jose-bundle/downloads.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/Spomky-Labs/jose-bundle/v/unstable.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
-[![License](https://poser.pugx.org/Spomky-Labs/jose-bundle/license.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle)
+[![License](https://poser.pugx.org/Spomky-Labs/jose-bundle/license.png)](https://packagist.org/packages/Spomky-Labs/jose-bundle) [![GuardRails badge](https://badges.production.guardrails.io/Spomky-Labs/jose-bundle.svg)](https://www.guardrails.io)
 
 This Symfony bundle provides services to create, load, verify or decrypt JWT.
 It uses [spomky-Labs/jose](https://github.com/Spomky-Labs/jose) to ease encryption/decryption and signature/verification of JWS and JWE.
